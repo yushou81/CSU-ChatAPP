@@ -6,6 +6,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;  ///
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -24,7 +29,7 @@ public class MainApp extends Application {
         root.setLeft(menu);
 
         // 创建场景并设置到舞台
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 790, 525);
         primaryStage.setScene(scene);
         primaryStage.setTitle("DingDing Clone");
         primaryStage.show();
@@ -50,3 +55,7 @@ public class MainApp extends Application {
         launch(args);
     }
 }
+
+
+
+
