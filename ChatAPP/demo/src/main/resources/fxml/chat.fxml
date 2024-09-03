@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -7,14 +8,22 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.ys.controller.ChatController"
-            prefHeight="400.0" prefWidth="600.0">
+
+<!--
+9.3 23:22 author： happydog
+把最小化最大化按钮换为icon，给头像实现圆形效果
+-->
+
+<AnchorPane prefHeight="504.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ChatController">
+   <children>
+      <ListView layoutY="44.0" prefHeight="460.0" prefWidth="77.0" style="-fx-background-color: EBEBEB;" />
+      <AnchorPane layoutY="-3.0" prefHeight="48.0" prefWidth="789.0" style="-fx-background-color: #63A7BF;">
+         <children>
+            <Button layoutX="758.0" layoutY="6.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="29.0" style="-fx-border-color: transparent; -fx-border-width: 0; -fx-background-color: #63A7BF;" text="关闭（背景透明换为icon）" />
+            <Button id="maximizeButton" layoutX="715.0" layoutY="7.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="29.0" style="-fx-background-color: #63A7BF;" text="maximizeButton" />
+            <Button id="minimizeButton" layoutX="672.0" layoutY="7.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="15.0" style="-fx-background-color: #63A7BF;" text="minimizeButton" />
+            <ImageView id="userAvatar" fitHeight="38.0" fitWidth="38.0" layoutX="12.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
-
-
-
-
-
-
