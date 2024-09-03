@@ -29,7 +29,7 @@ public class MainApp extends Application {
         root.setLeft(menu);
 
         // 创建场景并设置到舞台
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 790, 525);
         primaryStage.setScene(scene);
         primaryStage.setTitle("DingDing Clone");
         primaryStage.show();
