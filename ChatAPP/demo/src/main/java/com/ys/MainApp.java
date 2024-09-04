@@ -17,28 +17,31 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // 创建主布局
-        BorderPane root = new BorderPane();
+        try {
 
-        // 左侧菜单按钮
-        Button btnChat = new Button("Chat");
-        Button btnTeam = new Button("Team");
-        Button btnMeeting = new Button("Meeting");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
 
-        VBox menu = new VBox(10, btnChat, btnTeam, btnMeeting);
-        root.setLeft(menu);
+            Parent root = loader.load();
+            // 创建场景并设置到舞台
+            Scene scene = new Scene(root, 1264, 840);
 
-        // 创建场景并设置到舞台
-        Scene scene = new Scene(root,1264,840 );
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("DingDing Clone");
-        primaryStage.show();
+
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("DingDing Clone");
+            primaryStage.show();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
 
         // 按钮事件处理，加载不同的界面到右侧区域
-        btnChat.setOnAction(e -> loadView(root, "chat.fxml"));
-        btnTeam.setOnAction(e -> loadView(root, "team.fxml"));
-        btnMeeting.setOnAction(e -> loadView(root, "meeting.fxml"));
+//        btnChat.setOnAction(e -> loadView(root, "chat.fxml"));
+//        btnTeam.setOnAction(e -> loadView(root, "group.fxml"));
+//        btnMeeting.setOnAction(e -> loadView(root, "meeting.fxml"));
     }
+
+
+
     private void loadView(BorderPane root, String fxmlFile) {
         try {
 
