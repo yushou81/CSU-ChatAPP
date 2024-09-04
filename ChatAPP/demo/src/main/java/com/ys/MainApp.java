@@ -44,8 +44,6 @@ public class MainApp extends Application {
 
     private void loadView(BorderPane root, String fxmlFile) {
         try {
-
-
             // 使用相对路径加载 FXML 文件
             Parent view = FXMLLoader.load(getClass().getResource("/fxml/"+ fxmlFile));
             root.setCenter(view); // 将界面加载到右侧区域

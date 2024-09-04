@@ -51,7 +51,7 @@ public class MainAppController {
         try {
             // 加载每个 AnchorPane 对应的 FXML 文件
 
-            chatPane = FXMLLoader.load(getClass().getResource("/fxml/chatPane.fxml"));
+            chatPane = FXMLLoader.load(getClass().getResource("/fxml/chat.fxml"));
 
             if (chatPane == null) {
                 System.out.println("Failed to load chatPane.fxml");
@@ -59,13 +59,13 @@ public class MainAppController {
                 System.out.println("chatPane loaded successfully");
             }
 
-            contractListPane = FXMLLoader.load(getClass().getResource("/fxml/contractListPane.fxml"));
-            groupPane = FXMLLoader.load(getClass().getResource("/fxml/groupPane.fxml"));
-            meetingPane = FXMLLoader.load(getClass().getResource("/fxml/meetingPane.fxml"));
-            fileManagementPane = FXMLLoader.load(getClass().getResource("/fxml/fileManagementPane.fxml"));
-            collectionPane = FXMLLoader.load(getClass().getResource("/fxml/collectionPane.fxml"));
-            settingPane = FXMLLoader.load(getClass().getResource("/fxml/settingPane.fxml"));
-            workbenchPane = FXMLLoader.load(getClass().getResource("/fxml/workbenchPane.fxml"));
+            contractListPane = FXMLLoader.load(getClass().getResource("/fxml/contractlist.fxml"));
+            groupPane = FXMLLoader.load(getClass().getResource("/fxml/group.fxml"));
+            meetingPane = FXMLLoader.load(getClass().getResource("/fxml/meeting.fxml"));
+            fileManagementPane = FXMLLoader.load(getClass().getResource("/fxml/filemanagement.fxml"));
+            collectionPane = FXMLLoader.load(getClass().getResource("/fxml/collection.fxml"));
+            settingPane = FXMLLoader.load(getClass().getResource("/fxml/setting.fxml"));
+            workbenchPane = FXMLLoader.load(getClass().getResource("/fxml/workbench.fxml"));
 
 
             // 将所有 AnchorPane 添加到 StackPane 中
