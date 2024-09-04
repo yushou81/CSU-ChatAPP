@@ -1,0 +1,6 @@
+.button-style {
+    -fx-pref-width: 24px;
+    -fx-pref-height: 24px;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
