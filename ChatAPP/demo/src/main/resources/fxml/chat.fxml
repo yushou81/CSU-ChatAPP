@@ -23,20 +23,38 @@
 
 
 
-
+<!--这个没啥用，只是装饰-->
       <ListView id="indexList" layoutY="44.0" prefHeight="460.0" prefWidth="77.0" style="-fx-background-color: EBEBEB;">
-
-         
-
-
-
-
       </ListView>
 
 
 
 
-      <AnchorPane layoutY="-3.0" prefHeight="48.0" prefWidth="789.0" style="-fx-background-color: #63A7BF;">
+      <!-- 定义 StackPane 和不同的内容,在对应stackpane完成格子对应开发 -->
+      <StackPane fx:id="mainStackPane" layoutX="77.0" layoutY="44.0" prefHeight="460.0" prefWidth="713.0">
+         <children>
+
+
+            <AnchorPane id="chatPane" style="-fx-background-color: lightblue;" visible="false" />
+            <AnchorPane id="contractListPane" style="-fx-background-color: lightgreen;" visible="false" />
+            <AnchorPane id="groupPane" style="-fx-background-color: lightcoral;" visible="false" />
+            <AnchorPane id="videoChatPane" style="-fx-background-color: lightcoral;" visible="false" />
+            <AnchorPane id="filePane" style="-fx-background-color: lightcoral;" visible="false" />
+            <AnchorPane id="collectionPane" style="-fx-background-color: lightcoral;" visible="false" />
+            <AnchorPane id="settingPane" style="-fx-background-color: lightcoral;" visible="false" />
+            <AnchorPane id="workbenchPane" style="-fx-background-color: lightcoral;" />
+
+
+
+         </children>
+      </StackPane>
+
+
+
+
+
+
+      <AnchorPane layoutY="-3.0" prefHeight="48.0" prefWidth="790.0" style="-fx-background-color: #63A7BF;">
          <children>
             <Button id="closeButton" layoutX="731.0" layoutY="4.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" style="-fx-border-color: transparent; -fx-border-width: 0; -fx-background-color: #63A7BF;" textFill="WHITE">
                <graphic>
@@ -86,5 +104,13 @@
 
          </children>
       </AnchorPane>
+      <Button id="messageButton" layoutX="-3.0" layoutY="45.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="77.0" text="消息（仅供提醒，需要删除）" />
+      <Button id="contractListButton" layoutX="-1.0" layoutY="110.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="77.0" text="联系人" />
+      <Button id="groupButton" layoutX="1.0" layoutY="158.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="77.0" text="群组" />
+      <Button id="videoChatButton" layoutX="-1.0" layoutY="206.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="77.0" text="视频会议" />
+      <Button layoutX="-5.0" layoutY="254.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0" text="文件" />
+      <Button layoutX="-2.0" layoutY="301.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0" text="工作台" />
+      <Button id="collectionButton" layoutX="-7.0" layoutY="341.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="77.0" text="收藏" />
+      <Button id="settingButton" layoutX="-1.0" layoutY="389.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="77.0" text="设置" />
    </children>
 </AnchorPane>
