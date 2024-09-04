@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,22 +8,82 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
 
 <!--
 9.3 23:22 author： happydog
 把最小化最大化按钮换为icon，给头像实现圆形效果
 -->
 
+<?import javafx.scene.shape.Circle?>
+
 <AnchorPane prefHeight="504.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ChatController">
    <children>
-      <ListView layoutY="44.0" prefHeight="460.0" prefWidth="77.0" style="-fx-background-color: EBEBEB;" />
+
+
+
+
+      <ListView id="indexList" layoutY="44.0" prefHeight="460.0" prefWidth="77.0" style="-fx-background-color: EBEBEB;">
+
+         
+
+
+
+
+      </ListView>
+
+
+
+
       <AnchorPane layoutY="-3.0" prefHeight="48.0" prefWidth="789.0" style="-fx-background-color: #63A7BF;">
          <children>
-            <Button layoutX="758.0" layoutY="6.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="29.0" style="-fx-border-color: transparent; -fx-border-width: 0; -fx-background-color: #63A7BF;" text="关闭（背景透明换为icon）" />
-            <Button id="maximizeButton" layoutX="715.0" layoutY="7.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="29.0" style="-fx-background-color: #63A7BF;" text="maximizeButton" />
-            <Button id="minimizeButton" layoutX="672.0" layoutY="7.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="15.0" style="-fx-background-color: #63A7BF;" text="minimizeButton" />
-            <ImageView id="userAvatar" fitHeight="38.0" fitWidth="38.0" layoutX="12.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true" />
+            <Button id="closeButton" layoutX="731.0" layoutY="4.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" style="-fx-border-color: transparent; -fx-border-width: 0; -fx-background-color: #63A7BF;" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <!--把URL换为关闭图片资源-->
+                        <Image url="@../images/close_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button id="maximizeButton" layoutX="691.0" layoutY="7.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0" style="-fx-background-color: #63A7BF;">
+
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/maximize_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+
+            </Button>
+            <Button id="minimizeButton" layoutX="638.0" layoutY="7.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="40.0" style="-fx-background-color: #63A7BF;">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/minimize_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+
+            <ImageView id="userAvatar" fitHeight="38.0" fitWidth="38.0" layoutX="24.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+   <image>
+   
+                  <Image url="@../images/testAvatar.jpg" />
+   </image>
+
+               <clip>
+
+                  <Circle centerX="19" centerY="19" radius="19">
+
+                  </Circle>
+               </clip>
+            </ImageView>
+
+
          </children>
       </AnchorPane>
    </children>
