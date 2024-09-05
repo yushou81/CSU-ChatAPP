@@ -12,17 +12,17 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="registeBtn" layoutX="120.0" layoutY="497.0" mnemonicParsing="false" onAction="#Register" prefHeight="44.0" prefWidth="216.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" text="注册新账号">
+      <Button fx:id="registerBtn" layoutX="120.0" layoutY="497.0" mnemonicParsing="false" onAction="#Register" prefHeight="44.0" prefWidth="216.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" text="注册新账号">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <PasswordField  alignment="TOP_CENTER" layoutX="79.0" layoutY="315.0" prefHeight="55.0" prefWidth="309.0" promptText="用户密码">
+      <PasswordField  fx:id="passwordField" alignment="TOP_CENTER" layoutX="79.0" layoutY="315.0" prefHeight="55.0" prefWidth="309.0" promptText="用户密码">
          <font>
             <Font size="24.0" />
          </font>
       </PasswordField >
-      <TextField fx:id="UserID" alignment="TOP_CENTER" layoutX="79.0" layoutY="217.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="309.0" promptText="用户账号">
+      <TextField fx:id="usernameField" alignment="TOP_CENTER" layoutX="79.0" layoutY="217.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="309.0" promptText="用户账号">
          <font>
             <Font size="24.0" />
          </font>

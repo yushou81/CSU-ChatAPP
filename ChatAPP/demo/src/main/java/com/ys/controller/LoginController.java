@@ -16,71 +16,23 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 public class LoginController {
+    public Button registerBtn;
 
-    public Button registeBtn;
     @FXML
     private TextField usernameField;
+
     @FXML
     private PasswordField passwordField;
 
-    private UserDao userDao = new UserDao();
-    @FXML
-    public void handleLogin() {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+//    private UserDao userDao = new UserDao();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            showAlert("错误", "请填写用户名和密码！");
-            return;
-        }
-
-        User user = userDao.loginUser(username, password);
-
-        if (user != null) {
-            showAlert("成功", "登录成功！");
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
-                Parent root  = loader.load();
-                Stage newStage2 = new Stage();
-
-                // 设置新Stage的场景，将加载的FXML视图作为根节点
-                Scene newScene = new Scene(root);
-                newStage2.setScene(newScene);
-
-                // 设置新Stage的标题（可选）
-                newStage2.setTitle("新窗口");
-
-
-    public Button registerBtn;
 
     public void Register(ActionEvent actionEvent) {
         register();
         registerBtn.getScene().getWindow().hide();
-
-
-                // 显示新Stage
-                newStage2.show();
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            showAlert("错误", "用户名或密码不正确！");
-        }
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-    public void Registe(ActionEvent actionEvent) {
-        registe();
-    }
-
-    private void registe() {
+    private void register() {
         try {
             Parent view = FXMLLoader.load(getClass().getResource("/fxml/register.fxml"));
             // 创建一个新的Stage
@@ -104,27 +56,49 @@ public class LoginController {
 
     }
 
-    public void Denglu(ActionEvent actionEvent) {
+    @FXML
+    public void handleLogin() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
-            Parent root  = loader.load();
-            Stage newStage2 = new Stage();
-
-            // 设置新Stage的场景，将加载的FXML视图作为根节点
-            Scene newScene = new Scene(root);
-            newStage2.setScene(newScene);
-
-            // 设置新Stage的标题（可选）
-            newStage2.setTitle("新窗口");
-
-            // 显示新Stage
-            newStage2.show();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (username.isEmpty() || password.isEmpty()) {
+            showAlert("错误", "请填写用户名和密码！");
+            return;
         }
-        // 创建场景并设置到舞台
 
+//        User user = userDao.loginUser(username, password);
+
+        //静态必过 user != null
+        if (true) {
+            showAlert("成功", "登录成功！");
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
+                Parent root  = loader.load();
+                Stage newStage2 = new Stage();
+
+                // 设置新Stage的场景，将加载的FXML视图作为根节点
+                Scene newScene = new Scene(root);
+                newStage2.setScene(newScene);
+
+                // 设置新Stage的标题（可选）
+                newStage2.setTitle("新窗口");
+
+                // 显示新Stage
+                newStage2.show();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            showAlert("错误", "用户名或密码不正确！");
+        }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
