@@ -1,8 +1,11 @@
 package com.ys;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
+
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -21,19 +24,25 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
+
+            // 加载 FXML 文件
+           
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
 
             Parent root = loader.load();
-            // 创建场景并设置到舞台
+
+            // 创建场景
             Scene scene = new Scene(root);
 
+            // 设置 Stage 的样式为无边框
+            primaryStage.initStyle(StageStyle.UNDECORATED);
 
+            // 设置场景和标题
             primaryStage.setScene(scene);
             primaryStage.setTitle("DingDing Clone");
-//            primaryStage.initStyle(StageStyle.UNDECORATED);
+
             primaryStage.show();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -56,7 +65,3 @@ public class MainApp extends Application {
         launch(args);
     }
 }
-
-
-
-
