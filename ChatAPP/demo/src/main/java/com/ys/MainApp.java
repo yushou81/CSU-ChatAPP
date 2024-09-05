@@ -6,19 +6,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;  ///
+import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.IOException;
 
 public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
 
             Parent root = loader.load();
@@ -28,6 +30,7 @@ public class MainApp extends Application {
 
             primaryStage.setScene(scene);
             primaryStage.setTitle("DingDing Clone");
+//            primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.show();
         }
         catch(Exception e){
@@ -40,8 +43,6 @@ public class MainApp extends Application {
 //        btnMeeting.setOnAction(e -> loadView(root, "meeting.fxml"));
     }
 
-
-
     private void loadView(BorderPane root, String fxmlFile) {
         try {
             // 使用相对路径加载 FXML 文件
@@ -51,7 +52,6 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-
     public static void main(String[] args) {
         launch(args);
     }
