@@ -19,11 +19,11 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
 
             Parent root = loader.load();
             // 创建场景并设置到舞台
-            Scene scene = new Scene(root, 1264, 840);
+            Scene scene = new Scene(root);
 
 
             primaryStage.setScene(scene);
