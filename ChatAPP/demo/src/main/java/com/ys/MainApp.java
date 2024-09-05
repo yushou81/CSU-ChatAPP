@@ -35,7 +35,7 @@ public class MainApp extends Application {
             Scene scene = new Scene(root);
 
             // 设置 Stage 的样式为无边框
-            primaryStage.initStyle(StageStyle.UNDECORATED);
+            // primaryStage.initStyle(StageStyle.UNDECORATED);
 
             // 设置场景和标题
             primaryStage.setScene(scene);
