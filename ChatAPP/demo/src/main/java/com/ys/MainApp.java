@@ -27,7 +27,6 @@ public class MainApp extends Application {
             // 创建场景并设置到舞台
             Scene scene = new Scene(root);
 
-
             primaryStage.setScene(scene);
             primaryStage.setTitle("DingDing Clone");
 //            primaryStage.initStyle(StageStyle.UNDECORATED);
