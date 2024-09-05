@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Separator;
 public class ChatController {
@@ -22,6 +23,8 @@ public class ChatController {
     private Separator separator;
     @FXML
     private Button sendMessageButton;
+    @FXML
+    AnchorPane chatPane;
 
     @FXML
     public void initialize() {
