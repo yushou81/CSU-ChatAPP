@@ -3,7 +3,7 @@ package com.ys.model;
 
 public class User {
 
-    private int id;
+    private int user_id;
     private String username;
     private String password;
     private String email;
@@ -19,12 +19,12 @@ public class User {
 
     // Getters and Setters
 
-    public int getId() {
-        return id;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public String getUsername() {
