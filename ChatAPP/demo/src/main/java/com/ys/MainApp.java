@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class MainApp extends Application {
 
@@ -28,6 +29,7 @@ public class MainApp extends Application {
 
             primaryStage.setScene(scene);
             primaryStage.setTitle("DingDing Clone");
+//            primaryStage.initStyle(StageStyle.UNDECORATED);
             primaryStage.show();
         }
         catch(Exception e){
