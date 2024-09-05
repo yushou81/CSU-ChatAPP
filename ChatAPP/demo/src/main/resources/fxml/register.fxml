@@ -21,11 +21,11 @@
             <Font size="24.0" />
         </font>
     </TextField>
-    <TextField layoutX="75.0" layoutY="357.0" prefHeight="50.0" prefWidth="309.0" promptText="密码">
+    <PasswordField  layoutX="75.0" layoutY="357.0" prefHeight="50.0" prefWidth="309.0" promptText="密码">
         <font>
             <Font size="24.0" />
         </font>
-    </TextField>
+    </PasswordField >
     <Button layoutX="130.0" layoutY="440.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" mnemonicParsing="false" prefHeight="41.0" prefWidth="200.0" text="立即注册">
         <font>
             <Font size="18.0" />

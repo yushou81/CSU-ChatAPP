@@ -14,12 +14,13 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+
 public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
 
             Parent root = loader.load();
@@ -42,8 +43,6 @@ public class MainApp extends Application {
 //        btnMeeting.setOnAction(e -> loadView(root, "meeting.fxml"));
     }
 
-
-
     private void loadView(BorderPane root, String fxmlFile) {
         try {
             // 使用相对路径加载 FXML 文件
@@ -53,7 +52,6 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-
     public static void main(String[] args) {
         launch(args);
     }
