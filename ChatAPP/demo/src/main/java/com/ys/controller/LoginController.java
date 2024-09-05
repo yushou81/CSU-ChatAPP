@@ -17,6 +17,7 @@ import java.io.IOException;
 
 public class LoginController {
     public Button registerBtn;
+    public Button loginBtn;
 
     @FXML
     private TextField usernameField;
@@ -24,7 +25,7 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
-//    private UserDao userDao = new UserDao();
+    private UserDao userDao = new UserDao();
 
 
     public void Register(ActionEvent actionEvent) {
@@ -66,10 +67,11 @@ public class LoginController {
             return;
         }
 
-//        User user = userDao.loginUser(username, password);
+        User user = userDao.loginUser(username, password);
 
+        System.out.println(user);
         //静态必过 user != null
-        if (true) {
+        if (user != null) {
             showAlert("成功", "登录成功！");
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
@@ -89,6 +91,7 @@ public class LoginController {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            loginBtn.getScene().getWindow().hide();
         } else {
             showAlert("错误", "用户名或密码不正确！");
         }

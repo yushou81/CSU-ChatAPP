@@ -5,14 +5,22 @@ package com.ys.controller;
 
 import com.ys.dao.UserDao;
 import com.ys.model.User;
-import com.ys.model.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class RegisterController {
-
+    public Button loginBtn;
+    public Button registerBtn;
     @FXML
     private TextField usernameField;
 
@@ -40,10 +48,34 @@ public class RegisterController {
 
         if (success) {
             showAlert("成功", "用户注册成功！");
+            try {
+                Parent view = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
+                // 创建一个新的Stage
+                Stage newStage1 = new Stage();
+
+                // 设置新Stage的场景，将加载的FXML视图作为根节点
+                Scene newScene = new Scene(view);
+                newStage1.setScene(newScene);
+
+                // 设置新Stage的标题（可选）
+                newStage1.setTitle("新窗口");
+
+                // 显示新Stage
+                newStage1.show();
+
+
+                System.out.println("新窗口已显示");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            registerBtn.getScene().getWindow().hide();
         } else {
             showAlert("错误", "注册失败，请稍后再试！");
         }
     }
+
+
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -51,5 +83,30 @@ public class RegisterController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void handleBackLogin(ActionEvent actionEvent) {
+        try {
+            Parent view = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
+            // 创建一个新的Stage
+            Stage newStage1 = new Stage();
+
+            // 设置新Stage的场景，将加载的FXML视图作为根节点
+            Scene newScene = new Scene(view);
+            newStage1.setScene(newScene);
+
+            // 设置新Stage的标题（可选）
+            newStage1.setTitle("新窗口");
+
+            // 显示新Stage
+            newStage1.show();
+
+
+            System.out.println("新窗口已显示");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        loginBtn.getScene().getWindow().hide();
+
     }
 }
