@@ -50,9 +50,10 @@ public class MainAppController {
     public   void initialize(){
         try {
             // 加载每个 AnchorPane 对应的 FXML 文件
-
+            //注意，这个地方是空，WIP
+            System.out.println(getClass().getResource("/fxml/chat.fxml"));
             chatPane = FXMLLoader.load(getClass().getResource("/fxml/chat.fxml"));
-
+            System.out.println("能够加载到对应的chat.fxml");
             if (chatPane == null) {
                 System.out.println("Failed to load chatPane.fxml");
             } else {
@@ -60,7 +61,9 @@ public class MainAppController {
             }
 
             contractListPane = FXMLLoader.load(getClass().getResource("/fxml/contractlist.fxml"));
+            System.out.println("contractListPane加载成功");
             groupPane = FXMLLoader.load(getClass().getResource("/fxml/group.fxml"));
+            System.out.println("groupPane加载成功");
             meetingPane = FXMLLoader.load(getClass().getResource("/fxml/meeting.fxml"));
             fileManagementPane = FXMLLoader.load(getClass().getResource("/fxml/filemanagement.fxml"));
             collectionPane = FXMLLoader.load(getClass().getResource("/fxml/collection.fxml"));
@@ -76,6 +79,7 @@ public class MainAppController {
 
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("有啥加载不成功");
         }
     }
 
