@@ -12,6 +12,7 @@
 <?import javafx.collections.*?>
 <?import javafx.scene.*?>
 
+
 <AnchorPane prefHeight="840.0" prefWidth="1264.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.TeamController">
    <children>
       <BorderPane prefHeight="787.0" prefWidth="209.0" style="-fx-background-color: white;" />
@@ -46,4 +47,5 @@
          </image>
       </ImageView>
    </children>
+
 </AnchorPane>
