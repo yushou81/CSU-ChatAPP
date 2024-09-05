@@ -4,13 +4,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class LoginController {
+
+    public Button registerBtn;
+
     public void Register(ActionEvent actionEvent) {
         register();
+        registerBtn.getScene().getWindow().hide();
 
     }
 
@@ -29,6 +34,7 @@ public class LoginController {
 
             // 显示新Stage
             newStage1.show();
+
 
             System.out.println("新窗口已显示");
         } catch (IOException e) {
