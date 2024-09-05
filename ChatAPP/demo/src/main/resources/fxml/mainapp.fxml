@@ -9,45 +9,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.collections.*?>
-<?import javafx.scene.*?>
 
 <!--
 9.3 23:22 author： happydog
 把最小化最大化按钮换为icon，给头像实现圆形效果
 -->
 
-<?import javafx.scene.shape.Circle?>
-
-<AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MainAppController">
+<AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MainAppController"  stylesheets="@/styles/button_hover_white.css">
    <children>
 
-
-
-<!--这个没啥用，只是装饰-->
+      <!-- 这个没啥用，只是装饰 -->
       <ListView id="indexList" layoutY="44.0" prefHeight="797.0" prefWidth="80.0" style="-fx-background-color: EBEBEB;">
       </ListView>
-
-
-
 
       <!-- 定义 StackPane 和不同的内容,在对应stackpane完成格子对应开发 -->
       <StackPane fx:id="mainStackPane" layoutX="80.0" layoutY="59.0" prefHeight="780.0" prefWidth="1184.0">
          <children>
-
-
-
-
          </children>
       </StackPane>
 
-
-
-
-
-
       <AnchorPane layoutY="-3.0" prefHeight="64.0" prefWidth="1264.0" style="-fx-background-color: #63A7BF;">
          <children>
-            <Button id="closeButton" layoutX="1200.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" style="-fx-border-color: transparent; -fx-border-width: 0; -fx-background-color: #63A7BF;" textFill="WHITE">
+            <Button id="closeButton" layoutX="1200.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" styleClass="button">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -57,8 +40,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button id="maximizeButton" layoutX="1160.0" layoutY="13.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0" style="-fx-background-color: #63A7BF;">
-
+            <Button id="maximizeButton" layoutX="1160.0" layoutY="13.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0" styleClass="button">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -66,9 +48,8 @@
                      </image>
                   </ImageView>
                </graphic>
-
             </Button>
-            <Button id="minimizeButton" layoutX="1120.0" layoutY="13.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="40.0" style="-fx-background-color: #63A7BF;">
+            <Button id="minimizeButton" layoutX="1120.0" layoutY="13.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="40.0" styleClass="button">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -79,23 +60,18 @@
             </Button>
 
             <ImageView id="userAvatar" fitHeight="38.0" fitWidth="38.0" layoutX="20.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-   <image>
-   
+               <image>
                   <Image url="@../images/testAvatar.jpg" />
-   </image>
-
+               </image>
                <clip>
-
-                  <Circle centerX="19" centerY="19" radius="19">
-
-                  </Circle>
+                  <Circle centerX="19" centerY="19" radius="19"/>
                </clip>
             </ImageView>
-
-
          </children>
       </AnchorPane>
-      <Button id="messageButton" fx:id="messageButton" layoutX="-1.0" layoutY="61.0" mnemonicParsing="false" onAction="#handleMessageButtonClick" prefHeight="55.0" prefWidth="80.0" style="-fx-background-color: transparent;">
+
+      <!-- 按钮使用全局样式 -->
+      <Button id="messageButton" fx:id="messageButton" layoutX="-1.0" layoutY="61.0" mnemonicParsing="false" onAction="#handleMessageButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -105,7 +81,7 @@
          </graphic>
       </Button>
 
-      <Button id="contractListButton" fx:id="contractListButton" layoutY="116.0" mnemonicParsing="false" onAction="#handleContractListButtonClick" prefHeight="55.0" prefWidth="80.0" style="-fx-background-color: transparent;">
+      <Button id="contractListButton" fx:id="contractListButton" layoutY="116.0" mnemonicParsing="false" onAction="#handleContractListButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -114,7 +90,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button id="groupButton" fx:id="groupButton" layoutX="-1.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleGrouButtonClick" prefHeight="55.0" prefWidth="80.0" style="-fx-background-color: transparent;">
+      <Button id="groupButton" fx:id="groupButton" layoutX="-1.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleGrouButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -122,9 +98,8 @@
                </image>
             </ImageView>
          </graphic>
-
       </Button>
-      <Button id="meetingButton" fx:id="meetingButton" layoutX="-1.0" layoutY="221.0" mnemonicParsing="false" onAction="#handleMeetingButtonClick" prefHeight="55.0" prefWidth="80.0" style="-fx-background-color: transparent;">
+      <Button id="meetingButton" fx:id="meetingButton" layoutX="-1.0" layoutY="221.0" mnemonicParsing="false" onAction="#handleMeetingButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -133,7 +108,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button id="fileManagementButton" fx:id="fileManagementButton" layoutX="-1.0" layoutY="276.0" mnemonicParsing="false" onAction="#handleFileManagementButtonClick" prefHeight="55.0" prefWidth="80.0" style="-fx-background-color: transparent;">
+      <Button id="fileManagementButton" fx:id="fileManagementButton" layoutX="-1.0" layoutY="276.0" mnemonicParsing="false" onAction="#handleFileManagementButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -142,7 +117,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button id="workbenchButton" fx:id="workbenchButton" layoutX="-1.0" layoutY="331.0" mnemonicParsing="false" onAction="#handleWorkbenchButtonClick" prefHeight="55.0" prefWidth="80.0" style="-fx-background-color: transparent;">
+      <Button id="workbenchButton" fx:id="workbenchButton" layoutX="-1.0" layoutY="331.0" mnemonicParsing="false" onAction="#handleWorkbenchButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -151,7 +126,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button id="collectionButton" fx:id="collectionButton" layoutX="-1.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleCollectionButtonClick" prefHeight="55.0" prefWidth="80.0" style="-fx-background-color: transparent;">
+      <Button id="collectionButton" fx:id="collectionButton" layoutX="-1.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleCollectionButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -160,7 +135,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button id="settingButton" fx:id="settingButton" layoutX="-1.0" layoutY="439.0" mnemonicParsing="false" onAction="#handleSettingButtonClick" prefHeight="55.0" prefWidth="80.0" style="-fx-background-color: transparent;">
+      <Button id="settingButton" fx:id="settingButton" layoutX="-1.0" layoutY="439.0" mnemonicParsing="false" onAction="#handleSettingButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>

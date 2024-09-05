@@ -1,15 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:id="contractListPane"
-            fx:controller="com.ys.controller.ContractListController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane fx:id="contractListPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ContractListController">
+   <children>
+      <BorderPane prefHeight="787.0" prefWidth="209.0" style="-fx-background-color: white;" />
+      <Button id="favoritefriends" fx:id="favoritefriends" layoutX="12.0" layoutY="36.0" mnemonicParsing="false" onAction="#favoritefriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="常用联系人" textAlignment="RIGHT">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button id="newfriends" fx:id="newfriends" layoutX="12.0" layoutY="159.0" mnemonicParsing="false" onAction="#newfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="新的朋友">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button id="Createteambtn" fx:id="Createteambtn" layoutX="12.0" layoutY="97.0" mnemonicParsing="false" onAction="#Myfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="我的好友">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <ImageView id="Myteamicon" fitHeight="38.0" fitWidth="38.0" layoutX="14.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/favoritefriends.png" />
+         </image>
+      </ImageView>
+      <ImageView id="Createteamicon" fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/newfriends.png" />
+         </image>
+      </ImageView>
+      <ImageView id="Jointeamicon" fitHeight="38.0" fitWidth="38.0" layoutX="17.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Myfriends.png" />
+         </image>
+      </ImageView>
+      <Button id="addfriends" fx:id="addfriends" layoutX="12.0" layoutY="217.0" mnemonicParsing="false" onAction="#addfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="添加好友">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <ImageView id="addfriendsicon" fitHeight="42.0" fitWidth="42.0" layoutX="17.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/addfriends.png" />
+         </image>
+      </ImageView>
+   </children>
 </AnchorPane>
