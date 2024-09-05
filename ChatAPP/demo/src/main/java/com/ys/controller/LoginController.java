@@ -16,11 +16,20 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 public class LoginController {
+<<<<<<< HEAD
     public Button registeBtn;
     @FXML
     private TextField usernameField;
     @FXML
     private PasswordField passwordField;
+=======
+
+    public Button registerBtn;
+
+    public void Register(ActionEvent actionEvent) {
+        register();
+        registerBtn.getScene().getWindow().hide();
+>>>>>>> eaf0544d16596436924ac789a453fb653476e00a
 
     private UserDao userDao = new UserDao();
     @FXML
@@ -86,6 +95,7 @@ public class LoginController {
 
             // 显示新Stage
             newStage1.show();
+
 
             System.out.println("新窗口已显示");
         } catch (IOException e) {
