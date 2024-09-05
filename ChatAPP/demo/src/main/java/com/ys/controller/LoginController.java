@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 public class LoginController {
+
     public Button registeBtn;
     @FXML
     private TextField usernameField;
@@ -48,6 +49,14 @@ public class LoginController {
 
                 // 设置新Stage的标题（可选）
                 newStage2.setTitle("新窗口");
+
+
+    public Button registerBtn;
+
+    public void Register(ActionEvent actionEvent) {
+        register();
+        registerBtn.getScene().getWindow().hide();
+
 
                 // 显示新Stage
                 newStage2.show();
@@ -86,6 +95,7 @@ public class LoginController {
 
             // 显示新Stage
             newStage1.show();
+
 
             System.out.println("新窗口已显示");
         } catch (IOException e) {
