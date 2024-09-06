@@ -39,15 +39,15 @@ public class MainApp extends Application {
             // 加载 FXML 文件        
 
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainapp/login.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+
 
 
             Parent root = loader.load();
 
             // 创建场景
             Scene scene = new Scene(root);
-
-
 
             // 设置 Stage 的样式为无边框
             // primaryStage.initStyle(StageStyle.UNDECORATED);
