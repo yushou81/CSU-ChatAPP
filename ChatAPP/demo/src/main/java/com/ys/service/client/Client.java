@@ -2,6 +2,10 @@ package com.ys.service.client;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Client {
     private Socket socket;
@@ -60,6 +64,83 @@ public class Client {
         return false;
     }
 
+    // 查找用户
+    public void findUserById(int userIdToFind) {
+        sendMessage("FIND_USER:" + userIdToFind);  // 发送查找用户的请求
+        try {
+            String response = in.readLine();  // 读取服务器的响应
+            System.out.println("查找到的用户信息: " + response);
+        } catch (IOException e) {
+            System.err.println("Error while receiving user info: " + e.getMessage());
+        }
+    }
+
+    // 获取好友列表
+//    public String[] getFriendList() {
+//        sendMessage("GET_FRIENDS:" + this.userId);  // 发送获取好友列表的请求
+//        List<String> friendList = new ArrayList<>();
+//        try {
+//            String response;
+//            System.out.println("好友列表:");
+//            while (!(response = in.readLine()).equals("END_OF_FRIEND_LIST")) {
+//                // response是 "好友ID: 1, 好友名: 1234"
+//                String[] parts = response.split(", 好友名: ");  // 通过 ", 好友名: " 分割
+//                if (parts.length == 2) {
+//                    String friendId = parts[0].replace("好友ID: ", "").trim();  // 提取好友ID
+//                    String friendName = parts[1].trim();  // 提取好友名
+//                    // 将"好友ID: username"格式组合并加入列表
+//                    friendList.add(friendId + ": " + friendName);
+//                    System.out.println(friendId + ": " + friendName);  // 输出好友ID和用户名
+//                }
+//            }
+//
+//        } catch (IOException e) {
+//            System.err.println("Error while receiving friend list: " + e.getMessage());
+//        }
+//        return friendList.toArray(new String[0]);
+//    }
+    public Map<String, String> getFriendList() {
+        sendMessage("GET_FRIENDS:" + this.userId);  // 发送获取好友列表的请求
+        Map<String, String> friendMap = new HashMap<>();  // 用于存储好友的ID和名字
+        try {
+            String response;
+            System.out.println("好友列表:");
+            while (!(response = in.readLine()).equals("END_OF_FRIEND_LIST")) {
+                // 假设response是 "好友ID: 1, 好友名: Alice"
+                String[] parts = response.split(", 好友名: ");
+                if (parts.length == 2) {
+                    String friendId = parts[0].replace("好友ID: ", "").trim();  // 获取好友ID
+                    String friendName = parts[1].trim();  // 获取好友名
+                    friendMap.put(friendName, friendId);  // 将好友ID和名字加入Map
+                    System.out.println("好友ID: " + friendId + ", 好友名: " + friendName);  // 输出好友ID和用户名
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error while receiving friend list: " + e.getMessage());
+        }
+
+        return friendMap;  // 返回包含好友ID和用户名的Map
+    }
+
+    // 添加好友
+    public boolean addFriend(int friendId) {
+        sendMessage("ADD_FRIEND:" + this.userId + ":" + friendId);  // 发送添加好友请求
+        try {
+            String response = in.readLine();  // 读取服务器的响应
+            if (response.equals("SUCCESS")) {
+                System.out.println("好友添加成功!");
+                return true;
+            } else {
+                System.out.println("添加好友失败: " + response);
+                return false;
+            }
+        } catch (IOException e) {
+            System.err.println("Error while adding friend: " + e.getMessage());
+        }
+        return false;
+    }
+
+
     // 发送消息给服务器，并返回布尔值指示发送是否成功
     public boolean sendMessage(String message) {
         if (out != null) {
@@ -87,6 +168,7 @@ public class Client {
         return null;
     }
 
+
     // 关闭客户端连接
     public void close() throws IOException {
         if (socket != null) {
@@ -101,60 +183,6 @@ public class Client {
     }
 
 
-//     主程序，演示客户端交互
-    public static void main(String[] args) {
-        Client client = new Client();
-        if (client.connect("127.0.0.1", 8080)) {  // 连接服务器
-            try (BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in))) {
-                System.out.println("请选择操作: 1. 注册 2. 登录");
-                String choice = consoleInput.readLine();
-
-                if ("1".equals(choice)) {
-                    // 注册
-                    System.out.print("请输入用户名: ");
-                    String username = consoleInput.readLine();
-                    System.out.print("请输入密码: ");
-                    String password = consoleInput.readLine();
-                    System.out.print("请输入邮箱: ");
-                    String email = consoleInput.readLine();
-                    if (client.register(username, password, email)) {
-                        System.out.println("注册成功，您可以开始发送消息了！");
-                    }
-                } else if ("2".equals(choice)) {
-                    // 登录
-                    System.out.print("请输入用户名: ");
-                    String username = consoleInput.readLine();
-                    System.out.print("请输入密码: ");
-                    String password = consoleInput.readLine();
-                    if (client.login(username, password)) {
-                        System.out.println("登录成功，您可以开始发送消息了！");
-                    }
-                } else {
-                    System.out.println("无效选项");
-                }
-
-                // 进行消息发送和接收
-                while (true) {
-                    System.out.print("输入消息 (或输入 'PRIVATE:targetUserId:message' 进行私聊): ");
-                    String input = consoleInput.readLine();
-                    if ("quit".equalsIgnoreCase(input)) {
-                        client.close();
-                        break;
-                    }
-                    client.sendMessage(input);
-
-                    // 接收服务器的响应
-                    String response = client.receiveMessage();
-                    if (response != null) {
-                        System.out.println("服务器消息: " + response);
-                    }
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
 
 

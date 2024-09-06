@@ -14,29 +14,34 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class ChatController {
+    public ListView friendListView;
 
     //需要在点击contractList中内容时切换chatPane内容和nameTitle内容
-
-    @FXML
-    private ListView<String> contractList; // 可以将泛型类型替换为实际的数据类型，如 ListView<String>。
     @FXML
     private StackPane nameTitle;//顶部名称和头像区域
-    @FXML
-    private TextArea messageInput;//消息输入框
-    @FXML
-    private StackPane messageArea;  // 不同联系人聊天内容区域
 
     @FXML
-    private Separator separator;
+    private ListView<String> messageListView; // 右侧消息列表
     @FXML
-    private Button sendMessageButton;//发送按钮
+    private TextArea inputArea;               // 输入框
+    @FXML
+    private Button sendButton;                // 发送按钮
+    @FXML
+    private Separator separator;
+
     @FXML
     AnchorPane chatPane;//整个聊天功能区域
 
     private Client client;
+    private String currentFriend;  // 当前聊天的好友
+    private String currentFriendID;
 
+    private Map<String, ObservableList<String>> chatMessages = new HashMap<>();  // 用于存储每个好友的聊天记录
     public ChatController() {
         // 使用ClientManager来获取共享的Client实例
         this.client = ClientManager.getClient();
@@ -45,23 +50,87 @@ public class ChatController {
 
     @FXML
     public void initialize() {
-        // 初始化控件或绑定数据
-        sendMessageButton.setOnAction(event -> handleSendMessage());
         //显示联系人
         //这一部分联系人要从服务器读取
-        ObservableList<String> contacts = FXCollections.observableArrayList("联系人1", "联系人2", "联系人3");
-        contractList.setItems(contacts);
+        Map<String, String> friendMap = client.getFriendList();
+        // 获取所有的键 (user_id)，并将其转换为String数组
+        String[] userNames = getUserNames(friendMap);
 
-        // 为 ListView 添加选择事件监听器
-        contractList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                // 当选择联系人时，动态加载相应的聊天界面
-                loadChatPane(newValue);
-            }
+        // 添加好友列表的点击事件
+        friendListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            currentFriend = (String) newValue;  // 切换到选中的好友
+            currentFriendID = friendMap.get(currentFriend);
+            System.out.println(currentFriend);
+            showMessagesForFriend(currentFriend);
         });
+
+        // 假设这是你的好友列表
+        ObservableList<String> friends = FXCollections.observableArrayList(userNames);
+        friendListView.setItems(friends);
+
+        // 预先初始化每个好友的聊天记录
+        for (String friend : friends) {
+            chatMessages.put(friend, FXCollections.observableArrayList());
+        }
 
 
     }
+
+
+    // 将Map中的键提取为String数组
+    public static String[] getUserNames(Map<String, String> map) {
+        Set<String> keys = map.keySet();  // 获取所有的键 (user_id)
+        return keys.toArray(new String[0]);  // 将Set转换为String数组
+    }
+
+
+
+    // 显示选中好友的聊天记录
+    private void showMessagesForFriend(String friend) {
+        messageListView.setItems(chatMessages.get(friend));  // 切换到该好友的消息记录
+    }
+    // 发送消息
+    @FXML
+    private void sendMessage() {
+        String message = inputArea.getText();
+        if (message.isEmpty() || currentFriend == null) {
+            return;
+        }
+
+        // 将消息添加到当前聊天窗口（右侧显示）
+        chatMessages.get(currentFriend).add("我: " + message);
+        inputArea.clear();  // 清空输入框
+
+        // 这里可以发送消息到服务器
+         client.sendMessage("PRIVATE:" + currentFriendID + ":" + message);
+    }
+
+    // 处理接收到的消息
+    public void receiveMessage(String fromFriend, String message) {
+        // 将消息添加到该好友的聊天记录中
+        chatMessages.get(fromFriend).add(fromFriend + ": " + message);
+
+        // 如果当前窗口正在显示该好友的聊天内容，更新UI
+        if (fromFriend.equals(currentFriend)) {
+            messageListView.setItems(chatMessages.get(fromFriend));  // 更新消息列表
+        }
+    }
+//    处理好友列表
+    public String[] extractUsernames(String[] friendList) {
+        String[] usernames = new String[friendList.length];  // 创建新的数组来存储用户名
+        for (int i = 0; i < friendList.length; i++) {
+            String[] parts = friendList[i].split(": ");  // 通过 ": " 分割字符串
+            if (parts.length == 2) {
+                usernames[i] = parts[1].trim();  // 提取用户名并去掉多余空格
+            }
+        }
+        return usernames;
+    }
+
+
+
+
+
 
 
     // 动态加载对应联系人的聊天界面
@@ -83,57 +152,57 @@ public class ChatController {
 
 
     // 设置客户端实例
-    public void setClient(Client client) {
-        this.client = client;
-
-        // 启动一个线程接收服务器的消息并更新UI
-        new Thread(() -> {
-            try {
-                String message;
-                while ((message = client.receiveMessage()) != null) {
-                    updateChatDisplay(message);  // 更新聊天记录
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
+//    public void setClient(Client client) {
+//        this.client = client;
+//
+//        // 启动一个线程接收服务器的消息并更新UI
+//        new Thread(() -> {
+//            try {
+//                String message;
+//                while ((message = client.receiveMessage()) != null) {
+//                    updateChatDisplay(message);  // 更新聊天记录
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }).start();
+//    }
 
     // 发送消息给服务器
     @FXML
     public void handleSendMessage() {
-        String message = messageInput.getText();
+        String message = inputArea.getText();
         if (!message.isEmpty()) {
 
 
             //这一部分要等服务器处理规范进行修改
 
             client.sendMessage(message);  // 通过客户端发送消息
-            messageInput.clear();  // 清空输入框
+            inputArea.clear();  // 清空输入框
         }else {
 
             System.out.println("Message cannot be empty.");
         }
     }
 
-    // 更新聊天框
-    private void updateChatDisplay(String message) {
-        System.out.println(message);
+//    // 更新聊天框
+//    private void updateChatDisplay(String message) {
+//        System.out.println(message);
+//
+////        chatDisplay.appendText(message + "\n");
+//
+//    }
 
-//        chatDisplay.appendText(message + "\n");
-
-    }
 
 
-
-    //更新头像
-    private void updateAvatar(){
-
-    }
-    //发送信息
-    private void sendMessage(){
-
-    }
+//    //更新头像
+//    private void updateAvatar(){
+//
+//    }
+//    //发送信息
+//    private void sendMessage(){
+//
+//    }
 
 
 
