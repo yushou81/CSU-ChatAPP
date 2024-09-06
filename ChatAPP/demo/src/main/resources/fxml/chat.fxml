@@ -7,6 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+
 <AnchorPane  xmlns="http://javafx.com/javafx/8"
              xmlns:fx="http://javafx.com/fxml/1"
              fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);"  fx:controller="com.ys.controller.ChatController">

@@ -12,9 +12,12 @@
 <?import javafx.collections.*?>
 <?import javafx.scene.*?>
 
-
-<AnchorPane prefHeight="840.0" prefWidth="1264.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.TeamController">
+<AnchorPane prefHeight="840.0" prefWidth="1264.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.GroupController">
    <children>
+      <StackPane fx:id="mainStackPane" layoutX="218.0" layoutY="19.0" prefHeight="767.0" prefWidth="946.0">
+         <children>
+         </children>
+      </StackPane>
       <BorderPane prefHeight="787.0" prefWidth="209.0" style="-fx-background-color: white;" />
       <Button id="Createteambtn" fx:id="Createteambtn" layoutX="11.0" layoutY="152.0" mnemonicParsing="false" onAction="#Createteam" prefHeight="55.0" prefWidth="199.0" styleClass="button" text="创建团队">
          <font>
@@ -46,6 +49,7 @@
             <Image url="@../images/Jointeam.png" />
          </image>
       </ImageView>
+
    </children>
 
 </AnchorPane>

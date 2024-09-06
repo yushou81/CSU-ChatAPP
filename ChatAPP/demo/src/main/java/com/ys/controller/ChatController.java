@@ -14,6 +14,7 @@ import java.io.IOException;
 
 public class ChatController {
 
+
     @FXML
     private ListView<?> contractList; // 可以将泛型类型替换为实际的数据类型，如 ListView<String>。
     @FXML
@@ -84,6 +85,7 @@ public class ChatController {
     private void sendMessage(){
 
     }
+
 
 
 
