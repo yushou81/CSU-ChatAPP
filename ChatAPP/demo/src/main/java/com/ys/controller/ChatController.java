@@ -1,16 +1,19 @@
 package com.ys.controller;
 
-
+//kjashfhaskdhfkfhabsk
+import com.ys.service.client.Client;
 import javafx.event.ActionEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.control.Separator;
+
+import java.io.IOException;
+
 public class ChatController {
+
 
     @FXML
     private ListView<?> contractList; // 可以将泛型类型替换为实际的数据类型，如 ListView<String>。
@@ -22,6 +25,8 @@ public class ChatController {
     private Separator separator;
     @FXML
     private Button sendMessageButton;
+    @FXML
+    AnchorPane chatPane;
 
     @FXML
     public void initialize() {
@@ -29,17 +34,46 @@ public class ChatController {
         sendMessageButton.setOnAction(event -> handleSendMessage());
     }
 
-    private void handleSendMessage() {
-        // 处理发送消息的逻辑
-        String message = textArea.getText(); // 获取文本区中的文本
+
+    @FXML
+    private TextArea messageInput;  // 输入消息框
+
+    private Client client;  // 注入的客户端实例
+
+
+    // 设置客户端实例
+    public void setClient(Client client) {
+        this.client = client;
+
+        // 启动一个线程接收服务器的消息并更新UI
+        new Thread(() -> {
+            try {
+                String message;
+                while ((message = client.receiveMessage()) != null) {
+                    updateChatDisplay(message);  // 更新聊天记录
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    // 发送消息给服务器
+    @FXML
+    public void handleSendMessage() {
+        String message = messageInput.getText();
         if (!message.isEmpty()) {
-            System.out.println("Message sent: " + message);
-            textArea.clear(); // 清空文本区
-        } else {
+            client.sendMessage(message);  // 通过客户端发送消息
+            messageInput.clear();  // 清空输入框
+        }else {
             System.out.println("Message cannot be empty.");
         }
     }
 
+    // 更新聊天框
+    private void updateChatDisplay(String message) {
+//        chatDisplay.appendText(message + "\n");
+    }
 
 
 
@@ -51,6 +85,7 @@ public class ChatController {
     private void sendMessage(){
 
     }
+
 
 
 
