@@ -6,18 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import java.io.IOException;
 
 public class MainApp extends Application {
 
@@ -26,8 +16,8 @@ public class MainApp extends Application {
         try {
 
             // 加载 FXML 文件
-           
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/filemanagement.fxml"));
 
             Parent root = loader.load();
 
@@ -35,7 +25,7 @@ public class MainApp extends Application {
             Scene scene = new Scene(root);
 
             // 设置 Stage 的样式为无边框
-            primaryStage.initStyle(StageStyle.UNDECORATED);
+//            primaryStage.initStyle(StageStyle.UNDECORATED);
 
             // 设置场景和标题
             primaryStage.setScene(scene);
