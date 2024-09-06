@@ -13,6 +13,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.control.Separator;
 public class ChatController {
 
+
+    //需要在点击contractList中内容时切换chatPane内容和nameTitle内容
+
     @FXML
     private ListView<?> contractList; // 可以将泛型类型替换为实际的数据类型，如 ListView<String>。
     @FXML
@@ -36,6 +39,11 @@ public class ChatController {
         // 处理发送消息的逻辑
         String message = textArea.getText(); // 获取文本区中的文本
         if (!message.isEmpty()) {
+
+
+            //这一部分要等服务器处理规范进行修改
+
+
             System.out.println("Message sent: " + message);
             textArea.clear(); // 清空文本区
         } else {
