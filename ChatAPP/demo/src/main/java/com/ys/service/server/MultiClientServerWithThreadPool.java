@@ -1,6 +1,8 @@
 package com.ys.service.server;
 
+import com.ys.dao.MessageDao;
 import com.ys.dao.UserDao;
+import com.ys.model.Message;
 import com.ys.model.User;
 import java.io.*;
 import java.net.*;
@@ -110,6 +112,8 @@ public class MultiClientServerWithThreadPool {
                         handleGetFriends(out);
                     } else if (message.startsWith("ADD_FRIEND")) {
                         handleAddFriend(message, out);
+                    } else if (message.startsWith("GET_MESSAGE_HISTORY")) {
+                        handleGetMessageHistory(message, out);
                     } else {
                         if (userId != null) {
                             broadcastMessage("用户 " + userId + " 说: " + message, clientSocket);
@@ -218,6 +222,29 @@ public class MultiClientServerWithThreadPool {
                 }
             } else {
                 out.println("查找用户信息格式错误！");
+            }
+        }
+
+        // 新增 handleGetMessageHistory 用于获取聊天记录
+        private void handleGetMessageHistory(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                String targetUserId = parts[1];
+
+                // 获取两人聊天记录
+                MessageDao messageDao = new MessageDao();
+                List<Message> messages = messageDao.getMessagesBetweenUsers(Integer.parseInt(userId), Integer.parseInt(targetUserId));
+
+                if (messages.isEmpty()) {
+                    out.println("没有找到聊天记录");
+                } else {
+                    for (Message msg : messages) {
+                        out.println("时间: " + msg.getSentAt() + " 发送者ID: " + msg.getSenderId() + " 内容: " + msg.getMessageContent());
+                    }
+                }
+                out.println("END_OF_MESSAGE_HISTORY");  // 结束符，标识聊天记录发送完毕
+            } else {
+                out.println("聊天记录请求格式错误！");
             }
         }
 

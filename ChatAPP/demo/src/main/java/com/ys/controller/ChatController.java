@@ -5,6 +5,7 @@ package com.ys.controller;
 import com.ys.service.client.Client;
 
 import com.ys.service.client.ClientManager;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,7 +61,12 @@ public class ChatController {
         friendListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             currentFriend = (String) newValue;  // 切换到选中的好友
             currentFriendID = friendMap.get(currentFriend);
-            System.out.println(currentFriend);
+            System.out.println(currentFriend+":"+currentFriendID);
+
+            // 清空当前聊天记录，并加载新的聊天记录
+            chatMessages.get(currentFriend).clear();
+            client.getMessageHistory(Integer.parseInt(currentFriendID));
+
             showMessagesForFriend(currentFriend);
         });
 
@@ -72,8 +78,6 @@ public class ChatController {
         for (String friend : friends) {
             chatMessages.put(friend, FXCollections.observableArrayList());
         }
-
-
     }
 
 
@@ -103,6 +107,50 @@ public class ChatController {
 
         // 这里可以发送消息到服务器
          client.sendMessage("PRIVATE:" + currentFriendID + ":" + message);
+    }
+
+    // 接收消息线程
+    private void startReceiveMessageThread() {
+        new Thread(() -> {
+            try {
+                while (true) {
+                    String message = client.receiveMessage();  // 从服务器接收消息
+                    if (message != null) {
+                        handleMessageReceived(message);  // 处理接收到的消息
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Error receiving message: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    // 处理接收到的消息
+    private void handleMessageReceived(String message) {
+        // 假设服务器发送的消息格式是：来自用户 {userId} 的私聊消息: {privateMessage}
+        if (message.startsWith("来自用户 ")) {
+            // 解析消息内容
+            String[] parts = message.split(" 的私聊消息: ");
+            if (parts.length == 2) {
+                String senderInfo = parts[0].replace("来自用户 ", "").trim();  // 提取用户ID
+                String privateMessage = parts[1].trim();  // 提取私聊消息内容
+
+                // 在UI线程上更新聊天界面
+                Platform.runLater(() -> {
+                    String senderName = getFriendNameById(senderInfo);  // 根据用户ID查找好友名
+                    receiveMessage(senderName, privateMessage);  // 处理接收到的消息
+                });
+            }
+        }
+    }
+    // 通过好友ID查找好友名
+    private String getFriendNameById(String friendId) {
+        for (Map.Entry<String, String> entry : client.getFriendList().entrySet()) {
+            if (entry.getValue().equals(friendId)) {
+                return entry.getKey();  // 返回好友名
+            }
+        }
+        return "未知好友";  // 如果找不到好友ID，返回默认名字
     }
 
     // 处理接收到的消息

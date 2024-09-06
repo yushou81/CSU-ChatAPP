@@ -41,8 +41,7 @@ public class Client {
             System.out.println("成功发送");
         }else {
             System.out.println("发送失败");
-        }  // 发送登录信息
-
+        }
         return handleLoginOrRegisterResponse();
     }
 
@@ -75,30 +74,6 @@ public class Client {
         }
     }
 
-    // 获取好友列表
-//    public String[] getFriendList() {
-//        sendMessage("GET_FRIENDS:" + this.userId);  // 发送获取好友列表的请求
-//        List<String> friendList = new ArrayList<>();
-//        try {
-//            String response;
-//            System.out.println("好友列表:");
-//            while (!(response = in.readLine()).equals("END_OF_FRIEND_LIST")) {
-//                // response是 "好友ID: 1, 好友名: 1234"
-//                String[] parts = response.split(", 好友名: ");  // 通过 ", 好友名: " 分割
-//                if (parts.length == 2) {
-//                    String friendId = parts[0].replace("好友ID: ", "").trim();  // 提取好友ID
-//                    String friendName = parts[1].trim();  // 提取好友名
-//                    // 将"好友ID: username"格式组合并加入列表
-//                    friendList.add(friendId + ": " + friendName);
-//                    System.out.println(friendId + ": " + friendName);  // 输出好友ID和用户名
-//                }
-//            }
-//
-//        } catch (IOException e) {
-//            System.err.println("Error while receiving friend list: " + e.getMessage());
-//        }
-//        return friendList.toArray(new String[0]);
-//    }
     public Map<String, String> getFriendList() {
         sendMessage("GET_FRIENDS:" + this.userId);  // 发送获取好友列表的请求
         Map<String, String> friendMap = new HashMap<>();  // 用于存储好友的ID和名字
@@ -158,6 +133,21 @@ public class Client {
             }
         }
         return false;
+    }
+
+    // 在 Client 类中增加获取聊天记录的方法
+    public void getMessageHistory(int targetUserId) {
+        sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);  // 发送获取聊天记录请求
+
+        try {
+            String response;
+            System.out.println("聊天记录:");
+            while (!(response = in.readLine()).equals("END_OF_MESSAGE_HISTORY")) {
+                System.out.println(response);  // 输出每条消息记录
+            }
+        } catch (IOException e) {
+            System.err.println("Error while receiving message history: " + e.getMessage());
+        }
     }
 
     // 接收来自服务器的消息

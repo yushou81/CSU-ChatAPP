@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 
 public class MainApp extends Application {
     private Client client;  // 客户端连接实例
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         // 初始化客户端并连接服务器
