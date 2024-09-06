@@ -4,8 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
-
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -16,32 +14,39 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.io.IOException;
-
+import com.ys.controller.ChatController;
+import com.ys.service.client.Client;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
 public class MainApp extends Application {
-
+    private Client client;  // 客户端连接实例
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // 初始化客户端并连接服务器
+        client = new Client();
+        client.connect("100.67.55.210", 8080);  // 替换为你的服务器IP和端口号
+
         try {
-
             // 加载 FXML 文件
-           
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
-
             Parent root = loader.load();
 
             // 创建场景
             Scene scene = new Scene(root);
 
+            // 获取Controller并设置客户端实例
+            ChatController controller = loader.getController();
+            controller.setClient(client);  // 注入Client实例
 
             // 设置 Stage 的样式为无边框
             // primaryStage.initStyle(StageStyle.UNDECORATED);
 
-            // 设置场景和标题
+            // 设置场景和标题 之后需要删除
             primaryStage.setScene(scene);
-            primaryStage.setTitle("DingDing Clone");
-
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
