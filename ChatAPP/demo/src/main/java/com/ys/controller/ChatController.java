@@ -71,6 +71,7 @@ public class ChatController {
 
     // 更新聊天框
     private void updateChatDisplay(String message) {
+        System.out.println(message);
 //        chatDisplay.appendText(message + "\n");
     }
 

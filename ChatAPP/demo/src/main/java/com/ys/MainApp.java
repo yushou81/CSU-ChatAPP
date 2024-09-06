@@ -1,5 +1,7 @@
 package com.ys;
 
+import com.ys.controller.LoginController;
+import com.ys.service.client.ClientManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,7 +30,8 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         // 初始化客户端并连接服务器
         client = new Client();
-        client.connect("100.67.55.210", 8080);  // 替换为你的服务器IP和端口号
+        client.connect("192.168.130.164", 8080);  // 替换为你的服务器IP和端口号
+        ClientManager.setClient(client);
 
         try {
             // 加载 FXML 文件
@@ -38,9 +41,6 @@ public class MainApp extends Application {
             // 创建场景
             Scene scene = new Scene(root);
 
-            // 获取Controller并设置客户端实例
-            ChatController controller = loader.getController();
-            controller.setClient(client);  // 注入Client实例
 
             // 设置 Stage 的样式为无边框
             // primaryStage.initStyle(StageStyle.UNDECORATED);
