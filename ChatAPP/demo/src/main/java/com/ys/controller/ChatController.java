@@ -17,6 +17,9 @@ import java.io.IOException;
 public class ChatController {
 
 
+
+    //需要在点击contractList中内容时切换chatPane内容和nameTitle内容
+
     @FXML
     private ListView<String> contractList; // 可以将泛型类型替换为实际的数据类型，如 ListView<String>。
     @FXML
@@ -99,9 +102,14 @@ public class ChatController {
     public void handleSendMessage() {
         String message = messageInput.getText();
         if (!message.isEmpty()) {
+
+
+            //这一部分要等服务器处理规范进行修改
+
             client.sendMessage(message);  // 通过客户端发送消息
             messageInput.clear();  // 清空输入框
         }else {
+
             System.out.println("Message cannot be empty.");
         }
     }
