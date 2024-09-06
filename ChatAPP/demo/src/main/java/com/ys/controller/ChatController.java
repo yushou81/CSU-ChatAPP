@@ -4,6 +4,7 @@ package com.ys.controller;
 //kjashfhaskdhfkfhabsk
 import com.ys.service.client.Client;
 
+import com.ys.service.client.ClientManager;
 import javafx.event.ActionEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,8 +16,6 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 
 public class ChatController {
-
-
 
     //需要在点击contractList中内容时切换chatPane内容和nameTitle内容
 
@@ -36,6 +35,14 @@ public class ChatController {
     @FXML
     AnchorPane chatPane;//整个聊天功能区域
 
+    private Client client;
+
+    public ChatController() {
+        // 使用ClientManager来获取共享的Client实例
+        this.client = ClientManager.getClient();
+    }
+
+
     @FXML
     public void initialize() {
         // 初始化控件或绑定数据
@@ -54,12 +61,7 @@ public class ChatController {
         });
 
 
-
-
     }
-
-    // 注入的客户端实例，用于发送和接受信息
-    private Client client;
 
 
     // 动态加载对应联系人的聊天界面
