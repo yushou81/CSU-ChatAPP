@@ -173,6 +173,10 @@ public class MultiClientServerWithThreadPool {
                     this.userId = String.valueOf(user.getUser_id());
                     userSockets.put(this.userId, clientSocket);  // 将用户添加到在线用户列表中
                     out.println("SUCCESS:" + user.getUser_id());  // 登录成功，返回userId
+
+                    //要添加发送用户的好友列表
+
+
                     return true;
                 } else {
                     out.println("FAILURE: 用户名或密码错误");

@@ -41,6 +41,8 @@ public class ChatController {
         // 初始化控件或绑定数据
         sendMessageButton.setOnAction(event -> handleSendMessage());
         //显示联系人
+
+
         //这一部分联系人要从服务器读取
         ObservableList<String> contacts = FXCollections.observableArrayList("联系人1", "联系人2", "联系人3");
         contractList.setItems(contacts);
@@ -98,9 +100,11 @@ public class ChatController {
     }
 
     // 发送消息给服务器
+
+    //这个函数不完全，需要大改
     @FXML
     public void handleSendMessage() {
-        String message = messageInput.getText();
+        String message = "MESSAGE TO: "+"发送对象"+messageInput.getText();
         if (!message.isEmpty()) {
 
 
@@ -113,6 +117,8 @@ public class ChatController {
             System.out.println("Message cannot be empty.");
         }
     }
+
+
 
     // 更新聊天框
     private void updateChatDisplay(String message) {

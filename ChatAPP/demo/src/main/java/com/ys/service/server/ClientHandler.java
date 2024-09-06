@@ -12,6 +12,9 @@ class ClientHandler implements Runnable {  // 使用Runnable接口实现
         this.clientSocket = socket;
     }
 
+
+
+    //类似槽函数onReadyRead,用于服务器接受信息
     @Override
     public void run() {
         try {
