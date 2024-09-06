@@ -10,7 +10,8 @@
 
 <AnchorPane fx:id="contractListPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ContractListController">
    <children>
-      <BorderPane prefHeight="787.0" prefWidth="209.0" style="-fx-background-color: white;" />
+      <BorderPane layoutY="4.0" prefHeight="779.0" prefWidth="211.0" style="-fx-background-color: white;" />
+      <StackPane fx:id="mainStackPane" layoutX="218.0" layoutY="19.0" prefHeight="767.0" prefWidth="946.0" />
       <Button id="favoritefriends" fx:id="favoritefriends" layoutX="12.0" layoutY="36.0" mnemonicParsing="false" onAction="#favoritefriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="常用联系人" textAlignment="RIGHT">
          <font>
             <Font size="24.0" />
@@ -21,7 +22,7 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Button id="Createteambtn" fx:id="Createteambtn" layoutX="12.0" layoutY="97.0" mnemonicParsing="false" onAction="#Myfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="我的好友">
+      <Button id="Createteambtn" fx:id="myfriends" layoutX="12.0" layoutY="97.0" mnemonicParsing="false" onAction="#Myfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="我的好友">
          <font>
             <Font size="24.0" />
          </font>
@@ -41,12 +42,12 @@
             <Image url="@../images/Myfriends.png" />
          </image>
       </ImageView>
-      <Button id="addfriends" fx:id="addfriends" layoutX="12.0" layoutY="217.0" mnemonicParsing="false" onAction="#addfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="添加好友">
+      <Button id="newfriends" fx:id="addfriends" layoutX="12.0" layoutY="219.0" mnemonicParsing="false" onAction="#addfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="添加朋友">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <ImageView id="addfriendsicon" fitHeight="42.0" fitWidth="42.0" layoutX="17.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="addfriendsicon" fitHeight="42.0" fitWidth="42.0" layoutX="13.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/addfriends.png" />
          </image>

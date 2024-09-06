@@ -1,7 +1,9 @@
 package com.ys.controller;
 
+
 //kjashfhaskdhfkfhabsk
 import com.ys.service.client.Client;
+
 import javafx.event.ActionEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 
 public class ChatController {
+
 
 
     //需要在点击contractList中内容时切换chatPane内容和nameTitle内容
@@ -65,26 +68,21 @@ public class ChatController {
     public void handleSendMessage() {
         String message = messageInput.getText();
         if (!message.isEmpty()) {
-<<<<<<< HEAD
 
 
             //这一部分要等服务器处理规范进行修改
 
-
-            System.out.println("Message sent: " + message);
-            textArea.clear(); // 清空文本区
-        } else {
-=======
             client.sendMessage(message);  // 通过客户端发送消息
             messageInput.clear();  // 清空输入框
         }else {
->>>>>>> 200ef183738ae52d1b4efb8eb569585763783e4d
+
             System.out.println("Message cannot be empty.");
         }
     }
 
     // 更新聊天框
     private void updateChatDisplay(String message) {
+        System.out.println(message);
 //        chatDisplay.appendText(message + "\n");
     }
 
@@ -98,6 +96,7 @@ public class ChatController {
     private void sendMessage(){
 
     }
+
 
 
 
