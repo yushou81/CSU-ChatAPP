@@ -13,7 +13,10 @@
              xmlns:fx="http://javafx.com/fxml/1"
              fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);"  fx:controller="com.ys.controller.ChatController">
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> bb8f5a1f050aef449691df6476447ffd4533dbb6
     <children>
         <ListView fx:id="contractList" prefHeight="776.0" prefWidth="216.0" />
 
@@ -21,6 +24,14 @@
         <!--上面这行是右边除了联系人列表之外整个的-->
 
             <children>
+<<<<<<< HEAD
+                <StackPane fx:id="nameTitle" prefHeight="60.0" prefWidth="968.0" style="-fx-background-color: F3F4F5;" />
+                <TextArea fx:id="messageInput" layoutX="35.0" layoutY="571.6" prefHeight="163.2" prefWidth="899.2" style="-fx-opacity: 0.3;" />
+            <Separator layoutY="60.0" opacity="0.26" prefWidth="968.0" style="-fx-background-color: rgba(204, 204, 204, 1); -fx-opacity: 1;" />
+                <Separator layoutY="532.0" prefHeight="0.0" prefWidth="968.0" style="-fx-background-color: rgba(204, 204, 204, 1);" />
+                <Button fx:id="sendMessageButton" layoutX="836.0" layoutY="683.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="83.0" style="-fx-border-radius: 5; -fx-font-size: 15; -fx-font-weight: 400; -fx-opacity: 1; -fx-background-color: rgba(99, 167, 191, 1);" text="发送" textAlignment="CENTER" textFill="WHITE" />
+            <StackPane fx:id="messageArea" layoutY="60.0" opacity="0.33" prefHeight="472.0" prefWidth="968.0" />
+=======
                 <StackPane prefHeight="532.0" prefWidth="968.0">
                     <children>
 
@@ -34,6 +45,7 @@
 
                 <Separator layoutY="532.0" prefHeight="0.0" prefWidth="968.0" style="-fx-background-color: rgba(204, 204, 204, 1);" />
                 <Button fx:id="sendMessageButton" layoutX="836.0" layoutY="695.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="83.0" style="-fx-border-radius: 5; -fx-font-size: 15; -fx-font-weight: 400; -fx-opacity: 1; -fx-background-color: rgba(99, 167, 191, 1);" text="发送" textAlignment="CENTER" textFill="WHITE" />
+>>>>>>> bb8f5a1f050aef449691df6476447ffd4533dbb6
             </children>
         </AnchorPane>
     </children>

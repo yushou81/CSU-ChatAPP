@@ -15,7 +15,6 @@ public class Client {
         try {
             socket = new Socket(serverIp, serverPort);
             System.out.println("Connected to server: " + serverIp);
-
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             userInput = new BufferedReader(new InputStreamReader(System.in));  // 用于读取用户输入
