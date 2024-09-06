@@ -15,29 +15,63 @@ import java.io.IOException;
 public class ChatController {
 
     @FXML
-    private ListView<?> contractList; // 可以将泛型类型替换为实际的数据类型，如 ListView<String>。
+    private ListView<String> contractList; // 可以将泛型类型替换为实际的数据类型，如 ListView<String>。
     @FXML
-    private StackPane nameTitle;
+    private StackPane nameTitle;//顶部名称和头像区域
     @FXML
-    private TextArea textArea;
+    private TextArea messageInput;//消息输入框
+    @FXML
+    private StackPane messageArea;  // 不同联系人聊天内容区域
+
     @FXML
     private Separator separator;
     @FXML
-    private Button sendMessageButton;
+    private Button sendMessageButton;//发送按钮
     @FXML
-    AnchorPane chatPane;
+    AnchorPane chatPane;//整个聊天功能区域
 
     @FXML
     public void initialize() {
         // 初始化控件或绑定数据
         sendMessageButton.setOnAction(event -> handleSendMessage());
+        //显示联系人
+        //这一部分联系人要从服务器读取
+        ObservableList<String> contacts = FXCollections.observableArrayList("联系人1", "联系人2", "联系人3");
+        contractList.setItems(contacts);
+
+        // 为 ListView 添加选择事件监听器
+        contractList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                // 当选择联系人时，动态加载相应的聊天界面
+                loadChatPane(newValue);
+            }
+        });
+
+
+
+
     }
 
+    // 注入的客户端实例，用于发送和接受信息
+    private Client client;
 
-    @FXML
-    private TextArea messageInput;  // 输入消息框
 
-    private Client client;  // 注入的客户端实例
+    // 动态加载对应联系人的聊天界面
+    private void loadChatPane(String contactName) {
+        //       try {
+        // 假设为每个联系人加载不同的聊天界面，可以根据联系人ID加载不同的FXML文件
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + contactName + "Chat.fxml"));
+//            AnchorPane chatPane = loader.load();
+
+        // 替换 messageArea 的内容
+//            messageArea.getChildren().clear();
+//            messageArea.getChildren().add(chatPane);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+    }
 
 
     // 设置客户端实例
@@ -71,7 +105,8 @@ public class ChatController {
 
     // 更新聊天框
     private void updateChatDisplay(String message) {
-//        chatDisplay.appendText(message + "\n");
+        System.out.println(message);
+
     }
 
 

@@ -28,11 +28,11 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         // 初始化客户端并连接服务器
         client = new Client();
-        client.connect("100.67.55.210", 8080);  // 替换为你的服务器IP和端口号
+        client.connect("192.168.130.164", 8080);  // 替换为你的服务器IP和端口号
 
         try {
             // 加载 FXML 文件
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/chat.fxml"));
             Parent root = loader.load();
 
             // 创建场景

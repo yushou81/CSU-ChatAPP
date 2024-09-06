@@ -7,21 +7,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane  xmlns="http://javafx.com/javafx/8"
-             xmlns:fx="http://javafx.com/fxml/1"
-             fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);"  fx:controller="com.ys.controller.ChatController">
+<AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ChatController">
     <children>
         <ListView fx:id="contractList" prefHeight="776.0" prefWidth="216.0" />
         <AnchorPane layoutX="216.0" prefHeight="776.0" prefWidth="968.0" style="-fx-background-color: rgba(243, 244, 245, 1);">
             <children>
-                <StackPane prefHeight="532.0" prefWidth="968.0">
-                    <children>
-                        <StackPane fx:id="nameTitle" maxHeight="60.0" minHeight="60.0" prefHeight="60.0" prefWidth="968.0" style="-fx-border-color: rgba(230, 230, 230, 1); -fx-opacity: 1; -fx-background-color: rgba(243, 244, 245, 1);" StackPane.alignment="TOP_CENTER" />
-                    </children>
-                </StackPane>
-                <TextArea fx:id="messageInput"  layoutX="35.0" layoutY="571.6" prefHeight="163.2" prefWidth="899.2" style="-fx-opacity: 0.3;" />
+                <StackPane fx:id="nameTitle" prefHeight="60.0" prefWidth="968.0" style="-fx-background-color: F3F4F5;" />
+                <TextArea fx:id="messageInput" layoutX="35.0" layoutY="571.6" prefHeight="163.2" prefWidth="899.2" style="-fx-opacity: 0.3;" />
+            <Separator layoutY="60.0" opacity="0.26" prefWidth="968.0" style="-fx-background-color: rgba(204, 204, 204, 1); -fx-opacity: 1;" />
                 <Separator layoutY="532.0" prefHeight="0.0" prefWidth="968.0" style="-fx-background-color: rgba(204, 204, 204, 1);" />
                 <Button fx:id="sendMessageButton" layoutX="836.0" layoutY="683.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="83.0" style="-fx-border-radius: 5; -fx-font-size: 15; -fx-font-weight: 400; -fx-opacity: 1; -fx-background-color: rgba(99, 167, 191, 1);" text="发送" textAlignment="CENTER" textFill="WHITE" />
+            <StackPane fx:id="messageArea" layoutY="60.0" opacity="0.33" prefHeight="472.0" prefWidth="968.0" />
             </children>
         </AnchorPane>
     </children>
