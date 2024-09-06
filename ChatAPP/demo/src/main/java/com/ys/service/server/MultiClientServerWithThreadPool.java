@@ -83,19 +83,20 @@ public class MultiClientServerWithThreadPool {
 
                 boolean isLoggedIn = false;
 
-                // 处理注册和登录
+                // 处理注册和登录，直到用户成功登录
                 while (!isLoggedIn) {
                     String message = in.readLine();
+                    System.out.println("收到消息: " + message);
+                    if (message == null) {
+                        break;  // 如果收到null，表示客户端断开连接
+                    }
+
                     if (message.startsWith("REGISTER")) {
                         handleRegister(message, out);
                     } else if (message.startsWith("LOGIN")) {
                         isLoggedIn = handleLogin(message, out);
                     }
 
-                    // 如果登录失败，继续等待新的登录请求
-                    if (!isLoggedIn) {
-                        out.println("FAILURE: 登录失败，请重新登录！");
-                    }
                 }
 
                 String message;
