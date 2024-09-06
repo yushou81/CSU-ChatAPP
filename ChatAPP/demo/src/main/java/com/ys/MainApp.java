@@ -1,5 +1,4 @@
 package com.ys;
-
 import com.ys.controller.LoginController;
 import com.ys.service.client.ClientManager;
 import javafx.application.Application;
@@ -28,7 +27,7 @@ public class MainApp extends Application {
     private Client client;  // 客户端连接实例
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // 初始化客户端并连接服务器
+//         初始化客户端并连接服务器
 
         client = new Client();
         client.connect("192.168.130.164", 8080);  // 替换为你的服务器IP和端口号
@@ -40,7 +39,7 @@ public class MainApp extends Application {
             // 加载 FXML 文件        
 
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainapp/login.fxml"));
 
 
             Parent root = loader.load();
