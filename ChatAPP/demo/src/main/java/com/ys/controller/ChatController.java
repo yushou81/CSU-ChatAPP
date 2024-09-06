@@ -1,7 +1,9 @@
 package com.ys.controller;
 
+
 //kjashfhaskdhfkfhabsk
 import com.ys.service.client.Client;
+
 import javafx.event.ActionEvent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 
 public class ChatController {
+
 
     @FXML
     private ListView<?> contractList; // 可以将泛型类型替换为实际的数据类型，如 ListView<String>。
@@ -85,6 +88,7 @@ public class ChatController {
     private void sendMessage(){
 
     }
+
 
 
 
