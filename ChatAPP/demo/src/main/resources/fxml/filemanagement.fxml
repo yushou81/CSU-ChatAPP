@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:id="fileManagementPane"
-            fx:controller="com.ys.controller.FileManagementController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="840.0" prefWidth="1264.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.TeamController">
+   <children>
+       <Label layoutX="20.0" layoutY="20.0" text="文件管理">
+           <font>
+               <Font size="40.0" />
+           </font>
+       </Label>
+      <TextField layoutX="350.0" layoutY="150.0" prefHeight="50.0" prefWidth="300.0" />
+      <Button layoutX="680.0" layoutY="145.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0" text="搜索" style="-fx-background-color: #35889a;-fx-text-fill: white;">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
 
+   </children>
 </AnchorPane>

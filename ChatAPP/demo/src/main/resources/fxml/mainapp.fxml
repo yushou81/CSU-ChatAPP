@@ -33,10 +33,8 @@
             <Button id="closeButton" layoutX="1200.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" styleClass="button">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <!--把URL换为关闭图片资源-->
-                        <Image url="@../images/close_icon.png" />
-                     </image>
+                     <!--把URL换为关闭图片资源-->
+                     <Image url="@../images/close_icon.png"/>
                   </ImageView>
                </graphic>
             </Button>

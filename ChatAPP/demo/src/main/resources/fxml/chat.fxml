@@ -7,7 +7,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ChatController">
+
+<AnchorPane  xmlns="http://javafx.com/javafx/8"
+             xmlns:fx="http://javafx.com/fxml/1"
+             fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);"  fx:controller="com.ys.controller.ChatController">
+
     <children>
         <ListView fx:id="contractList" prefHeight="776.0" prefWidth="216.0" />
         <AnchorPane layoutX="216.0" prefHeight="776.0" prefWidth="968.0" style="-fx-background-color: rgba(243, 244, 245, 1);">
