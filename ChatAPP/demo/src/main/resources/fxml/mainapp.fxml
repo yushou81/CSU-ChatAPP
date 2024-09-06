@@ -20,7 +20,7 @@
 
       <!-- 这个没啥用，只是装饰 -->
       <ListView id="indexList" layoutY="44.0" prefHeight="797.0" prefWidth="80.0" style="-fx-background-color: EBEBEB;">
-      </ListView>
+      </ListView>7
 
       <!-- 定义 StackPane 和不同的内容,在对应stackpane完成格子对应开发 -->
       <StackPane fx:id="mainStackPane" layoutX="80.0" layoutY="59.0" prefHeight="780.0" prefWidth="1184.0">
