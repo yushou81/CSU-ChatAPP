@@ -32,15 +32,15 @@ public class MainApp extends Application {
 
         try {
             // 加载 FXML 文件
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
             Parent root = loader.load();
 
             // 创建场景
             Scene scene = new Scene(root);
 
-            // 获取Controller并设置客户端实例
-            ChatController controller = loader.getController();
-            controller.setClient(client);  // 注入Client实例
+//            // 获取Controller并设置客户端实例
+//            ChatController controller = loader.getController();
+//            controller.setClient(client);  // 注入Client实例
 
             // 设置 Stage 的样式为无边框
             // primaryStage.initStyle(StageStyle.UNDECORATED);
