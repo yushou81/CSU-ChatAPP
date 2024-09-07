@@ -102,7 +102,7 @@ public class ContractListController {
 
     private void hideAllPanes() {
          addfriendspane.setVisible(false);
-        myfriendspane.setVisible(false);
+         myfriendspane.setVisible(false);
          favoritefriendspane.setVisible(false);
          newfriendspane.setVisible(false);
     }
