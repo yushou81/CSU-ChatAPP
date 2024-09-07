@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FileManagementController">
+<AnchorPane prefHeight="776.0" prefWidth="1184.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FileManagementController">
+
+   <children>
+       <Label layoutX="20.0" layoutY="20.0" text="文件管理">
+           <font>
+               <Font size="40.0" />
+           </font>
+       </Label>
+      <TextField layoutX="350.0" layoutY="150.0" prefHeight="50.0" prefWidth="300.0" />
+
 
     <children>
         <Label layoutX="30.0" layoutY="30.0" prefHeight="70.0" prefWidth="200.0" style="-fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-font-size: 50;" text="文件管理">
@@ -12,8 +24,12 @@
         <TextField layoutX="350.0" layoutY="150.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入文件名" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 5; -fx-font-size: 21;">
         </TextField>
 
+
         <Button layoutX="680.0" layoutY="145.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0" style="-fx-background-color: #35889a; -fx-text-fill: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-font-size: 30;" text="搜索">
         </Button>
+
+      <Pane layoutX="202.0" layoutY="273.0" prefHeight="403.0" prefWidth="568.0" />
+
 
         <Pane layoutX="34.0" layoutY="234.0" prefHeight="555.0" prefWidth="1146.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
         </Pane>

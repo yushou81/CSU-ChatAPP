@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -39,11 +40,11 @@ public class MeetingController {
 
     public void LiveBrocast(ActionEvent actionEvent) {
         try {
-            Parent view = FXMLLoader.load(getClass().getResource("/fxml/openLive.fxml"));
+            AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/openLive.fxml"));
             Stage newStage1 = new Stage();
 
             // 设置新Stage的场景，将加载的FXML视图作为根节点
-            Scene newScene = new Scene(view);
+            Scene newScene = new Scene(view,1264,840);
             newStage1.setScene(newScene);
 
             // 设置新Stage的标题（可选）

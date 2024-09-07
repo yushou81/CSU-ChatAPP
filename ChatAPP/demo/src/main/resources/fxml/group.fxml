@@ -19,32 +19,32 @@
          </children>
       </StackPane>
       <BorderPane prefHeight="787.0" prefWidth="209.0" style="-fx-background-color: white;" />
-      <Button id="Createteambtn" fx:id="Createteambtn" layoutX="11.0" layoutY="152.0" mnemonicParsing="false" onAction="#Createteam" prefHeight="55.0" prefWidth="199.0" styleClass="button" text="创建团队">
+      <Button id="Createteambtn" fx:id="Createteambtn" layoutY="108.0" mnemonicParsing="false" onAction="#Createteam" prefHeight="55.0" prefWidth="199.0" styleClass="button" text="创建团队">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button id="Jointeambtn" fx:id="Jointeambtn" layoutX="11.0" layoutY="90.0" mnemonicParsing="false" onAction="#Jointeam" prefHeight="55.0" prefWidth="199.0" styleClass="button" text="加入团队">
+      <Button id="Jointeambtn" fx:id="Jointeambtn" layoutY="54.0" mnemonicParsing="false" onAction="#Jointeam" prefHeight="55.0" prefWidth="199.0" styleClass="button" text="加入团队">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button id="Myteambtn" fx:id="Myteambtn" layoutX="12.0" layoutY="26.0" mnemonicParsing="false" onAction="#Myteam" prefHeight="55.0" prefWidth="199.0" styleClass="button" text="我的团队" textAlignment="RIGHT">
+      <Button id="Myteambtn" fx:id="Myteambtn" mnemonicParsing="false" onAction="#Myteam" prefHeight="55.0" prefWidth="199.0" styleClass="button" text="我的团队" textAlignment="RIGHT">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <ImageView id="Createteamicon" fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="Createteamicon" fitHeight="40.0" fitWidth="40.0" layoutX="6.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Createteam.png" />
          </image>
       </ImageView>
-      <ImageView id="Myteamicon" fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="Myteamicon" fitHeight="40.0" fitWidth="40.0" layoutX="6.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Myteam.png" />
          </image>
       </ImageView>
-      <ImageView id="Jointeamicon" fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="Jointeamicon" fitHeight="40.0" fitWidth="40.0" layoutX="6.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Jointeam.png" />
          </image>

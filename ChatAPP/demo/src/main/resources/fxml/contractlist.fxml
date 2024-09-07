@@ -13,6 +13,7 @@
       <BorderPane prefHeight="786.0" prefWidth="190.0" style="-fx-background-color: white;" />
       <StackPane fx:id="mainStackPane" layoutX="218.0" layoutY="19.0" prefHeight="767.0" prefWidth="946.0" />
 
+
       <Button id="newfriends" fx:id="newfriends" layoutY="106.0" mnemonicParsing="false" onAction="#newfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="新的朋友">
 
          <font>
