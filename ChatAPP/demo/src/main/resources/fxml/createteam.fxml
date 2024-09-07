@@ -6,9 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreateteamController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreateTeamController">
    <children>
-      <Button layoutX="110.0" layoutY="32.0" mnemonicParsing="false" text="createteam" />
+      <Button fx:id="createTeamIDButton" layoutX="365.0" layoutY="189.0" mnemonicParsing="false" text="createteam" />
+      <TextArea fx:id="createTeamID" layoutX="77.0" layoutY="79.0" prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
