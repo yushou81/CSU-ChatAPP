@@ -7,8 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-
-
 <AnchorPane  xmlns="http://javafx.com/javafx/8"
              xmlns:fx="http://javafx.com/fxml/1"
              fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);"  fx:controller="com.ys.controller.ChatController">
@@ -21,6 +19,7 @@
         <!--上面这行是右边除了联系人列表之外整个的-->
 
             <children>
+
                 <StackPane fx:id="nameTitle" prefHeight="60.0" prefWidth="968.0" style="-fx-background-color: F3F4F5;" />
                 <TextArea fx:id="messageInput" layoutX="35.0" layoutY="571.6" prefHeight="163.2" prefWidth="899.2" style="-fx-opacity: 0.3;" />
             <Separator layoutY="60.0" opacity="0.26" prefWidth="968.0" style="-fx-background-color: rgba(204, 204, 204, 1); -fx-opacity: 1;" />
