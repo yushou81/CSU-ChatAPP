@@ -19,7 +19,8 @@ public class MessageDao {
 
             stmt.setInt(1, message.getSenderId());
             stmt.setInt(2, message.getReceiverId());
-            stmt.setInt(3, message.getTeamId() != null ? message.getTeamId() : null);  // 群聊时才有team_id
+            stmt.setObject(3, message.getTeamId() != null ? message.getTeamId() : null, Types.INTEGER);  // 用 setObject 设置 team_id
+//            stmt.setInt(3, message.getTeamId() != null ? message.getTeamId() : null);  // 群聊时才有team_id
             stmt.setString(4, message.getMessageContent());
             stmt.setString(5, message.getMessageType());
             stmt.setString(6, message.getFileUrl());

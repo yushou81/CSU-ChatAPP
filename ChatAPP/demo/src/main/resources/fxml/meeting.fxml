@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -8,9 +9,9 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
 
-<AnchorPane layoutX="100.0" layoutY="80.0" prefHeight="967.0" prefWidth="1482.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MeetingController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="782.0" prefWidth="1091.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MeetingController">
    <children>
-      <Button fx:id="getinBtn" alignment="BOTTOM_CENTER" blendMode="MULTIPLY" contentDisplay="GRAPHIC_ONLY" layoutX="107.0" layoutY="78.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="transparent-button">
+      <Button fx:id="getinBtn" alignment="BOTTOM_CENTER" blendMode="MULTIPLY" contentDisplay="GRAPHIC_ONLY" layoutX="173.0" layoutY="157.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: transpqrent;" styleClass="transparent-button">
           <graphic>
               <ImageView fitHeight="100" fitWidth="100" layoutX="403.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -20,7 +21,7 @@
               </ImageView>
           </graphic>
       </Button>
-      <Button fx:id="liveBtn" contentDisplay="GRAPHIC_ONLY" layoutX="685.0" layoutY="84.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="transparent-button">
+      <Button fx:id="liveBtn" contentDisplay="GRAPHIC_ONLY" layoutX="818.0" layoutY="157.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: transparent;" styleClass="transparent-button">
           <graphic>
               <ImageView fitHeight="100" fitWidth="100" layoutX="403.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -30,7 +31,7 @@
               </ImageView>
           </graphic>
       </Button>
-      <Button fx:id="reservationBtn" layoutX="501.0" layoutY="84.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="transparent-button">
+      <Button fx:id="reservationBtn" layoutX="603.0" layoutY="155.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: transparent;" styleClass="transparent-button">
           <graphic>
               <ImageView fitHeight="100" fitWidth="100" layoutX="403.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -40,7 +41,7 @@
               </ImageView>
           </graphic>
       </Button>
-      <Button fx:id="initiateBtn" layoutX="312.0" layoutY="84.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="transparent-button">
+      <Button fx:id="initiateBtn" layoutX="388.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: transparent;" styleClass="transparent-button">
           <graphic>
               <ImageView fitHeight="100" fitWidth="100" layoutX="403.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -50,10 +51,22 @@
               </ImageView>
           </graphic>
       </Button>
-      <Rectangle arcHeight="5.0" arcWidth="1410.81" fill="#c6cfd7" height="5.0" layoutX="-18.0" layoutY="-3.0" opacity="0.59" stroke="BLACK" strokeType="INSIDE" width="1448.0" />
-      <Label layoutX="131.0" layoutY="217.0" prefHeight="33.0" prefWidth="76.0" text="发起会议" />
-      <Label layoutX="324.0" layoutY="217.0" prefHeight="33.0" prefWidth="76.0" text="加入会议" />
-      <Label layoutX="525.0" layoutY="217.0" prefHeight="33.0" prefWidth="76.0" text="预约会议" />
-      <Label layoutX="727.0" layoutY="217.0" prefHeight="33.0" prefWidth="76.0" text="直播" />
+      <Rectangle arcHeight="5.0" arcWidth="1410.81" fill="#c6cfd7" height="3.0" opacity="0.59" stroke="BLACK" strokeType="INSIDE" width="1091.0" y="-2.0" />
+      <Label contentDisplay="TOP" layoutX="193.0" layoutY="320.0" prefHeight="33.0" prefWidth="76.0" style="-fx-alignment: center;" text="发起会议">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label layoutX="400.0" layoutY="320.0" prefHeight="33.0" prefWidth="76.0" style="-fx-alignment: center;" text="加入会议">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label layoutX="623.0" layoutY="320.0" prefHeight="33.0" prefWidth="76.0" style="-fx-alignment: center;" text="预约会议">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="838.0" layoutY="320.0" prefHeight="33.0" prefWidth="76.0" text="直播" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
    </children>
 </AnchorPane>

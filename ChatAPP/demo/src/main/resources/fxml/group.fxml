@@ -12,7 +12,7 @@
 <?import javafx.collections.*?>
 <?import javafx.scene.*?>
 
-<AnchorPane prefHeight="840.0" prefWidth="1264.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.GroupController">
+<AnchorPane prefHeight="776.0" prefWidth="1184.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.GroupController">
    <children>
       <StackPane fx:id="mainStackPane" layoutX="218.0" layoutY="19.0" prefHeight="767.0" prefWidth="946.0">
          <children>

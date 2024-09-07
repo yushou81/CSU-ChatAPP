@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="840.0" prefWidth="1264.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FileManagementController">
+<AnchorPane prefHeight="776.0" prefWidth="1184.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FileManagementController">
    <children>
        <Label layoutX="20.0" layoutY="20.0" text="文件管理">
            <font>
