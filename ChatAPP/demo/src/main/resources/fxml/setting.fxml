@@ -2,18 +2,48 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="settingPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.SettingController">
+<AnchorPane fx:id="settingPane" prefHeight="776.0" prefWidth="1184.0" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.SettingController">
    <children>
-      <VBox layoutX="20.0" layoutY="20.0" spacing="20">
-         <children>
-            <Label text="账号设置：" />
-            <HBox spacing="10" />
-         </children>
-      </VBox>
-      <TextField fx:id="usernamefield" layoutX="152.0" layoutY="79.0" prefHeight="24.0" prefWidth="154.0" />
-      <Label fx:id="usernamelabel" layoutX="64.0" layoutY="74.0" prefHeight="36.0" prefWidth="72.0" text="用户名：" />
-      <Button fx:id="changeicon" layoutX="42.0" layoutY="217.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" styleClass="button" text="更换头像" />
-      <Button fx:id="changepassword" layoutX="42.0" layoutY="139.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" styleClass="button" text="密码更改" />
+      <Label layoutX="30.0" layoutY="30.0" prefHeight="70.0" prefWidth="200.0" text="设置">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usernamefield" layoutX="541.0" layoutY="194.0" prefHeight="57.0" prefWidth="246.0" promptText="请输入新的用户名">
+         <font>
+            <Font size="20.0" />
+         </font></TextField>
+      <Label fx:id="usernamelabel" layoutX="331.0" layoutY="205.0" prefHeight="36.0" prefWidth="158.0" text="用户名更改：">
+         <font>
+            <Font size="24.0" />
+         </font></Label>
+      <Button fx:id="changeicon" layoutX="330.0" layoutY="433.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="120.0" styleClass="button" text="更换头像">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+
+      <TextField layoutX="541.0" layoutY="311.0" prefHeight="58.0" prefWidth="246.0" promptText="请输入新的密码">
+         <font>
+            <Font size="20.0" />
+         </font></TextField>
+      <Label layoutX="335.0" layoutY="311.0" prefHeight="58.0" prefWidth="144.0" text="密码更改：">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+
+      <Button layoutX="700.0" layoutY="624.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" text="确定">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Button layoutX="350.0" layoutY="624.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" text="取消">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -46,7 +46,7 @@ public class MainApp extends Application {
 
 
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/filemanagement.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/setting.fxml"));
 
 
 
