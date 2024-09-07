@@ -10,7 +10,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.collections.*?>
 
-
 <AnchorPane fx:id="rootPane" prefHeight="840.0" prefWidth="1264.0" style="-fx-background-color: #a9d4e1; -fx-background-radius: 20; -fx-border-radius: 20;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MainAppController">
    <children>
 
@@ -26,7 +25,7 @@
 
       <AnchorPane layoutY="-3.0" maxHeight="64.0" maxWidth="1.7976931348623157E308" minHeight="64.0" prefHeight="64.0" prefWidth="1264.0" style="-fx-background-color: #63A7BF;">
          <children>
-            <Button id="closeButton" layoutX="1200.0" layoutY="13.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button">
+            <Button id="closeButton" layoutX="1200.0" layoutY="10.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                      <image>

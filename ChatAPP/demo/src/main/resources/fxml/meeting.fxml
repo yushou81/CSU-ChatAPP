@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="782.0" prefWidth="1091.0" style="-fx-background-color: rgb(243,244,245);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MeetingController">
    <children>
-      <Button fx:id="getinBtn" alignment="BOTTOM_CENTER" blendMode="MULTIPLY" contentDisplay="GRAPHIC_ONLY" layoutX="173.0" layoutY="254.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: transpqrent;" styleClass="transparent-button">
+      <Button fx:id="getinBtn" alignment="BOTTOM_CENTER" blendMode="MULTIPLY" contentDisplay="GRAPHIC_ONLY" layoutX="173.0" layoutY="254.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: transparent;" styleClass="transparent-button">
           <graphic>
               <ImageView fitHeight="100" fitWidth="100" layoutX="403.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -41,7 +41,7 @@
               </ImageView>
           </graphic>
       </Button>
-      <Button fx:id="initiateBtn" layoutX="388.0" layoutY="254.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: transparent;" styleClass="transparent-button">
+      <Button fx:id="initiateBtn" layoutX="388.0" layoutY="262.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: transparent;" styleClass="transparent-button">
           <graphic>
               <ImageView fitHeight="100" fitWidth="100" layoutX="403.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
                   <image>

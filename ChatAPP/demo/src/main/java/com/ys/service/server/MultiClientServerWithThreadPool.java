@@ -272,12 +272,15 @@ public class MultiClientServerWithThreadPool {
             List<User> friends = userDao.getFriends(Integer.parseInt(userId));
 
             if (friends.isEmpty()) {
+                System.out.println("好友列表为空");
                 out.println("好友列表为空");
             } else {
                 for (User friend : friends) {
+                    System.out.println("发送好友ID: " + friend.getUser_id() + ", 好友名: " + friend.getUsername());
                     out.println("好友ID: " + friend.getUser_id() + ", 好友名: " + friend.getUsername());
                 }
             }
+            System.out.println("END_OF_FRIEND_LIST");
             out.println("END_OF_FRIEND_LIST"); // 结束符，标识好友列表发送完毕
         }
 

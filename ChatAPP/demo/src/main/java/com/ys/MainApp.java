@@ -32,9 +32,9 @@ public class MainApp extends Application {
 
         client = new Client();
 
-        boolean a=client.connect("192.168.221.164", 8080);  // 替换为你的服务器IP和端口号
-        System.out.println(a);
-
+        client.connect("192.168.221.164", 8080);  // 替换为你的服务器IP和端口号
+//        100.64.83.48
+//        192.168.221.164
         ClientManager.setClient(client);
 
 
