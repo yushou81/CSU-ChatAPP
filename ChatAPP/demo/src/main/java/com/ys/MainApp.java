@@ -1,5 +1,4 @@
 package com.ys;
-
 import com.ys.controller.LoginController;
 import com.ys.service.client.ClientManager;
 import javafx.application.Application;
@@ -29,7 +28,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // 初始化客户端并连接服务器
+//         初始化客户端并连接服务器
 
         client = new Client();
 
@@ -45,7 +44,9 @@ public class MainApp extends Application {
             // 加载 FXML 文件        
 
 
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+
 
 
             Parent root = loader.load();

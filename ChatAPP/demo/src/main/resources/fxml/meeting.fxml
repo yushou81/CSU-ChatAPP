@@ -5,10 +5,55 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.ys.controller.MeetingController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane layoutX="100.0" layoutY="80.0" prefHeight="967.0" prefWidth="1482.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MeetingController">
+   <children>
+      <Button fx:id="getinBtn" alignment="BOTTOM_CENTER" blendMode="MULTIPLY" contentDisplay="GRAPHIC_ONLY" layoutX="107.0" layoutY="78.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="transparent-button">
+          <graphic>
+              <ImageView fitHeight="100" fitWidth="100" layoutX="403.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <!--把URL换为关闭图片资源-->
+                      <Image url="@../images/meeting_getin.png" />
+                  </image>
+              </ImageView>
+          </graphic>
+      </Button>
+      <Button fx:id="liveBtn" contentDisplay="GRAPHIC_ONLY" layoutX="685.0" layoutY="84.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="transparent-button">
+          <graphic>
+              <ImageView fitHeight="100" fitWidth="100" layoutX="403.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <!--把URL换为关闭图片资源-->
+                      <Image url="@../images/meeting_live.png" />
+                  </image>
+              </ImageView>
+          </graphic>
+      </Button>
+      <Button fx:id="reservationBtn" layoutX="501.0" layoutY="84.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="transparent-button">
+          <graphic>
+              <ImageView fitHeight="100" fitWidth="100" layoutX="403.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <!--把URL换为关闭图片资源-->
+                      <Image url="@../images/meeting_reservation.png" />
+                  </image>
+              </ImageView>
+          </graphic>
+      </Button>
+      <Button fx:id="initiateBtn" layoutX="312.0" layoutY="84.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" styleClass="transparent-button">
+          <graphic>
+              <ImageView fitHeight="100" fitWidth="100" layoutX="403.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <!--把URL换为关闭图片资源-->
+                      <Image url="@../images/meeting_initiate.png" />
+                  </image>
+              </ImageView>
+          </graphic>
+      </Button>
+      <Rectangle arcHeight="5.0" arcWidth="1410.81" fill="#c6cfd7" height="5.0" layoutX="-18.0" layoutY="-3.0" opacity="0.59" stroke="BLACK" strokeType="INSIDE" width="1448.0" />
+      <Label layoutX="131.0" layoutY="217.0" prefHeight="33.0" prefWidth="76.0" text="发起会议" />
+      <Label layoutX="324.0" layoutY="217.0" prefHeight="33.0" prefWidth="76.0" text="加入会议" />
+      <Label layoutX="525.0" layoutY="217.0" prefHeight="33.0" prefWidth="76.0" text="预约会议" />
+      <Label layoutX="727.0" layoutY="217.0" prefHeight="33.0" prefWidth="76.0" text="直播" />
+   </children>
 </AnchorPane>
