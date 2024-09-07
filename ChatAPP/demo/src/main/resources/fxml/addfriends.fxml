@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.AddfriendsController">
+   <children>
+      <Button layoutX="445.0" layoutY="96.0" mnemonicParsing="false" style="-fx-background-color: &quot;63A7BF&quot;;" text="addfriends" />
+      <TextField fx:id="userid" layoutX="105.0" layoutY="96.0" prefHeight="23.0" prefWidth="317.0" />
+   </children>
+</AnchorPane>
