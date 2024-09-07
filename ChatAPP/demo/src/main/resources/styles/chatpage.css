@@ -1,9 +1,0 @@
-#emojiButton {
-    -fx-background-color: transparent;
-    -fx-graphic: url('file:/D:/javaproject/CSU-ChatAPP/ChatAPP/demo/src/main/resources/images/emoji_icon.png');
-}
-
-#fileButton {
-    -fx-background-color: transparent;
-    -fx-graphic: url('file:/D:/javaproject/CSU-ChatAPP/ChatAPP/demo/src/main/resources/images/filesend_icon.png');
-}

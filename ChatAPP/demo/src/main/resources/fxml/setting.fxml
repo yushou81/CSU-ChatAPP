@@ -11,15 +11,18 @@
             <Font size="50.0" />
          </font>
       </Label>
+
       <TextField fx:id="usernamefield" layoutX="541.0" layoutY="194.0" prefHeight="57.0" prefWidth="246.0" promptText="请输入新的用户名">
          <font>
             <Font size="20.0" />
          </font></TextField>
-      <Label fx:id="usernamelabel" layoutX="331.0" layoutY="205.0" prefHeight="36.0" prefWidth="158.0" text="用户名更改：">
+      <Label fx:id="usernamelabel" layoutX="330.0" layoutY="205.0" prefHeight="36.0" prefWidth="158.0" text="用户名更改：">
          <font>
             <Font size="24.0" />
-         </font></Label>
-      <Button fx:id="changeicon" layoutX="330.0" layoutY="433.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="120.0" styleClass="button" text="更换头像">
+         </font>
+      </Label>
+      
+      <Button fx:id="changeicon" layoutX="316.0" layoutY="417.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="134.0" styleClass="button" text="更换头像">
          <font>
             <Font size="24.0" />
          </font>
@@ -28,8 +31,9 @@
       <TextField layoutX="541.0" layoutY="311.0" prefHeight="58.0" prefWidth="246.0" promptText="请输入新的密码">
          <font>
             <Font size="20.0" />
-         </font></TextField>
-      <Label layoutX="335.0" layoutY="311.0" prefHeight="58.0" prefWidth="144.0" text="密码更改：">
+         </font>
+      </TextField>
+      <Label layoutX="330.0" layoutY="311.0" prefHeight="58.0" prefWidth="144.0" text="密码更改：">
          <font>
             <Font size="24.0" />
          </font>

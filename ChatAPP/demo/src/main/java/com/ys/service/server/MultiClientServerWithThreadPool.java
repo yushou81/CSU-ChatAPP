@@ -198,7 +198,7 @@ public class MultiClientServerWithThreadPool {
             }
         }
 
-        // 处理私聊消息
+        // 修改 handlePrivateMessage 函数，加入消息存储功能
         private void handlePrivateMessage(String message) {
             String[] parts = message.split(":");
             if (parts.length == 3) {
@@ -207,6 +207,15 @@ public class MultiClientServerWithThreadPool {
 
                 // 发送私聊消息
                 sendPrivateMessage(targetUserId, "来自用户 " + userId + " 的私聊消息: " + privateMessage);
+                System.out.println(userId+targetUserId+privateMessage);
+                // 存储消息到数据库
+                MessageDao messageDao = new MessageDao();
+                Message msg = new Message();
+                msg.setSenderId(Integer.parseInt(userId));
+                msg.setReceiverId(Integer.parseInt(targetUserId));
+                msg.setMessageContent(privateMessage);
+                msg.setMessageType("text");  // 假设这里为文本类型
+                messageDao.saveMessage(msg);
             } else {
                 System.out.println("私聊消息格式错误！");
             }
@@ -244,13 +253,19 @@ public class MultiClientServerWithThreadPool {
                 } else {
                     for (Message msg : messages) {
                         out.println("时间: " + msg.getSentAt() + " 发送者ID: " + msg.getSenderId() + " 内容: " + msg.getMessageContent());
+                        System.out.println("发送消息: " + msg.getMessageContent());  // 日志，确保每条消息被发送
                     }
                 }
                 out.println("END_OF_MESSAGE_HISTORY");  // 结束符，标识聊天记录发送完毕
+
+                // 强制刷新输出流，确保所有消息被发送
+                out.flush();
+                System.out.println("输出完成");
             } else {
                 out.println("聊天记录请求格式错误！");
             }
         }
+
 
         // 处理获取好友列表
         private void handleGetFriends(PrintWriter out) {

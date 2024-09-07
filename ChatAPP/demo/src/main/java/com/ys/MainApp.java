@@ -32,7 +32,7 @@ public class MainApp extends Application {
 
         client = new Client();
 
-        boolean a=client.connect("192.168.130.164", 8080);  // 替换为你的服务器IP和端口号
+        boolean a=client.connect("192.168.221.164", 8080);  // 替换为你的服务器IP和端口号
         System.out.println(a);
 
         ClientManager.setClient(client);
@@ -41,13 +41,10 @@ public class MainApp extends Application {
 
 
         try {
-            // 加载 FXML 文件        
 
 
-
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/setting.fxml"));
-
+            // 加载 FXML 文件
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
 
 
             Parent root = loader.load();
@@ -57,8 +54,6 @@ public class MainApp extends Application {
 
             // 设置 Stage 的样式为无边框
             // primaryStage.initStyle(StageStyle.UNDECORATED);
-
-
             // 设置场景和标题 之后需要删除
             primaryStage.setScene(scene);
             primaryStage.show();

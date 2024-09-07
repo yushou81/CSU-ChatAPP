@@ -6,6 +6,7 @@
 
 <AnchorPane prefHeight="776.0" prefWidth="1184.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.AddfriendsController">
    <children>
+
       <Label layoutX="30.0" layoutY="30.0" text="添加好友">
          <font>
             <Font size="50.0" />
@@ -22,5 +23,6 @@
             <Font size="30.0" />
          </font>
       </Button>
+
    </children>
 </AnchorPane>
