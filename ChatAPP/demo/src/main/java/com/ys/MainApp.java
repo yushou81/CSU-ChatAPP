@@ -25,22 +25,28 @@ import javafx.scene.Parent;
 
 public class MainApp extends Application {
     private Client client;  // 客户端连接实例
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 //         初始化客户端并连接服务器
 
         client = new Client();
-        client.connect("192.168.130.164", 8080);  // 替换为你的服务器IP和端口号
 
+        boolean a=client.connect("192.168.130.164", 8080);  // 替换为你的服务器IP和端口号
+        System.out.println(a);
 
         ClientManager.setClient(client);
+
+
+
 
         try {
             // 加载 FXML 文件        
 
 
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/createteam.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/filemanagement.fxml"));
 
 
 

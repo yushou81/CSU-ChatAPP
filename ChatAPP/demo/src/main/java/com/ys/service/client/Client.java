@@ -2,6 +2,10 @@ package com.ys.service.client;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Client {
     private Socket socket;
@@ -14,13 +18,13 @@ public class Client {
     public boolean connect(String serverIp, int serverPort) {
         try {
             socket = new Socket(serverIp, serverPort);
-            System.out.println("Connected to server: " + serverIp);
+            System.out.println("Connected to server: " + serverIp+"from src/main/java/com/ys/service/client/Client.java");
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             userInput = new BufferedReader(new InputStreamReader(System.in));  // 用于读取用户输入
             return true;  // 连接成功
         } catch (IOException e) {
-            System.err.println("Failed to connect to server: " + e.getMessage());
+            System.err.println("Failed to connect to server: " + e.getMessage()+"from src/main/java/com/ys/service/client/Client.java");
             return false;  // 连接失败
         }
     }
@@ -37,8 +41,7 @@ public class Client {
             System.out.println("成功发送");
         }else {
             System.out.println("发送失败");
-        }  // 发送登录信息
-
+        }
         return handleLoginOrRegisterResponse();
     }
 
@@ -46,6 +49,8 @@ public class Client {
     private boolean handleLoginOrRegisterResponse() {
         try {
             String response = in.readLine();  // 读取服务器的响应
+            //debug信息
+            System.out.println(response);
             if (response.startsWith("SUCCESS:")) {
                 this.userId = response.split(":")[1];
                 System.out.println("登录成功，您的用户ID是: " + userId);
@@ -59,6 +64,59 @@ public class Client {
         }
         return false;
     }
+
+    // 查找用户
+    public void findUserById(int userIdToFind) {
+        sendMessage("FIND_USER:" + userIdToFind);  // 发送查找用户的请求
+        try {
+            String response = in.readLine();  // 读取服务器的响应
+            System.out.println("查找到的用户信息: " + response);
+        } catch (IOException e) {
+            System.err.println("Error while receiving user info: " + e.getMessage());
+        }
+    }
+
+    public Map<String, String> getFriendList() {
+        sendMessage("GET_FRIENDS:" + this.userId);  // 发送获取好友列表的请求
+        Map<String, String> friendMap = new HashMap<>();  // 用于存储好友的ID和名字
+        try {
+            String response;
+            System.out.println("好友列表:");
+            while (!(response = in.readLine()).equals("END_OF_FRIEND_LIST")) {
+                // 假设response是 "好友ID: 1, 好友名: Alice"
+                String[] parts = response.split(", 好友名: ");
+                if (parts.length == 2) {
+                    String friendId = parts[0].replace("好友ID: ", "").trim();  // 获取好友ID
+                    String friendName = parts[1].trim();  // 获取好友名
+                    friendMap.put(friendName, friendId);  // 将好友ID和名字加入Map
+                    System.out.println("好友ID: " + friendId + ", 好友名: " + friendName);  // 输出好友ID和用户名
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error while receiving friend list: " + e.getMessage());
+        }
+
+        return friendMap;  // 返回包含好友ID和用户名的Map
+    }
+
+    // 添加好友
+    public boolean addFriend(int friendId) {
+        sendMessage("ADD_FRIEND:" + this.userId + ":" + friendId);  // 发送添加好友请求
+        try {
+            String response = in.readLine();  // 读取服务器的响应
+            if (response.equals("SUCCESS")) {
+                System.out.println("好友添加成功!");
+                return true;
+            } else {
+                System.out.println("添加好友失败: " + response);
+                return false;
+            }
+        } catch (IOException e) {
+            System.err.println("Error while adding friend: " + e.getMessage());
+        }
+        return false;
+    }
+
 
     // 发送消息给服务器，并返回布尔值指示发送是否成功
     public boolean sendMessage(String message) {
@@ -79,6 +137,21 @@ public class Client {
         return false;
     }
 
+    // 在 Client 类中增加获取聊天记录的方法
+    public void getMessageHistory(int targetUserId) {
+        sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);  // 发送获取聊天记录请求
+
+        try {
+            String response;
+            System.out.println("聊天记录:");
+            while (!(response = in.readLine()).equals("END_OF_MESSAGE_HISTORY")) {
+                System.out.println(response);  // 输出每条消息记录
+            }
+        } catch (IOException e) {
+            System.err.println("Error while receiving message history: " + e.getMessage());
+        }
+    }
+
     // 接收来自服务器的消息
     public String receiveMessage() throws IOException {
         if (in != null) {
@@ -86,6 +159,7 @@ public class Client {
         }
         return null;
     }
+
 
     // 关闭客户端连接
     public void close() throws IOException {
@@ -101,60 +175,6 @@ public class Client {
     }
 
 
-//     主程序，演示客户端交互
-    public static void main(String[] args) {
-        Client client = new Client();
-        if (client.connect("127.0.0.1", 8080)) {  // 连接服务器
-            try (BufferedReader consoleInput = new BufferedReader(new InputStreamReader(System.in))) {
-                System.out.println("请选择操作: 1. 注册 2. 登录");
-                String choice = consoleInput.readLine();
-
-                if ("1".equals(choice)) {
-                    // 注册
-                    System.out.print("请输入用户名: ");
-                    String username = consoleInput.readLine();
-                    System.out.print("请输入密码: ");
-                    String password = consoleInput.readLine();
-                    System.out.print("请输入邮箱: ");
-                    String email = consoleInput.readLine();
-                    if (client.register(username, password, email)) {
-                        System.out.println("注册成功，您可以开始发送消息了！");
-                    }
-                } else if ("2".equals(choice)) {
-                    // 登录
-                    System.out.print("请输入用户名: ");
-                    String username = consoleInput.readLine();
-                    System.out.print("请输入密码: ");
-                    String password = consoleInput.readLine();
-                    if (client.login(username, password)) {
-                        System.out.println("登录成功，您可以开始发送消息了！");
-                    }
-                } else {
-                    System.out.println("无效选项");
-                }
-
-                // 进行消息发送和接收
-                while (true) {
-                    System.out.print("输入消息 (或输入 'PRIVATE:targetUserId:message' 进行私聊): ");
-                    String input = consoleInput.readLine();
-                    if ("quit".equalsIgnoreCase(input)) {
-                        client.close();
-                        break;
-                    }
-                    client.sendMessage(input);
-
-                    // 接收服务器的响应
-                    String response = client.receiveMessage();
-                    if (response != null) {
-                        System.out.println("服务器消息: " + response);
-                    }
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
 
 

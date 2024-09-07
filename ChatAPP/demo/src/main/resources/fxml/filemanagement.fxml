@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
+<?import java.lang.*?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+
 <AnchorPane prefHeight="776.0" prefWidth="1184.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FileManagementController">
+
    <children>
        <Label layoutX="30.0" layoutY="30.0" prefHeight="70.0" prefWidth="200.0" text="文件管理">
            <font>
                <Font size="50.0" />
            </font>
        </Label>
+
        <TextField layoutX="350.0" layoutY="150.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入文件名">
            <font>
                <Font size="21.0" />
@@ -23,9 +29,8 @@
        </Button>
        <Pane layoutX="34.0" layoutY="234.0" prefHeight="555.0" prefWidth="1146.0" />
 
-       
-      
-       
+
+      <Pane layoutX="108.0" layoutY="273.0" prefHeight="403.0" prefWidth="662.0" />
 
 
    </children>

@@ -1,32 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.*?>
 
-
-
-<AnchorPane  xmlns="http://javafx.com/javafx/8"
-             xmlns:fx="http://javafx.com/fxml/1"
-             fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);"  fx:controller="com.ys.controller.ChatController">
+<AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);" stylesheets="@/styles/chatpage.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ChatController">
 
 
     <children>
-        <ListView fx:id="contractList" prefHeight="776.0" prefWidth="216.0" />
+        <ListView fx:id="friendListView" prefHeight="776.0" prefWidth="216.0" />
 
         <AnchorPane layoutX="216.0" prefHeight="776.0" prefWidth="968.0" style="-fx-background-color: rgba(243, 244, 245, 1);">
         <!--上面这行是右边除了联系人列表之外整个的-->
 
             <children>
+
                 <StackPane fx:id="nameTitle" prefHeight="60.0" prefWidth="968.0" style="-fx-background-color: F3F4F5;" />
-                <TextArea fx:id="messageInput" layoutX="35.0" layoutY="571.6" prefHeight="163.2" prefWidth="899.2" style="-fx-opacity: 0.3;" />
+                <TextArea fx:id="inputArea" layoutX="35.0" layoutY="571.6" prefHeight="163.2" prefWidth="899.2" style="-fx-opacity: 0.3;" />
             <Separator layoutY="60.0" opacity="0.26" prefWidth="968.0" style="-fx-background-color: rgba(204, 204, 204, 1); -fx-opacity: 1;" />
                 <Separator layoutY="532.0" prefHeight="0.0" prefWidth="968.0" style="-fx-background-color: rgba(204, 204, 204, 1);" />
-                <Button fx:id="sendMessageButton" layoutX="836.0" layoutY="683.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="83.0" style="-fx-border-radius: 5; -fx-font-size: 15; -fx-font-weight: 400; -fx-opacity: 1; -fx-background-color: rgba(99, 167, 191, 1);" text="发送" textAlignment="CENTER" textFill="WHITE" />
-            <StackPane fx:id="messageArea" layoutY="60.0" opacity="0.33" prefHeight="472.0" prefWidth="968.0" />
+
+                <Button fx:id="sendButton" layoutX="836.0" layoutY="695.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="25.0" prefWidth="83.0" style="-fx-border-radius: 5; -fx-font-size: 15; -fx-font-weight: 400; -fx-opacity: 1; -fx-background-color: rgba(99, 167, 191, 1);" text="发送" textAlignment="CENTER" textFill="WHITE" />
+            <ListView fx:id="messageListView" layoutY="61.0" prefHeight="473.0" prefWidth="968.0" />
+
+
+                <Button fx:id="emojiButton" onAction="#sendEmoji" layoutX="36.0" layoutY="537.0" maxHeight="33.0" maxWidth="35.0" minHeight="33.0" minWidth="35.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: transparent;">
+                    <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/emoji_icon.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+
+
+            <Button fx:id="fileButton" onAction="#sendFile" layoutX="80.0" layoutY="537.0" maxHeight="33.0" maxWidth="35.0" minHeight="33.0" minWidth="35.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: transparent;">
+
+                <graphic>
+                    <ImageView fitHeight="35.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/filesend_icon.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+<!--            <StackPane fx:id="messageArea" layoutY="60.0" opacity="0.33" prefHeight="472.0" prefWidth="968.0" />-->
+                
 
             </children>
         </AnchorPane>

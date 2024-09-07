@@ -1,6 +1,8 @@
 package com.ys.service.server;
 
+import com.ys.dao.MessageDao;
 import com.ys.dao.UserDao;
+import com.ys.model.Message;
 import com.ys.model.User;
 import java.io.*;
 import java.net.*;
@@ -100,10 +102,18 @@ public class MultiClientServerWithThreadPool {
                 }
 
                 String message;
-                // 登录成功后，处理私聊和消息广播
+                // 登录成功后，处理私聊、消息广播和新功能
                 while ((message = in.readLine()) != null) {
                     if (message.startsWith("PRIVATE")) {
                         handlePrivateMessage(message);
+                    } else if (message.startsWith("FIND_USER")) {
+                        handleFindUser(message, out);
+                    } else if (message.startsWith("GET_FRIENDS")) {
+                        handleGetFriends(out);
+                    } else if (message.startsWith("ADD_FRIEND")) {
+                        handleAddFriend(message, out);
+                    } else if (message.startsWith("GET_MESSAGE_HISTORY")) {
+                        handleGetMessageHistory(message, out);
                     } else {
                         if (userId != null) {
                             broadcastMessage("用户 " + userId + " 说: " + message, clientSocket);
@@ -173,6 +183,10 @@ public class MultiClientServerWithThreadPool {
                     this.userId = String.valueOf(user.getUser_id());
                     userSockets.put(this.userId, clientSocket);  // 将用户添加到在线用户列表中
                     out.println("SUCCESS:" + user.getUser_id());  // 登录成功，返回userId
+
+                    //要添加发送用户的好友列表
+
+
                     return true;
                 } else {
                     out.println("FAILURE: 用户名或密码错误");
@@ -197,6 +211,79 @@ public class MultiClientServerWithThreadPool {
                 System.out.println("私聊消息格式错误！");
             }
         }
+
+        // 处理查找用户
+        private void handleFindUser(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                int userIdToFind = Integer.parseInt(parts[1]);
+                User user = userDao.findUserById(userIdToFind);
+
+                if (user != null) {
+                    out.println("用户ID: " + user.getUser_id() + ", 用户名: " + user.getUsername() + ", 邮箱: " + user.getEmail());
+                } else {
+                    out.println("用户未找到");
+                }
+            } else {
+                out.println("查找用户信息格式错误！");
+            }
+        }
+
+        // 新增 handleGetMessageHistory 用于获取聊天记录
+        private void handleGetMessageHistory(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                String targetUserId = parts[1];
+
+                // 获取两人聊天记录
+                MessageDao messageDao = new MessageDao();
+                List<Message> messages = messageDao.getMessagesBetweenUsers(Integer.parseInt(userId), Integer.parseInt(targetUserId));
+
+                if (messages.isEmpty()) {
+                    out.println("没有找到聊天记录");
+                } else {
+                    for (Message msg : messages) {
+                        out.println("时间: " + msg.getSentAt() + " 发送者ID: " + msg.getSenderId() + " 内容: " + msg.getMessageContent());
+                    }
+                }
+                out.println("END_OF_MESSAGE_HISTORY");  // 结束符，标识聊天记录发送完毕
+            } else {
+                out.println("聊天记录请求格式错误！");
+            }
+        }
+
+        // 处理获取好友列表
+        private void handleGetFriends(PrintWriter out) {
+            List<User> friends = userDao.getFriends(Integer.parseInt(userId));
+
+            if (friends.isEmpty()) {
+                out.println("好友列表为空");
+            } else {
+                for (User friend : friends) {
+                    out.println("好友ID: " + friend.getUser_id() + ", 好友名: " + friend.getUsername());
+                }
+            }
+            out.println("END_OF_FRIEND_LIST"); // 结束符，标识好友列表发送完毕
+        }
+
+        // 处理添加好友
+        private void handleAddFriend(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 3) {
+                int friendId = Integer.parseInt(parts[2]);
+                boolean success = userDao.addFriend(Integer.parseInt(userId), friendId);
+
+                if (success) {
+                    out.println("SUCCESS");
+                } else {
+                    out.println("FAILURE: 添加好友失败");
+                }
+            } else {
+                out.println("FAILURE: 添加好友信息格式错误");
+            }
+        }
+
+
     }
 }
 
