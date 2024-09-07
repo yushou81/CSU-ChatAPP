@@ -17,7 +17,7 @@
       </Label>
 
       <VBox layoutX="447.0" layoutY="112.0" spacing="20">
-         <Label fx:id="usernamelabel" prefHeight="36.0" prefWidth="158.0" text="用户名更改：">
+         <Label fx:id="usernameLabel" prefHeight="36.0" prefWidth="158.0" text="用户名更改：">
             <font>
                <Font size="24.0" />
             </font>
@@ -26,7 +26,7 @@
                -fx-font-weight: bold;
             </style>
          </Label>
-         <TextField fx:id="usernamefield" prefHeight="57.0" prefWidth="246.0" promptText="请输入新的用户名">
+         <TextField fx:id="usernameField" prefHeight="57.0" prefWidth="246.0" promptText="请输入新的用户名">
             <font>
                <Font size="20.0" />
             </font>
@@ -37,7 +37,7 @@
             </style>
          </TextField>
 
-         <Label prefHeight="36.0" prefWidth="158.0" text="密码更改：">
+         <Label fx:id="passwordLabel" prefHeight="36.0" prefWidth="158.0" text="密码更改：">
             <font>
                <Font size="24.0" />
             </font>
@@ -46,7 +46,7 @@
                -fx-font-weight: bold;
             </style>
          </Label>
-         <TextField prefHeight="58.0" prefWidth="246.0" promptText="请输入新的密码">
+         <TextField fx:id="passwordField" prefHeight="58.0" prefWidth="246.0" promptText="请输入新的密码">
             <font>
                <Font size="20.0" />
             </font>
@@ -59,7 +59,7 @@
 
          <HBox spacing="20" />
       </VBox>
-      <Button layoutX="441.0" layoutY="480.0" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" text="确定">
+      <Button fx:id="confirmButton" onAction="#handleConfirm" layoutX="441.0" layoutY="480.0" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" text="确定">
          <font>
             <Font size="24.0" />
          </font>
@@ -67,7 +67,7 @@
             -fx-border-radius: 5;
          </style>
       </Button>
-      <Button layoutX="573.0" layoutY="480.0" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" text="取消">
+      <Button  fx:id="returnButton" onAction="#handleReturn" layoutX="573.0" layoutY="480.0" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" text="返回">
          <font>
             <Font size="24.0" />
          </font>
@@ -75,7 +75,7 @@
             -fx-border-radius: 5;
          </style>
       </Button>
-      <Button fx:id="changeicon" layoutX="510.0" layoutY="388.0" prefHeight="58.0" prefWidth="120.0" styleClass="button" text="更换头像">
+      <Button fx:id="changeIcon" onAction="#handleChangeIcon" layoutX="510.0" layoutY="388.0" prefHeight="58.0" prefWidth="120.0" styleClass="button" text="更换头像">
          <font>
             <Font size="24.0" />
          </font>
