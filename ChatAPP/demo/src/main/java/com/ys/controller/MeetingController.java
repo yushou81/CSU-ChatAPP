@@ -30,7 +30,7 @@ public class MeetingController {
             // 显示新Stage
             newStage1.show();
             //隐藏旧的Stage
-            initiateBtn.getScene().getWindow().hide();
+            //initiateBtn.getScene().getWindow().hide();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
