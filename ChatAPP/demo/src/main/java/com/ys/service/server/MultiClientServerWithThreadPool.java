@@ -4,6 +4,8 @@ import com.ys.dao.MeetingDao;
 import com.ys.dao.MessageDao;
 import com.ys.dao.UserDao;
 import com.ys.model.MeetingRoom;
+import com.ys.dao.TeamDao;
+
 import com.ys.model.Message;
 import com.ys.model.User;
 import java.io.*;
@@ -77,6 +79,7 @@ public class MultiClientServerWithThreadPool {
     static class ClientHandler implements Runnable {
         private Socket clientSocket;
         private UserDao userDao;
+        private TeamDao teamDao;
         private String userId;
         private MeetingService meetingService;
 
@@ -129,7 +132,9 @@ public class MultiClientServerWithThreadPool {
                     } else if (message.startsWith("LEAVE_MEETING")) {
                         handleLeaveMeeting(message, out);
                     }
-                    else {
+                    else if (message.startsWith("CREATE_TEAM")){
+                      handleCreateTeam(message,out);
+                    } else {
                         if (userId != null) {
                             broadcastMessage("用户 " + userId + " 说: " + message, clientSocket);
                         } else {
@@ -315,12 +320,47 @@ public class MultiClientServerWithThreadPool {
             }
         }
 
+
         // 处理创建会议，服务器生成 meeting_id
         private void handleCreateMeeting(String message, PrintWriter out) {
             String[] parts = message.split(":");
             if (parts.length == 3) {
                 String meetingName = parts[1];
                 String password = parts[2];
+
+        private void handleCreateTeam(String message,PrintWriter out){
+            String[] parts = message.split(":");
+            if (parts.length == 3) {
+                String teamName=parts[2];
+                String userID=parts[1];
+                boolean success = teamDao.createTeam(userID,teamName);
+
+                if (success) {
+                    out.println("CREATE_GROUP_SUCCESS:"+teamName);
+                } else {
+                    out.println("FAILURE: 创建群聊失败");
+                }
+            } else {
+                out.println("FAILURE: 创建群聊信息格式错误");
+            }
+        }
+        private void handleJoinTeam(String message,PrintWriter out){
+            String[] parts = message.split(":");
+            if (parts.length == 3) {
+                String teamName=parts[2];
+                String userID=parts[1];
+                boolean success = teamDao.joinTeam(userID,teamName);
+
+                if (success) {
+                    out.println("JOIN_GROUP_SUCCESS:"+teamName);
+                } else {
+                    out.println("FAILURE: 加入群聊失败");
+                }
+            } else {
+                out.println("FAILURE: 加入群聊信息格式错误");
+            }
+        }
+
 
                 String meetingId = meetingService.createMeeting(meetingName, password, Integer.parseInt(userId));
                 if (meetingId != null) {

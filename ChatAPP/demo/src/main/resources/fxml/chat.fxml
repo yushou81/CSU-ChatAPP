@@ -59,7 +59,7 @@
                 </graphic>
             </Button>
 <!--            <StackPane fx:id="messageArea" layoutY="60.0" opacity="0.33" prefHeight="472.0" prefWidth="968.0" />-->
-                
+
 
             </children>
         </AnchorPane>

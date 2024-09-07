@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
+<AnchorPane prefHeight="776.0" prefWidth="1184.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MyteamController">
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MyteamController">
    <children>
-      <Button layoutX="126.0" layoutY="93.0" mnemonicParsing="false" text="myteam" />
+      <Label layoutX="30.0" layoutY="30.0" prefHeight="70.0" prefWidth="200.0" text="我的团队">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+      <Pane layoutX="33.0" layoutY="179.0" prefHeight="538.0" prefWidth="1091.0" />
    </children>
 </AnchorPane>
