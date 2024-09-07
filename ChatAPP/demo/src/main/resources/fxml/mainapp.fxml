@@ -10,12 +10,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.collections.*?>
 
-<!--
-9.3 23:22 author： happydog
-把最小化最大化按钮换为icon，给头像实现圆形效果
--->
 
-<AnchorPane prefHeight="840.0" prefWidth="1264.0" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MainAppController">
+<AnchorPane fx:id="rootPane" prefHeight="840.0" prefWidth="1264.0" style="-fx-background-color: #a9d4e1; -fx-background-radius: 20; -fx-border-radius: 20;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MainAppController">
    <children>
 
       <!-- 这个没啥用，只是装饰 -->
@@ -30,9 +26,9 @@
 
       <AnchorPane layoutY="-3.0" maxHeight="64.0" maxWidth="1.7976931348623157E308" minHeight="64.0" prefHeight="64.0" prefWidth="1264.0" style="-fx-background-color: #63A7BF;">
          <children>
-            <Button id="closeButton" layoutX="1200.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" styleClass="button">
+            <Button id="closeButton" layoutX="1200.0" layoutY="13.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button">
                <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="30.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <!--把URL换为关闭图片资源-->
                         <Image url="@../images/close_icon.png" />
@@ -40,7 +36,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button id="maximizeButton" layoutX="1160.0" layoutY="13.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="38.0" styleClass="button">
+            <Button id="maximizeButton" layoutX="1153.0" layoutY="13.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -49,7 +45,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button id="minimizeButton" layoutX="1120.0" layoutY="13.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="40.0" styleClass="button">
+            <Button id="minimizeButton" layoutX="1105.0" layoutY="13.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -81,7 +77,7 @@
          </graphic>
       </Button>
 
-      <Button id="contractListButton" fx:id="contractListButton" layoutY="116.0" mnemonicParsing="false" onAction="#handleContractListButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
+      <Button id="contractListButton" fx:id="contractListButton" layoutX="-1.0" layoutY="116.0" mnemonicParsing="false" onAction="#handleContractListButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>
