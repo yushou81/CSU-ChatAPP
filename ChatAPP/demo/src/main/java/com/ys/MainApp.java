@@ -30,6 +30,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
 //         初始化客户端并连接服务器
 
+
         client = new Client();
 
         client.connect("192.168.220.1", 8080);  // 替换为你的服务器IP和端口号
@@ -40,14 +41,14 @@ public class MainApp extends Application {
 
 
 
+
         try {
 
             // 加载 FXML 文件
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
 
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
             Parent root = loader.load();
-
+          
             // 创建场景
             Scene scene = new Scene(root);
 

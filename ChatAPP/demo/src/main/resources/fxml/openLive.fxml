@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.OpenLiveController">
+   <children>
+      <Button fx:id="back" layoutX="71.0" layoutY="70.0" mnemonicParsing="false" onAction="#Backhome" prefHeight="99.0" prefWidth="106.0">
+          <graphic>
+              <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../images/home_icon.png" />
+                  </image>
+              </ImageView>
+          </graphic>
+      </Button>
+      <Label layoutX="550.0" layoutY="70.0" prefHeight="99.0" prefWidth="233.0" text="直播广场" textAlignment="CENTER">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
+      <Button fx:id="open" layoutX="580.0" layoutY="700.0" mnemonicParsing="false" prefHeight="122.0" prefWidth="127.0">
+          <graphic>
+              <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../images/open_icon.png" />
+                  </image>
+              </ImageView>
+          </graphic>
+      </Button>
+      <Label layoutX="756.0" layoutY="943.0" prefHeight="71.0" prefWidth="163.0" text="开播">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

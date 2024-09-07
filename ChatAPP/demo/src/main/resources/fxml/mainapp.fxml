@@ -14,7 +14,9 @@
    <children>
 
       <!-- 这个没啥用，只是装饰 -->
+
       <ListView id="indexList" layoutY="44.0" maxHeight="1.7976931348623157E308" maxWidth="80.0" prefHeight="797.0" prefWidth="80.0" style="-fx-background-color: EBEBEB;">
+
       </ListView>
 
       <!-- 定义 StackPane 和不同的内容,在对应stackpane完成格子对应开发 -->
