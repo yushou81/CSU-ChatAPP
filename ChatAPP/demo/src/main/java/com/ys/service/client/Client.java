@@ -136,99 +136,48 @@ public class Client {
     public void requestMessageHistory(int targetUserId) {
         sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);
     }
+//    开始接收
+    public void startReceiveMessages() {
+        new Thread(() -> {
+            try {
+                String message;
+                List<String> history = new ArrayList<>();
+                Map<String, String> friendList = new HashMap<>();
 
+                while ((message = in.readLine()) != null) {
+                    if (message.equals("END_OF_MESSAGE_HISTORY")) {
+                        if (messageListener != null) {
+                            messageListener.onHistoryReceived(history);
+                        }
+                        history.clear();
+                    } else if (message.equals("END_OF_FRIEND_LIST")) {
+                        if (messageListener != null) {
+                            System.out.println("好友列表接收完毕");
+                            messageListener.onFriendListReceived(friendList);
+                        }
+                        friendList.clear();
 
-//    // 启动接收线程，用于实时接收消息和历史消息
-//    public void startReceiveMessages() {
-//        new Thread(() -> {
-//            try {
-//                String message;
-//                List<String> history = new ArrayList<>();
-//                Map<String, String> friendList = new HashMap<>();
-//                boolean receivingHistory = false;
-//                boolean receivingFriends = false;
-//
-//                while ((message = in.readLine()) != null) {
-//                    if (message.equals("END_OF_MESSAGE_HISTORY")) {
-//                        if (messageListener != null) {
-//                            messageListener.onHistoryReceived(history);
-//                        }
-//                        history.clear();
-//                        receivingHistory = false;
-//                    } else if (message.equals("END_OF_FRIEND_LIST")) {
-//                        if (messageListener != null) {
-//                            messageListener.onFriendListReceived(friendList);
-//                        }
-//                        friendList.clear();
-//                        receivingFriends = false;
-//                    } else if (message.startsWith("时间:")) {
-//                        receivingHistory = true;
-//                        history.add(message);
-//                    } else if (message.startsWith("好友ID:")) {
-//                        receivingFriends = true;
-//                        String[] parts = message.split(", 好友名: ");
-//                        if (parts.length == 2) {
-//                            String friendId = parts[0].replace("好友ID: ", "").trim();
-//                            String friendName = parts[1].trim();
-//                            friendList.put(friendName, friendId);
-//                        }
-//                    } else if (message.startsWith("私聊消息: 来自用户")) {
-//                        if (messageListener != null) {
-//                            messageListener.onMessageReceived(message);
-//                        }
-//                    }
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }).start();
-//    }
-public void startReceiveMessages() {
-    new Thread(() -> {
-        try {
-            String message;
-            List<String> history = new ArrayList<>();
-            Map<String, String> friendList = new HashMap<>();
-            boolean receivingHistory = false;
-            boolean receivingFriends = false;
+                    } else if (message.startsWith("时间:")) {
+                        history.add(message);
+                    } else if (message.startsWith("好友ID:")) {
+                        String[] parts = message.split(", 好友名: ");
+                        if (parts.length == 2) {
+                            String friendId = parts[0].replace("好友ID: ", "").trim();
+                            String friendName = parts[1].trim();
+                            friendList.put(friendName, friendId);
 
-            while ((message = in.readLine()) != null) {
-                if (message.equals("END_OF_MESSAGE_HISTORY")) {
-                    if (messageListener != null) {
-                        messageListener.onHistoryReceived(history);
-                    }
-                    history.clear();
-                    receivingHistory = false;
-                } else if (message.equals("END_OF_FRIEND_LIST")) {
-                    if (messageListener != null) {
-                        System.out.println("好友列表接收完毕");
-                        messageListener.onFriendListReceived(friendList);
-                    }
-                    friendList.clear();
-                    receivingFriends = false;
-                } else if (message.startsWith("时间:")) {
-                    receivingHistory = true;
-                    history.add(message);
-                } else if (message.startsWith("好友ID:")) {
-                    System.out.println("接收到"+message);
-                    String[] parts = message.split(", 好友名: ");
-                    if (parts.length == 2) {
-                        String friendId = parts[0].replace("好友ID: ", "").trim();
-                        String friendName = parts[1].trim();
-                        friendList.put(friendName, friendId);
-
-                    }
-                } else if (message.startsWith("私聊消息: 来自用户")) {
-                    if (messageListener != null) {
-                        messageListener.onMessageReceived(message);
+                        }
+                    } else if (message.startsWith("私聊消息: 来自用户")) {
+                        if (messageListener != null) {
+                            messageListener.onMessageReceived(message);
+                        }
                     }
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }).start();
-}
+        }).start();
+    }
     //关闭客户端连接
     public void close() {
         try {

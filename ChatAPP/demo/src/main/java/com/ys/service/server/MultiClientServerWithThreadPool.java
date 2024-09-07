@@ -203,7 +203,6 @@ public class MultiClientServerWithThreadPool {
 
                 // 发送私聊消息
                 sendPrivateMessage(targetUserId, "来自用户 " + userId + " 的私聊消息: " + privateMessage);
-                System.out.println(userId+targetUserId+privateMessage);
                 // 存储消息到数据库
                 MessageDao messageDao = new MessageDao();
                 Message msg = new Message();
