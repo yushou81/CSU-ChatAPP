@@ -2,6 +2,7 @@ package com.ys.controller;
 
 import com.ys.service.client.Client;
 import com.ys.service.client.ClientManager;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,8 +11,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-
 import java.util.*;
+import javafx.scene.input.MouseEvent;
+import javafx.concurrent.Task;
+import javax.swing.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 
 public class ChatController {
     public ListView friendListView;
@@ -32,11 +41,12 @@ public class ChatController {
     @FXML
     AnchorPane chatPane;//整个聊天功能区域
 
+
     private Client client;
     private String currentFriend;  // 当前聊天的好友
     private String currentFriendID;
-
     Map<String, String> friendMap;
+
     private Map<String, ObservableList<String>> chatMessages = new HashMap<>();  // 用于存储每个好友的聊天记录
     public ChatController() {
         // 使用ClientManager来获取共享的Client实例
@@ -125,6 +135,7 @@ public class ChatController {
         System.out.println("加载好友列表");
         friendListView.setItems(friends);
 
+
         // 初始化每个好友的聊天记录
         for (String friend : friends) {
             chatMessages.put(friend, FXCollections.observableArrayList());
@@ -143,7 +154,7 @@ public class ChatController {
             }
         });
     }
-
+  
     // 发送私人消息
     @FXML
     private void sendMessage() {
@@ -153,6 +164,7 @@ public class ChatController {
             inputArea.clear();
             System.out.println("发送私聊"+message);
             client.sendMessage("PRIVATE:" + currentFriendID + ":" + message);
+
         }
     }
 
@@ -165,14 +177,53 @@ public class ChatController {
         }
     }
 
+
     private void showMessagesForFriend(String friend) {
         messageListView.setItems(chatMessages.get(friend));
     }
+
 
     private String getFriendNameById(String friendId) {
 //        还没写好
         String friendName = friendMap.get(friendId);
         return friendName;
+    }
+
+
+
+    //发送文件，已经绑定文件按钮fx:id fileButton
+    @FXML
+    private void sendFile(MouseEvent event){
+
+    }
+
+
+    @FXML Button emojiButton;
+    //添加emoji表情到输入文本框，已经绑定按钮fx:id emojiButton
+    @FXML
+    private void sendEmoji(MouseEvent event){
+
+        // 创建一个 ContextMenu 来显示表情
+        ContextMenu emojiMenu = new ContextMenu();
+
+        String[] emojis = {"😊", "😂", "😍", "😎", "😭", "😡", "👍", "💡", "🎉", "❤️"};
+
+        // 为每个表情符号创建一个 MenuItem，并将其添加到 ContextMenu 中
+        for (String emoji : emojis) {
+            MenuItem emojiItem = new MenuItem(emoji);
+            emojiItem.setOnAction(e -> insertEmoji(emoji)); // 点击表情时插入到 TextArea 中
+            emojiMenu.getItems().add(emojiItem);
+        }
+        // 显示 ContextMenu
+        emojiMenu.show(emojiButton, event.getScreenX(), event.getScreenY());
+    }
+    // 插入表情符号到 TextArea 中
+    private void insertEmoji(String emoji) {
+        // 获取当前光标位置
+        int caretPosition = inputArea.getCaretPosition();
+
+        // 在光标位置插入表情
+        inputArea.insertText(caretPosition, emoji);
     }
 
 }

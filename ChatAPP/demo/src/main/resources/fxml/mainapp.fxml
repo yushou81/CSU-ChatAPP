@@ -15,11 +15,11 @@
 把最小化最大化按钮换为icon，给头像实现圆形效果
 -->
 
-<AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MainAppController"  stylesheets="@/styles/button_hover_white.css">
+<AnchorPane prefHeight="840.0" prefWidth="1264.0" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MainAppController">
    <children>
 
       <!-- 这个没啥用，只是装饰 -->
-      <ListView id="indexList" layoutY="44.0" prefHeight="797.0" prefWidth="80.0" style="-fx-background-color: EBEBEB;">
+      <ListView id="indexList" layoutY="44.0" maxHeight="1.7976931348623157E308" maxWidth="80.0" prefHeight="797.0" prefWidth="80.0" style="-fx-background-color: EBEBEB;">
       </ListView>
 
       <!-- 定义 StackPane 和不同的内容,在对应stackpane完成格子对应开发 -->
@@ -28,13 +28,15 @@
          </children>
       </StackPane>
 
-      <AnchorPane layoutY="-3.0" prefHeight="64.0" prefWidth="1264.0" style="-fx-background-color: #63A7BF;">
+      <AnchorPane layoutY="-3.0" maxHeight="64.0" maxWidth="1.7976931348623157E308" minHeight="64.0" prefHeight="64.0" prefWidth="1264.0" style="-fx-background-color: #63A7BF;">
          <children>
             <Button id="closeButton" layoutX="1200.0" layoutY="13.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" styleClass="button">
                <graphic>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                     <!--把URL换为关闭图片资源-->
-                     <Image url="@../images/close_icon.png"/>
+                  <ImageView fitHeight="30.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <!--把URL换为关闭图片资源-->
+                        <Image url="@../images/close_icon.png" />
+                     </image>
                   </ImageView>
                </graphic>
             </Button>
@@ -62,7 +64,7 @@
                   <Image url="@../images/testAvatar.jpg" />
                </image>
                <clip>
-                  <Circle centerX="19" centerY="19" radius="19"/>
+                  <Circle centerX="19" centerY="19" radius="19" />
                </clip>
             </ImageView>
          </children>
