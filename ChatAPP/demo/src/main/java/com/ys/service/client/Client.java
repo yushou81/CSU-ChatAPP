@@ -123,7 +123,7 @@ public class Client {
         if (out != null) {
             try {
                 out.println(message);
-                // 确保消息被发送
+                out.flush(); // 强制刷新
                 if (out.checkError()) {
                     System.err.println("Failed to send message.");
                     return false;
@@ -137,20 +137,59 @@ public class Client {
         return false;
     }
 
-    // 在 Client 类中增加获取聊天记录的方法
-    public void getMessageHistory(int targetUserId) {
+
+    // 获取聊天记录的方法
+//    public List<String> getMessageHistory(int targetUserId) {
+//        sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);  // 发送获取聊天记录请求
+//        List<String> messageHistory = new ArrayList<>();
+//
+//        try {
+//            String response;
+//            System.out.println("聊天记录:");
+//
+////            while (!(response = in.readLine()).equals("END_OF_MESSAGE_HISTORY")) {
+////                System.out.println(response);  // 输出每条消息记录
+////                messageHistory.add(response);  // 将消息添加到列表中
+////            }
+//            while(true){
+//                System.out.println("nihao");
+//                response = in.readLine();
+//                System.out.println(response);
+//            }
+//
+//        } catch (IOException e) {
+//            System.err.println("Error while receiving message history: " + e.getMessage());
+//        }
+//
+//        return messageHistory;  // 返回消息历史列表
+//    }
+    public List<String> getMessageHistory(int targetUserId) {
         sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);  // 发送获取聊天记录请求
+        List<String> messageHistory = new ArrayList<>();
 
         try {
             String response;
-            System.out.println("聊天记录:");
-            while (!(response = in.readLine()).equals("END_OF_MESSAGE_HISTORY")) {
-                System.out.println(response);  // 输出每条消息记录
+            System.out.println("开始获取聊天记录:");
+
+            // 持续读取消息，直到收到 "END_OF_MESSAGE_HISTORY"
+            while ((response = in.readLine()) != null) {
+                System.out.println("收到消息: " + response);  // 输出每条消息记录
+                if (response.equals("END_OF_MESSAGE_HISTORY")) {
+                    System.out.println("聊天记录获取完毕");
+                    break;  // 当接收到结束标识时退出循环
+                }
+                messageHistory.add(response);  // 将消息添加到列表中
             }
         } catch (IOException e) {
             System.err.println("Error while receiving message history: " + e.getMessage());
         }
+
+        return messageHistory;  // 返回消息历史列表
     }
+
+
+
+
 
     // 接收来自服务器的消息
     public String receiveMessage() throws IOException {

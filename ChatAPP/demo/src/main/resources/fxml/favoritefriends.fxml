@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="486.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"   fx:controller="com.ys.controller.FavoritefriendsController" stylesheets="@/styles/button_hover_white.css">
+<AnchorPane prefHeight="486.0" prefWidth="838.0" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
    <children>
       <VBox layoutX="330.0" layoutY="50.0" prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -41,7 +41,7 @@
             <Line endX="100.0" startX="-100.0" />
          </children>
       </VBox>
-      <Label layoutX="14.0" layoutY="14.0" prefHeight="78.0" prefWidth="164.0" text="常用联系人">
+      <Label layoutX="39.0" layoutY="14.0" prefHeight="78.0" prefWidth="164.0" text="常用联系人">
          <font>
             <Font size="24.0" />
          </font></Label>
@@ -60,8 +60,8 @@
             <Line endX="100.0" startX="-100.0" />
          </children>
       </VBox>
-      <Button fx:id="favuser1" layoutX="325.0" layoutY="44.0" mnemonicParsing="false" onAction="#chatfavuser1" prefHeight="78.0" prefWidth="218.0" styleClass="button" style="-fx-background-color: transparent;" />
-      <Button fx:id="favuser11" layoutX="316.0" layoutY="121.0" mnemonicParsing="false" onAction="#chatfavuser2" prefHeight="92.0" prefWidth="218.0" styleClass="button" style="-fx-background-color: transparent;" />
-      <Button fx:id="favuser12" layoutX="317.0" layoutY="215.0" mnemonicParsing="false" onAction="#chatfavsuer3" prefHeight="85.0" prefWidth="218.0" styleClass="button" style="-fx-background-color: transparent;" />
+      <Button fx:id="favuser1" layoutX="325.0" layoutY="44.0" mnemonicParsing="false" onAction="#chatfavuser1" prefHeight="78.0" prefWidth="218.0" style="-fx-background-color: transparent;" styleClass="button" />
+      <Button fx:id="favuser11" layoutX="316.0" layoutY="121.0" mnemonicParsing="false" onAction="#chatfavuser2" prefHeight="92.0" prefWidth="218.0" style="-fx-background-color: transparent;" styleClass="button" />
+      <Button fx:id="favuser12" layoutX="317.0" layoutY="215.0" mnemonicParsing="false" onAction="#chatfavsuer3" prefHeight="85.0" prefWidth="218.0" style="-fx-background-color: transparent;" styleClass="button" />
    </children>
 </AnchorPane>
