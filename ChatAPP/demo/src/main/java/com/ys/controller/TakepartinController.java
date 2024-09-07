@@ -30,13 +30,12 @@ public class TakepartinController {
         try {
             AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/meeting.fxml"));
             AnchorPane view1 = FXMLLoader.load(getClass().getResource("/fxml/mainapp.fxml"));
-            StackPane stackPane = new StackPane();
-            stackPane.getChildren().addAll(view1,view);
-            stackPane.setVisible(true);
+            view1.getChildren().add(view);
+            AnchorPane.setLeftAnchor(view, 100.0);
             Stage newStage1 = new Stage();
 
             // 设置新Stage的场景，将加载的FXML视图作为根节点
-            Scene newScene = new Scene(stackPane);
+            Scene newScene = new Scene(view1);
             newStage1.setScene(newScene);
 
             // 设置新Stage的标题（可选）
