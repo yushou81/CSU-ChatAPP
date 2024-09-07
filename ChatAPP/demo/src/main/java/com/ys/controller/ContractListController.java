@@ -15,13 +15,10 @@ public class ContractListController {
 
     @FXML
     private Button favoritefriends;
-
     @FXML
     private Button newfriends;
-
     @FXML
     private Button myfridends;
-
     @FXML
     private AnchorPane rootPane; // 主 AnchorPane
 
@@ -47,6 +44,7 @@ public class ContractListController {
             // 加载每个 AnchorPane 对应的 FXML 文件
             if (favoritefriendspane == null) {
                 favoritefriendspane = FXMLLoader.load(getClass().getResource("/fxml/favoritefriends.fxml"));
+                System.out.println("成功加载favoritefriends.xml");
             }
 
             if (myfriendspane == null) {
