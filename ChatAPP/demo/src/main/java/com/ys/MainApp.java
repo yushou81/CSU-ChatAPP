@@ -26,13 +26,20 @@ import javafx.scene.Parent;
 
 public class MainApp extends Application {
     private Client client;  // 客户端连接实例
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         // 初始化客户端并连接服务器
+
         client = new Client();
+
         boolean a=client.connect("192.168.130.164", 8080);  // 替换为你的服务器IP和端口号
         System.out.println(a);
+
         ClientManager.setClient(client);
+
+
+
 
         try {
             // 加载 FXML 文件        
@@ -45,7 +52,6 @@ public class MainApp extends Application {
 
             // 创建场景
             Scene scene = new Scene(root);
-
 
             // 设置 Stage 的样式为无边框
             // primaryStage.initStyle(StageStyle.UNDECORATED);
