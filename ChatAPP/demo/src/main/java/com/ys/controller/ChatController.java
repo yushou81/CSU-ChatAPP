@@ -12,17 +12,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+
+import java.util.*;
+
 import javafx.scene.input.MouseEvent;
 import javafx.concurrent.Task;
-
 import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import java.util.*;
 
 
 public class ChatController {
@@ -48,7 +48,7 @@ public class ChatController {
     private Client client;
     private String currentFriend;  // 当前聊天的好友
     private String currentFriendID;
-
+    Map<String, String> friendMap;
 
     private Map<String, ObservableList<String>> chatMessages = new HashMap<>();  // 用于存储每个好友的聊天记录
     public ChatController() {
@@ -62,14 +62,20 @@ public class ChatController {
             @Override
             public void onMessageReceived(String message) {
                 String messageCopy = new String(message);
+                System.out.println(message);
                 // 实时消息处理
                 Platform.runLater(() -> {
+                    System.out.println("plat"+message);
                     String[] parts = messageCopy.split(" 的私聊消息: ");
                     if (parts.length == 2) {
-                        String senderId = parts[0].replace("来自用户 ", "").trim();
-                        String privateMessage = parts[1].trim();
-                        String senderName = getFriendNameById(senderId);
-                        receiveMessage(senderName, privateMessage);
+                        String [] partss = parts[0].split("来自用户 ");
+                        if(partss.length==2){
+                            String senderId = partss[1].trim();
+                            String privateMessage = parts[1].trim();
+                            String senderName = getFriendNameById(senderId);
+                            System.out.println(senderId+"h"+privateMessage+"q"+senderName);
+                            receiveMessage(senderName, privateMessage);
+                        }
                     }
                 });
             }
@@ -126,10 +132,12 @@ public class ChatController {
 
     // 加载好友列表
     private void loadFriendList(Map<String, String> friendMap) {
+        this.friendMap = new HashMap<>(friendMap);
         String[] userNames = getUserNames(friendMap);
         ObservableList<String> friends = FXCollections.observableArrayList(userNames);
         System.out.println("加载好友列表");
         friendListView.setItems(friends);
+
 
         // 初始化每个好友的聊天记录
         for (String friend : friends) {
@@ -149,15 +157,17 @@ public class ChatController {
             }
         });
     }
-
-    // 发送消息
+  
+    // 发送私人消息
     @FXML
-    private void sendMessage(ActionEvent event) {
+    private void sendMessage() {
         String message = inputArea.getText();
         if (!message.isEmpty() && currentFriend != null) {
             chatMessages.get(currentFriend).add("我: " + message);
             inputArea.clear();
+            System.out.println("发送私聊"+message);
             client.sendMessage("PRIVATE:" + currentFriendID + ":" + message);
+
         }
     }
 
@@ -165,43 +175,21 @@ public class ChatController {
 
     // 接收消息并显示，在on里面调用
     private void receiveMessage(String fromFriend, String message) {
-
         chatMessages.get(fromFriend).add(fromFriend + ": " + message);
         if (fromFriend.equals(currentFriend)) {
-
             showMessagesForFriend(currentFriend);
         }
     }
+
 
     private void showMessagesForFriend(String friend) {
         messageListView.setItems(chatMessages.get(friend));
     }
 
     private String getFriendNameById(String friendId) {
-        // 从好友列表中获取好友名
-//        Map<String, String> friendMap = client.getFriendList();
-//        for (Map.Entry<String, String> entry : friendMap.entrySet()) {
-//            if (entry.getValue().equals(friendId)) {
-//                return entry.getKey();
-//            }
-//        }
-//        return "未知好友";
-        return friendId;
-    }
-
-//    //更新头像
-//    private void updateAvatar(){
-//
-//    }
-//    //发送信息
-//    private void sendMessage(){
-//
-//    }
-
-    //更新好友列表
-    private void updateContractlist(){
-
-
+//        还没写好
+        String friendName = friendMap.get(friendId);
+        return friendName;
     }
 
 

@@ -14,8 +14,14 @@ public class Client {
     private PrintWriter out;
     private BufferedReader in;
     private BufferedReader userInput;
+
+    public String getUserId() {
+        return userId;
+    }
+
     private String userId;
     private MessageListener messageListener;
+
 
     public interface MessageListener {
 
@@ -62,6 +68,70 @@ public class Client {
         return handleLoginOrRegisterResponse();
     }
 
+    public boolean sendCreateTeamRequest(String userId,String teamName) {
+        // 发送创建团队请求到服务器
+        if (sendMessage("CREATE_TEAM:"+userId +":"+ teamName)) {
+            System.out.println("客户端发送"+"CREATE_TEAM:"+userId +":"+ teamName);
+        } else {
+            System.out.println("创建团队请求发送失败");
+        }
+
+        // 处理服务器的响应
+        return handleCreateTeamResponse();
+    }
+    // 发送加入团队请求
+    public boolean sendJoinTeamRequest(String userId, String teamName) {
+        // 发送加入团队请求到服务器
+        if (sendMessage("JOIN_TEAM:"+userId +":"+ teamName)) {
+            System.out.println("客户端发送"+"JOIN_TEAM:"+userId +":"+ teamName);
+        } else {
+            System.out.println("加入团队请求发送失败");
+        }
+
+        // 处理服务器的响应
+        return handleJoinTeamResponse();
+    }
+
+
+    private boolean handleCreateTeamResponse() {
+        try {
+            String response = in.readLine();  // 读取服务器的响应
+            //debug信息
+            System.out.println(response);
+            if (response.startsWith("CREATE_GROUP_SUCCESS:")) {
+                this.userId = response.split(":")[1];
+                System.out.println("创建群聊成功");
+                return true;
+            } else if (response.startsWith("CREATE_GROUP_FAILURE")) {
+                System.out.println("创建群聊失败: " + response);
+                return false;
+            }
+        } catch (IOException e) {
+            System.err.println("Error while handling server response: " + e.getMessage());
+        }
+        return false;
+    }
+
+
+    // 处理服务器返回的加入团队响应
+    private boolean handleJoinTeamResponse() {
+        try {
+            String response = in.readLine();  // 读取服务器的响应
+            //debug信息
+            System.out.println(response);
+            if (response.startsWith("JOIN_GROUP_SUCCESS:")) {
+                System.out.println("加入团队成功: " + response.split(":")[1]);
+                return true;
+            } else if (response.startsWith("JOIN_GROUP_FAILURE")) {
+                System.out.println("加入团队失败: " + response);
+                return false;
+            }
+        } catch (IOException e) {
+            System.err.println("Error while handling server response: " + e.getMessage());
+        }
+        return false;
+    }
+
     // 处理服务器返回的登录或注册响应
     private boolean handleLoginOrRegisterResponse() {
         try {
@@ -92,6 +162,7 @@ public class Client {
         if (out != null) {
             try {
                 out.println(message);
+                System.out.println("发送给服务器"+message);
                 out.flush(); // 强制刷新
                 if (out.checkError()) {
                     System.err.println("client信息发送失败");
@@ -144,98 +215,71 @@ public class Client {
     }
 
 
-//    // 启动接收线程，用于实时接收消息和历史消息
-//    public void startReceiveMessages() {
-//        new Thread(() -> {
-//            try {
-//                String message;
-//                List<String> history = new ArrayList<>();
-//                Map<String, String> friendList = new HashMap<>();
-//                boolean receivingHistory = false;
-//                boolean receivingFriends = false;
-//
-//                while ((message = in.readLine()) != null) {
-//                    if (message.equals("END_OF_MESSAGE_HISTORY")) {
-//                        if (messageListener != null) {
-//                            messageListener.onHistoryReceived(history);
-//                        }
-//                        history.clear();
-//                        receivingHistory = false;
-//                    } else if (message.equals("END_OF_FRIEND_LIST")) {
-//                        if (messageListener != null) {
-//                            messageListener.onFriendListReceived(friendList);
-//                        }
-//                        friendList.clear();
-//                        receivingFriends = false;
-//                    } else if (message.startsWith("时间:")) {
-//                        receivingHistory = true;
-//                        history.add(message);
-//                    } else if (message.startsWith("好友ID:")) {
-//                        receivingFriends = true;
-//                        String[] parts = message.split(", 好友名: ");
-//                        if (parts.length == 2) {
-//                            String friendId = parts[0].replace("好友ID: ", "").trim();
-//                            String friendName = parts[1].trim();
-//                            friendList.put(friendName, friendId);
-//                        }
-//                    } else if (message.startsWith("私聊消息: 来自用户")) {
-//                        if (messageListener != null) {
-//                            messageListener.onMessageReceived(message);
-//                        }
-//                    }
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }).start();
-//    }
-public void startReceiveMessages() {
-    new Thread(() -> {
-        try {
-            String message;
-            List<String> history = new ArrayList<>();
-            Map<String, String> friendList = new HashMap<>();
-            boolean receivingHistory = false;
-            boolean receivingFriends = false;
+    //这个很重要
+    //    开始接收
+    public void startReceiveMessages() {
+        new Thread(() -> {
+            try {
+                String message;
+                List<String> history = new ArrayList<>();
+                Map<String, String> friendList = new HashMap<>();
 
-            while ((message = in.readLine()) != null) {
-                if (message.equals("END_OF_MESSAGE_HISTORY")) {
-                    if (messageListener != null) {
-                        messageListener.onHistoryReceived(history);
-                    }
-                    history.clear();
-                    receivingHistory = false;
-                } else if (message.equals("END_OF_FRIEND_LIST")) {
-                    if (messageListener != null) {
-                        System.out.println("好友列表接收完毕");
-                        messageListener.onFriendListReceived(friendList);
-                    }
-                    friendList.clear();
-                    receivingFriends = false;
-                } else if (message.startsWith("时间:")) {
-                    receivingHistory = true;
-                    history.add(message);
-                } else if (message.startsWith("好友ID:")) {
-                    System.out.println("接收到"+message);
-                    String[] parts = message.split(", 好友名: ");
-                    if (parts.length == 2) {
-                        String friendId = parts[0].replace("好友ID: ", "").trim();
-                        String friendName = parts[1].trim();
-                        friendList.put(friendName, friendId);
+                while ((message = in.readLine()) != null) {
 
-                    }
-                } else if (message.startsWith("私聊消息: 来自用户")) {
-                    System.out.println("debug :"+message);
-                    if (messageListener != null) {
-                        messageListener.onMessageReceived(message);
+
+                    if (message.equals("END_OF_MESSAGE_HISTORY")) {
+                        if (messageListener != null) {
+                            messageListener.onHistoryReceived(history);
+                        }
+                        history.clear();
+                    } else if (message.equals("END_OF_FRIEND_LIST")) {
+                        if (messageListener != null) {
+                            System.out.println("好友列表接收完毕");
+                            messageListener.onFriendListReceived(friendList);
+                        }
+                        friendList.clear();
+
+                    } else if (message.startsWith("时间:")) {
+                        history.add(message);
+                    } else if (message.startsWith("好友ID:")) {
+                        String[] parts = message.split(", 好友名: ");
+                        if (parts.length == 2) {
+                            String friendId = parts[0].replace("好友ID: ", "").trim();
+                            String friendName = parts[1].trim();
+                            friendList.put(friendName, friendId);
+
+
+                        }
+                    } else if (message.startsWith("私聊消息: 来自用户")) {
+                        if (messageListener != null) {
+                            messageListener.onMessageReceived(message);
+                        }
+
+                    } else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
+
+                        String[] parts = message.split("CREATE_GROUP_SUCCESS:");
+
+                        String teamName=parts[1].trim();
+                        //这里写加入群聊的函数
+                        this.sendJoinTeamRequest(this.getUserId(),teamName);
+     //                   (client.sendJoinTeamRequest(client.getUserId(), teamName.getText()))
+
+
+
+                    }else if(message.startsWith("JOIN_GROUP_SUCCESS:")){
+                        //这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
+                        String[] parts = message.split("CREATE_GROUP_SUCCESS:");
+                        String teamName=parts[1].trim();
+
+
+
                     }
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }).start();
-}
+        }).start();
+    }
     //关闭客户端连接
     public void close() {
         try {
@@ -252,6 +296,7 @@ public void startReceiveMessages() {
             e.printStackTrace();
         }
     }
+
 
 }
 
