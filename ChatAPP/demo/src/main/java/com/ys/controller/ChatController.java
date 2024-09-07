@@ -7,11 +7,14 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+
 import java.util.*;
+
 import javafx.scene.input.MouseEvent;
 import javafx.concurrent.Task;
 import javax.swing.*;
@@ -169,6 +172,7 @@ public class ChatController {
     }
 
 
+
     // 接收消息并显示，在on里面调用
     private void receiveMessage(String fromFriend, String message) {
         chatMessages.get(fromFriend).add(fromFriend + ": " + message);
@@ -181,7 +185,6 @@ public class ChatController {
     private void showMessagesForFriend(String friend) {
         messageListView.setItems(chatMessages.get(friend));
     }
-
 
     private String getFriendNameById(String friendId) {
 //        还没写好

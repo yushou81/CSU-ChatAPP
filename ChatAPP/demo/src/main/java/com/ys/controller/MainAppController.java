@@ -46,8 +46,27 @@ public class MainAppController {
     @FXML
     private AnchorPane workbenchPane;
 
+    @FXML AnchorPane rootPane;
+
+    private double xOffset = 0;
+    private double yOffset = 0;
+
     @FXML
     public   void initialize(){
+
+        //实现窗口拖动功能
+        rootPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        rootPane.setOnMouseDragged(event -> {
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
+
+
         try {
             // 加载每个 AnchorPane 对应的 FXML 文件
             //注意，这个地方是空，WIP
