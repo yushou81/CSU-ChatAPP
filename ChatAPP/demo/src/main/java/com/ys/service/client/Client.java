@@ -32,12 +32,12 @@ public class Client {
     public boolean connect(String serverIp, int serverPort) {
         try {
             socket = new Socket(serverIp, serverPort);
-            System.out.println("Connected to server: " + serverIp);
+            System.out.println("Connected to server: " + serverIp+"from src/main/java/com/ys/service/client/Client.java");
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             return true;  // 连接成功
         } catch (IOException e) {
-            System.err.println("Failed to connect to server: " + e.getMessage());
+            System.err.println("Failed to connect to server: " + e.getMessage()+"from src/main/java/com/ys/service/client/Client.java");
             return false;  // 连接失败
         }
     }
@@ -62,6 +62,8 @@ public class Client {
     private boolean handleLoginOrRegisterResponse() {
         try {
             String response = in.readLine();  // 读取服务器的响应
+            //debug信息
+            System.out.println(response);
             if (response.startsWith("SUCCESS:")) {
                 this.userId = response.split(":")[1];
                 System.out.println("登录成功，您的用户ID是: " + userId);
