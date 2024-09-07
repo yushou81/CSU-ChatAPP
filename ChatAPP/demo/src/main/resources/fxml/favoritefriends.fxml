@@ -47,12 +47,6 @@
          </children>
       </VBox>
 
-      <Label layoutX="39.0" layoutY="14.0" prefHeight="78.0" prefWidth="164.0" text="常用联系人">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-
       <VBox layoutX="330.0" layoutY="230.0" prefHeight="100.0" prefWidth="200.0">
          <children>
             <HBox prefHeight="69.0" prefWidth="319.0">

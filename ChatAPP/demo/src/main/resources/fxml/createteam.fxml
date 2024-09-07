@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="1184.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreateteamController">
+<AnchorPane style="-fx-background-color: #a9d4e1;" prefHeight="776.0" prefWidth="1184.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreateteamController">
    <children>
       <Label layoutX="30.0" layoutY="30.0" prefHeight="64.0" prefWidth="218.0" text="创建团队">
          <font>
