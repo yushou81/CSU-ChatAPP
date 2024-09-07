@@ -2,6 +2,7 @@ package com.ys.service.server;
 
 import com.ys.dao.MessageDao;
 import com.ys.dao.UserDao;
+import com.ys.dao.TeamDao;
 import com.ys.model.Message;
 import com.ys.model.User;
 import java.io.*;
@@ -71,6 +72,7 @@ public class MultiClientServerWithThreadPool {
     static class ClientHandler implements Runnable {
         private Socket clientSocket;
         private UserDao userDao;
+        private TeamDao teamDao;
         private String userId;
 
         public ClientHandler(Socket clientSocket, UserDao userDao) {
@@ -114,6 +116,8 @@ public class MultiClientServerWithThreadPool {
                         handleAddFriend(message, out);
                     } else if (message.startsWith("GET_MESSAGE_HISTORY")) {
                         handleGetMessageHistory(message, out);
+                    } else if (message.startsWith("CREATE_TEAM")){
+                      handleCreateTeam(message,out);
                     } else {
                         if (userId != null) {
                             broadcastMessage("用户 " + userId + " 说: " + message, clientSocket);
@@ -297,6 +301,39 @@ public class MultiClientServerWithThreadPool {
                 }
             } else {
                 out.println("FAILURE: 添加好友信息格式错误");
+            }
+        }
+
+        private void handleCreateTeam(String message,PrintWriter out){
+            String[] parts = message.split(":");
+            if (parts.length == 3) {
+                String teamName=parts[2];
+                String userID=parts[1];
+                boolean success = teamDao.createTeam(userID,teamName);
+
+                if (success) {
+                    out.println("CREATE_GROUP_SUCCESS:"+teamName);
+                } else {
+                    out.println("FAILURE: 创建群聊失败");
+                }
+            } else {
+                out.println("FAILURE: 创建群聊信息格式错误");
+            }
+        }
+        private void handleJoinTeam(String message,PrintWriter out){
+            String[] parts = message.split(":");
+            if (parts.length == 3) {
+                String teamName=parts[2];
+                String userID=parts[1];
+                boolean success = teamDao.joinTeam(userID,teamName);
+
+                if (success) {
+                    out.println("JOIN_GROUP_SUCCESS:"+teamName);
+                } else {
+                    out.println("FAILURE: 加入群聊失败");
+                }
+            } else {
+                out.println("FAILURE: 加入群聊信息格式错误");
             }
         }
 

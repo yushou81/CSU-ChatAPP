@@ -30,11 +30,14 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
 //         初始化客户端并连接服务器
 
-//        client = new Client();
-//        client.connect("192.168.221.164", 8080);  // 替换为你的服务器IP和端口号
-////        100.64.83.48
-////        192.168.221.164
-//        ClientManager.setClient(client);
+
+        client = new Client();
+
+        client.connect("192.168.220.1", 8080);  // 替换为你的服务器IP和端口号
+//        100.64.83.48
+//        192.168.221.164
+        ClientManager.setClient(client);
+
 
 
 
@@ -49,6 +52,9 @@ public class MainApp extends Application {
             // 创建场景
             Scene scene = new Scene(root);
 
+
+            // 设置窗口为透明
+            primaryStage.initStyle(StageStyle.TRANSPARENT);
             // 设置 Stage 的样式为无边框
             // primaryStage.initStyle(StageStyle.UNDECORATED);
             // 设置场景和标题 之后需要删除

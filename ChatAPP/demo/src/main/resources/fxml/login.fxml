@@ -5,7 +5,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="586.0" prefWidth="455.0" style="-fx-background-color: #a9d4e1;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.LoginController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="586.0" prefWidth="455.0" style="-fx-background-color: #a9d4e1; -fx-background-radius: 20; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.LoginController">
    <children>
       <Button fx:id="loginBtn" layoutX="120.0" layoutY="426.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#handleLogin" prefHeight="44.0" prefWidth="216.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" text="登录">
          <font>
