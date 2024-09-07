@@ -214,8 +214,22 @@ public class Client {
         sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);
     }
 
+    // 创建会议，服务器返回 meeting_id
+    public void createMeeting(String meetingName, String password) {
+        sendMessage("CREATE_MEETING:" + meetingName + ":" + password);
+    }
 
-    //这个很重要
+
+    // 加入会议
+    public void joinMeeting(String meetingId, String password) {
+        sendMessage("JOIN_MEETING:" + meetingId + ":" + password);
+    }
+
+    // 离开会议
+    public void leaveMeeting(String meetingId) {
+        sendMessage("LEAVE_MEETING:" + meetingId);
+    }
+  
     //    开始接收
     public void startReceiveMessages() {
         new Thread(() -> {
