@@ -32,7 +32,7 @@ public class MainApp extends Application {
         // 初始化客户端并连接服务器
 
         client = new Client();
-        client.connect("192.168.130.164", 8080);  // 替换为你的服务器IP和端口号
+        client.connect("192.168.221.164", 8080);  // 替换为你的服务器IP和端口号
 
 
         ClientManager.setClient(client);
