@@ -1,5 +1,4 @@
 package com.ys;
-
 import com.ys.controller.LoginController;
 import com.ys.service.client.ClientManager;
 import javafx.application.Application;
@@ -28,7 +27,7 @@ public class MainApp extends Application {
     private Client client;  // 客户端连接实例
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // 初始化客户端并连接服务器
+//         初始化客户端并连接服务器
 
         client = new Client();
 
@@ -41,15 +40,15 @@ public class MainApp extends Application {
             // 加载 FXML 文件        
 
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+
 
 
             Parent root = loader.load();
 
             // 创建场景
             Scene scene = new Scene(root);
-
-
 
             // 设置 Stage 的样式为无边框
             // primaryStage.initStyle(StageStyle.UNDECORATED);
