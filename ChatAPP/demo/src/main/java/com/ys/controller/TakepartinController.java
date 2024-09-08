@@ -26,9 +26,6 @@ public class TakepartinController {
         this.client = ClientManager.getClient();
     }
 
-<<<<<<< HEAD
-//
-=======
     public void Backhome(ActionEvent actionEvent) {
         try {
             AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/meeting.fxml"));
@@ -85,9 +82,4 @@ public class TakepartinController {
         alert.showAndWait();
     }
 
-
-
-
-
->>>>>>> e8ef16b7f21fef52b04b7f21e9b4409c488fb5d1
 }
