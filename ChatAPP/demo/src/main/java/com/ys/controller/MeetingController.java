@@ -63,7 +63,7 @@ public class MeetingController {
 
     public void creatMeeting(ActionEvent actionEvent) {
         try {
-            AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/videoMeeting1.fxml"));
+            AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/creatMeeting.fxml"));
             Stage newStage1 = new Stage();
 
             // 设置新Stage的场景，将加载的FXML视图作为根节点
