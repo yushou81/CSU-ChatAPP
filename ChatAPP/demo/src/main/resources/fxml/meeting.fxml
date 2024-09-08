@@ -19,6 +19,21 @@
          </graphic>
       </Button>
 
+      <Button fx:id="liveBtn" contentDisplay="GRAPHIC_ONLY" layoutX="785.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#LiveBrocast" prefHeight="100.0" prefWidth="100.0">
+         <graphic>
+              <ImageView fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true">
+
+                  <image>
+                      <!--把URL换为关闭图片资源-->
+                      <Image url="@../images/meeting_live.png" />
+                  </image>
+              </ImageView>
+
+
+         </graphic></Button>
+      <Button fx:id="reservationMeetingBtn" layoutX="601.0" layoutY="140.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0">
+
+
        <Button fx:id="joinMeetingBtn" layoutX="400.0" layoutY="140.0" mnemonicParsing="false" onAction="#joinMeeting" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
            <graphic>
                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
@@ -30,6 +45,7 @@
        </Button>
 
       <Button fx:id="reservationMeetingBtn" layoutX="600.0" layoutY="140.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
+
          <graphic>
               <ImageView fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true">
                   <image>

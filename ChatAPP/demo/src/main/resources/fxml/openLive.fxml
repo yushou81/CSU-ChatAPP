@@ -28,7 +28,20 @@
           </graphic>
       </Button>
 
-      <Label layoutX="448.0" layoutY="469.0" prefHeight="71.0" prefWidth="89.0" text="开播">
+
+       <Button fx:id="cancel" onAction="#Hide" layoutX="1190.0" layoutY="0.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
+           <graphic>
+               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                       <Image url="@../images/cancel_icon.png" />
+                   </image>
+               </ImageView>
+           </graphic>
+       </Button>
+
+       <Label layoutX="756.0" layoutY="943.0" prefHeight="71.0" prefWidth="163.0" text="开播">
+
+
          <font>
             <Font size="30.0" />
          </font>
