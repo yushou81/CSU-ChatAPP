@@ -49,8 +49,8 @@
                 <Font size="40.0" />
             </font>
         </Label>
-        <TextField layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" />
-        <TextField layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" />
+        <TextField layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;"/>
+        <TextField layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;"/>
         <Button fx:id="mac" layoutX="137.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
             <graphic>
                 <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
