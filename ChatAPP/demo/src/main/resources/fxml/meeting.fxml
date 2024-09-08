@@ -11,7 +11,7 @@
 
 <AnchorPane layoutX="100.0" layoutY="80.0" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MeetingController">
    <children>
-      <Button fx:id="getinBtn" alignment="BOTTOM_CENTER" blendMode="MULTIPLY" contentDisplay="GRAPHIC_ONLY" layoutX="200.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0">
+      <Button fx:id="initiateBtn" onAction="#Initiate" alignment="BOTTOM_CENTER" blendMode="MULTIPLY" contentDisplay="GRAPHIC_ONLY" layoutX="200.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0">
          <graphic>
               <ImageView fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true">
 
@@ -44,16 +44,14 @@
               </ImageView>
 
          </graphic></Button>
-      <Button fx:id="initiateBtn" layoutX="412.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#Initiate" prefHeight="120.0" prefWidth="120.0">
+      <Button fx:id="getinBtn" layoutX="412.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#Getin" prefHeight="120.0" prefWidth="120.0">
          <graphic>
               <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
-
                   <image>
                       <!--把URL换为关闭图片资源-->
                       <Image url="@../images/meeting_initiate.png" />
                   </image>
               </ImageView>
-
          </graphic></Button>
       <Rectangle arcHeight="5.0" arcWidth="1200.81" fill="#c6cfd7" height="5.0" layoutX="30.0" layoutY="60.0" opacity="0.59" stroke="BLACK" strokeType="INSIDE" width="1000.0" />
       <Label layoutX="250.0" layoutY="270.0" prefHeight="33.0" prefWidth="76.0" text="发起会议" />
