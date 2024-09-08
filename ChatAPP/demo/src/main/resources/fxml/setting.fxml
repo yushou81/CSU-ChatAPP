@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="settingPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.SettingController">
+<AnchorPane fx:id="settingPane" prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.SettingController">
    <children>
       <Label layoutX="522.0" layoutY="14.0" prefHeight="70.0" prefWidth="139.0" text="设置">
          <font>
