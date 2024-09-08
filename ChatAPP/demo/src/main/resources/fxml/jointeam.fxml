@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.JointeamController">
+
+<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.JointeamController">
    <children>
-      <Button fx:id="joinTeamButton" layoutX="158.0" layoutY="84.0" mnemonicParsing="false" text="jointeam" />
-      <TextField fx:id="teamID" layoutX="167.0" layoutY="177.0" />
+
+      <Label layoutX="30.0" layoutY="30.0" text="加入团队">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+
+      <TextField layoutX="350.0" layoutY="150.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入团队ID或名称">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </TextField>
+      <Button layoutX="680.0" layoutY="145.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" text="搜索">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+      <Pane layoutX="80.0" layoutY="270.0" prefHeight="540.0" prefWidth="1104.0" />
+
+
+
    </children>
 </AnchorPane>

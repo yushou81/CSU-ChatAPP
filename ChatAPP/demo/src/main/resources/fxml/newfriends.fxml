@@ -9,6 +9,6 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.NewfriendsController">
    <children>
-      <Button layoutX="162.0" layoutY="137.0" mnemonicParsing="false" text="new" />
+      <Button layoutX="162.0" layoutY="137.0" mnemonicParsing="false" text="new" style="-fx-background-color: #35889a;-fx-text-fill: white;"/>
    </children>
 </AnchorPane>

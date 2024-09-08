@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="1184.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FileManagementController">
+<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FileManagementController">
+    <children>
+        <!--主标题-->
+        <Label layoutX="492.0" layoutY="24.0" prefHeight="70.0" prefWidth="200.0" text="文件管理">
+            <font>
+                <Font size="50.0" />
+            </font>
+            <style>
+                -fx-text-fill: #35889a;
+                -fx-font-weight: bold;
+            </style>
+        </Label>
 
-   <children>
-       <Label layoutX="20.0" layoutY="20.0" text="文件管理">
-           <font>
-               <Font size="40.0" />
-           </font>
-       </Label>
-      <TextField layoutX="350.0" layoutY="150.0" prefHeight="50.0" prefWidth="300.0" />
+        <!--输入框-->
+        <TextField layoutX="350.0" layoutY="150.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入文件名" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+            <font>
+                <Font size="21.0" />
+            </font>
+        </TextField>
 
-      <Button layoutX="680.0" layoutY="145.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0" style="-fx-background-color: #35889a;-fx-text-fill: white;" text="搜索">
+        <!--搜索按钮-->
+        <Button layoutX="680.0" layoutY="145.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="搜索">
+            <font>
+                <Font size="30.0" />
+            </font>
+        </Button>
 
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Button>
-
-      <Pane layoutX="202.0" layoutY="273.0" prefHeight="403.0" prefWidth="568.0" />
-
-
-   </children>
+        <!--搜索结果显示窗口-->
+        <Pane layoutX="28.0" layoutY="252.0" prefHeight="502.0" prefWidth="1127.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
+        </Pane>
+    </children>
 </AnchorPane>
