@@ -10,15 +10,7 @@
 
 <AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.TakepartinController">
    <children>
-      <Button fx:id="back" layoutX="58.0" layoutY="43.0" mnemonicParsing="false" onAction="#Backhome" prefHeight="106.0" prefWidth="112.0">
-          <graphic>
-              <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                      <Image url="@../images/home_icon.png" />
-                  </image>
-              </ImageView>
-          </graphic>
-      </Button>
+<!--      -->
       <Label layoutX="572.0" layoutY="73.0" text="加入会议">
           <font>
               <Font size="48.0" />
@@ -49,8 +41,21 @@
               <Font size="40.0" />
           </font>
       </Label>
+<<<<<<< HEAD
+      <TextField layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" >
+          <font>
+              <Font size="30.0" />
+          </font>
+      </TextField>
+      <TextField layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" >
+          <font>
+              <Font size="30.0" />
+          </font>
+      </TextField>
+=======
       <TextField fx:id="meetingIdField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" />
       <TextField fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" />
+>>>>>>> e8ef16b7f21fef52b04b7f21e9b4409c488fb5d1
       <Button fx:id="mac" layoutX="137.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
           <graphic>
               <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">

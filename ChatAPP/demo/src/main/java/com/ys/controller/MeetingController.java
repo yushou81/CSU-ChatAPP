@@ -14,6 +14,8 @@ import java.io.IOException;
 public class MeetingController {
     public Button initiateBtn;
     public Button liveBtn;
+    public Button getinBtn;
+
 
     public void joinMeeting(ActionEvent actionEvent) {
 
@@ -30,8 +32,6 @@ public class MeetingController {
 
             // 显示新Stage
             newStage1.show();
-            //隐藏旧的Stage
-            initiateBtn.getScene().getWindow().hide();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -54,8 +54,28 @@ public class MeetingController {
 
             // 显示新Stage
             newStage1.show();
-            //隐藏旧的Stage
-            liveBtn.getScene().getWindow().hide();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public void Initiate(ActionEvent actionEvent) {
+        try {
+            AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/videoMeeting1.fxml"));
+            Stage newStage1 = new Stage();
+
+            // 设置新Stage的场景，将加载的FXML视图作为根节点
+            Scene newScene = new Scene(view,1264,840);
+            newStage1.setScene(newScene);
+
+            // 设置新Stage的标题（可选）
+            newStage1.setTitle("新窗口");
+
+            // 显示新Stage
+            newStage1.show();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
