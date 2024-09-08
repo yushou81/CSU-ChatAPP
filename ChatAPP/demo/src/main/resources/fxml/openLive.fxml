@@ -16,6 +16,7 @@
                -fx-font-weight: bold;
            </style>
        </Label>
+
       <Button fx:id="open" layoutX="502.0" layoutY="316.0" mnemonicParsing="false" prefHeight="122.0" prefWidth="127.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
           <graphic>
               <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
@@ -25,6 +26,7 @@
               </ImageView>
           </graphic>
       </Button>
+
       <Label layoutX="534.0" layoutY="486.0" prefHeight="71.0" prefWidth="89.0" text="开播">
          <font>
             <Font size="30.0" />
