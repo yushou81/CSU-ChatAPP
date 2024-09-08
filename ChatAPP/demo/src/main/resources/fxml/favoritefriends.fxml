@@ -8,7 +8,7 @@
 <AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
 
    <children>
-      <Label layoutX="492.0" layoutY="24.0" prefHeight="70.0" prefWidth="270.0" text="常用联系人">
+      <Label layoutX="492.0" layoutY="24.0" prefHeight="70.0" prefWidth="270.0" text="特别关注">
          <font>
             <Font size="50.0" />
          </font>
@@ -27,11 +27,13 @@
                         <ImageView fitHeight="100.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
                            <Image url="@../images/testAvatar.jpg" />
                         </ImageView>
+
                         <Label prefHeight="90.0" prefWidth="776.0" text="  联系人1">
                            <font>
                               <Font size="36.0" />
                            </font>
                         </Label>
+
                         <Button mnemonicParsing="false" prefHeight="83.0" prefWidth="182.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
                            <font>
                               <Font size="36.0" />
@@ -44,11 +46,13 @@
                         <ImageView fitHeight="100.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                            <Image url="@../images/testAvatar.jpg" />
                         </ImageView>
+
                         <Label prefHeight="100.0" prefWidth="774.0" text="  联系人2">
                            <font>
                               <Font size="36.0" />
                            </font>
                         </Label>
+
                         <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="184.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
                            <font>
                               <Font size="36.0" />
@@ -61,11 +65,13 @@
                         <ImageView fitHeight="100.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
                            <Image url="@../images/testAvatar.jpg" />
                         </ImageView>
+
                         <Label prefHeight="100.0" prefWidth="780.0" text="  联系人3">
                            <font>
                               <Font size="36.0" />
                            </font>
                         </Label>
+                        
                         <Button mnemonicParsing="false" prefHeight="87.0" prefWidth="183.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
                            <font>
                               <Font size="36.0" />

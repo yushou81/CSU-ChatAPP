@@ -22,6 +22,7 @@
             <Font size="30.0" />
          </font>
       </Label>
+
       <TextField layoutX="568.0" layoutY="230.0" prefHeight="64.0" prefWidth="298.0" promptText="请输入团队名称" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
          <font>
             <Font size="30.0" />
@@ -33,6 +34,7 @@
             <Font size="30.0" />
          </font>
       </Label>
+
       <TextField layoutX="568.0" layoutY="356.0" prefHeight="64.0" prefWidth="298.0" promptText="请输入团队ID" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
          <font>
             <Font size="30.0" />
@@ -44,6 +46,7 @@
             <Font size="24.0" />
          </font>
       </Button>
+
       <Button layoutX="398.0" layoutY="624.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="取消">
          <font>
             <Font size="24.0" />
