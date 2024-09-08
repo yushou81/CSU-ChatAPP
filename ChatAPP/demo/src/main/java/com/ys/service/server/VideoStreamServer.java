@@ -48,8 +48,16 @@ public class VideoStreamServer {
             System.out.println("有人加入meetingid："+meetingId);
             handleJoinMeeting(meetingId, clientAddress, clientPort);
         } else if (packetType == 1) {
+            System.out.println("发送给；"+meetingId+clientAddress+clientPort);
+
+//            System.out.println("ByteBuffer 总容量: " + byteBuffer.capacity());
+//            System.out.println("ByteBuffer 剩余数据长度: " + byteBuffer.remaining());
             // 处理视频帧数据
-            byte[] frameData = readFrameData(byteBuffer);
+            byte[] frameData = byteBuffer.array();
+//            System.out.println("ByteBufferfram 剩余数据长度: " + byteBuffer.remaining());
+            // 检查 byteBuffer 中是否还有未读取的数据
+//            System.out.println("剩余数据长度: " + byteBuffer.remaining());
+            System.out.println(frameData);
             if (frameData != null) {
                 broadcastToMeeting(meetingId, frameData, clientAddress, clientPort);
             }
@@ -96,9 +104,6 @@ public class VideoStreamServer {
     // 广播视频帧到同一会议中的其他客户端
     private void broadcastToMeeting(String meetingId, byte[] frameData, InetAddress senderAddress, int senderPort) throws IOException {
         List<ClientInfo> clients = meetingsMap.get(meetingId);
-
-        System.out.println("传输给："+meetingId);
-
         if (clients == null) {
             clients = new ArrayList<>();
             meetingsMap.put(meetingId, clients);  // 创建新的会议
@@ -112,19 +117,25 @@ public class VideoStreamServer {
         if (!senderInfo.isPresent()) {
             clients.add(new ClientInfo(senderAddress, senderPort));  // 新的客户端加入会议
         }
-
+        int i = 0;
         // 广播给会议中的其他客户端
         for (ClientInfo client : clients) {
             if (!client.getAddress().equals(senderAddress) || client.getPort() != senderPort) {
 
-                System.out.println("fasong");
+                System.out.println("fasong"+i);
+                i++;
 
                 // 发送视频帧给其他客户端
-                ByteBuffer buffer = ByteBuffer.allocate(4 + frameData.length);
-                buffer.putInt(frameData.length);  // 视频帧大小
-                buffer.put(frameData);  // 视频帧数据
-                DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), client.getAddress(), client.getPort());
-                udpSocket.send(packet);
+//                ByteBuffer buffer = ByteBuffer.allocate(4 + frameData.length);
+//                buffer.putInt(frameData.length);  // 视频帧大小
+//                buffer.put(frameData);  // 视频帧数据
+//                DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), client.getAddress(), client.getPort());
+//                udpSocket.send(packet);
+
+                // 直接转发客户端发送的分块数据
+                DatagramPacket packet = new DatagramPacket(frameData, frameData.length, client.getAddress(), client.getPort());
+
+                udpSocket.send(packet);  // 转发数据包
             }
         }
     }

@@ -10,6 +10,8 @@ import java.io.ByteArrayOutputStream;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import javax.sound.sampled.*;
 
 public class VideoStreamClient {
@@ -130,51 +132,71 @@ public class VideoStreamClient {
         return buffer;
     }
 
-    // 发送视频帧，带有时间戳
-// 发送视频帧，带有会议ID和时间戳
+    private static final int MAX_UDP_PACKET_SIZE = 60000;  // 定义每个数据包的最大大小，略小于65535以保证UDP传输稳定性
+
+    // 发送视频帧，带有会议ID和时间戳
     private void sendVideoFrame(String meetingId, BufferedImage image, long timestamp) {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ImageIO.write(image, "jpg", byteArrayOutputStream);
             byte[] imageBytes = byteArrayOutputStream.toByteArray();
 
-            // 包装会议ID、时间戳和图像数据
-            int totalCapacity = 20 + 4 + 8 + imageBytes.length;
-            ByteBuffer buffer = ByteBuffer.allocate(totalCapacity);  // 20字节用于会议ID，8字节用于存储时间戳
-            byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
-            buffer.put(idBytes);
-            buffer.putInt(1);
-            buffer.putLong(timestamp);  // 写入时间戳
-            buffer.put(imageBytes);  // 写入图像数据
+            // 拆分数据包
+            int totalParts = (int) Math.ceil(imageBytes.length / (double) MAX_UDP_PACKET_SIZE);
 
-            DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, serverPort);
-            udpSocket.send(packet);
+            for (int part = 0; part < totalParts; part++) {
+                int start = part * MAX_UDP_PACKET_SIZE;
+                int length = Math.min(imageBytes.length - start, MAX_UDP_PACKET_SIZE);  // 当前分片大小
+
+                ByteBuffer buffer = ByteBuffer.allocate(20 + + 4 + 4 + 8 + 4 + 4 + length);  // 20字节会议ID, 4字节标志位, 8字节时间戳, 4字节总分片数, 4字节当前分片号
+
+                byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
+                buffer.put(idBytes);
+                buffer.putInt(1);
+                buffer.putInt(1);  // 1 表示视频数据
+                buffer.putLong(timestamp);  // 写入时间戳
+                buffer.putInt(totalParts);  // 总分片数
+                buffer.putInt(part);  // 当前分片编号
+                buffer.put(imageBytes, start, length);  // 写入当前分片数据
+
+                DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, serverPort);
+                udpSocket.send(packet);  // 发送当前分片数据包
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     // 发送音频帧，带有会议ID和时间戳
     private void sendAudioFrame(String meetingId, byte[] audioData, long timestamp) {
         try {
-            // 确保 ByteBuffer 的容量足够大
-            int totalCapacity = 20 + 4 + 8 + audioData.length;  // 20字节用于会议ID，8字节用于存储时间戳，加上音频数据的大小
-            ByteBuffer buffer = ByteBuffer.allocate(totalCapacity);  // 动态分配足够容量的缓冲区
+            // 拆分数据包
+            int totalParts = (int) Math.ceil(audioData.length / (double) MAX_UDP_PACKET_SIZE);
 
-            byte[] meetingIdBytes = meetingId.getBytes();  // 将会议ID转换为字节数组
-            byte[] meetingIdPadded = Arrays.copyOf(meetingIdBytes, 20);  // 确保会议ID长度为20字节
-            byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
-            buffer.put(idBytes);
-            buffer.putInt(1);
-            buffer.putLong(timestamp);  // 写入时间戳
-            buffer.put(audioData);  // 写入音频数据
+            for (int part = 0; part < totalParts; part++) {
+                int start = part * MAX_UDP_PACKET_SIZE;
+                int length = Math.min(audioData.length - start, MAX_UDP_PACKET_SIZE);  // 当前分片大小
 
-            DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, serverPort);
-            udpSocket.send(packet);
+                ByteBuffer buffer = ByteBuffer.allocate(20 +  4 + 4 + 8 + 4 + 4 + length);  // 20字节会议ID, 4字节标志位, 8字节时间戳, 4字节总分片数, 4字节当前分片号
+
+                byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
+                buffer.put(idBytes);
+                buffer.putInt(1);
+                buffer.putInt(2);  // 2 表示音频数据
+                buffer.putLong(timestamp);  // 写入时间戳
+                buffer.putInt(totalParts);  // 总分片数
+                buffer.putInt(part);  // 当前分片编号
+                buffer.put(audioData, start, length);  // 写入当前分片数据
+
+                DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, serverPort);
+                udpSocket.send(packet);  // 发送当前分片数据包
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     // 设置摄像头状态
     public void setCameraStatus(boolean status) {
@@ -202,29 +224,72 @@ public class VideoStreamClient {
             udpSocket.send(packet);
             System.out.println("加入会议请求已发送: " + meetingId);
 
-            // 启动接收视频和音频的线程
+// 启动接收视频和音频的线程
             new Thread(() -> {
                 try {
+                    Map<Integer, byte[]> videoPartsMap = new HashMap<>();  // 存储分片
+                    int totalParts = -1;  // 分片总数
+                    int partsReceived = 0;  // 已接收到的分片数
+                    long currentTimestamp = 0;
+
                     while (isRunning) {
                         byte[] bufferReceive = new byte[65535];  // 接收视频和音频的数据包
                         DatagramPacket receivePacket = new DatagramPacket(bufferReceive, bufferReceive.length);
-
                         udpSocket.receive(receivePacket);  // 接收数据包
                         ByteBuffer receivedBuffer = ByteBuffer.wrap(receivePacket.getData());
 
-                        // 提取时间戳和数据
-                        long timestamp = receivedBuffer.getLong();  // 提取时间戳
-                        byte[] frameData = new byte[receivePacket.getLength() - 8];  // 剩余部分是视频/音频数据
-                        receivedBuffer.get(frameData);
+                        // 解析数据包
+                        byte[] idBytes = new byte[20+4];
+                        receivedBuffer.get(idBytes);  // 读取会议ID和发送的类型
+                        int dataType = receivedBuffer.getInt();  // 获取数据类型，1为视频，2为音频
 
-                        // 假设我们判断帧大小小于一定值的是音频，其他是视频
-                        if (frameData.length > 1024) {
-                            // 视频数据，显示视频帧
-                            BufferedImage receivedImage = ImageIO.read(new ByteArrayInputStream(frameData));
-                            videoMeetingController.updateVideoFrame(receivedImage);  // 更新UI中的视频帧
-                        } else {
-                            // 音频数据，播放音频
-                            playAudioFrame(frameData);  // 调用播放音频的方法
+                        long timestamp = receivedBuffer.getLong();  // 获取时间戳
+
+                        // 视频数据
+                        if (dataType == 1) {
+                            if (timestamp != currentTimestamp) {
+                                // 如果是新的帧，重置分片计数
+                                videoPartsMap.clear();
+                                currentTimestamp = timestamp;
+                                partsReceived = 0;
+                                totalParts = -1;
+                            }
+
+                            totalParts = receivedBuffer.getInt();  // 总分片数
+                            int partNumber = receivedBuffer.getInt();  // 当前分片号
+
+                            byte[] partData = new byte[receivePacket.getLength() - 44];  // 计算当前分片数据长度（减去头部信息）
+                            receivedBuffer.get(partData);  // 获取分片数据
+                            videoPartsMap.put(partNumber, partData);  // 存储分片数据
+
+                            partsReceived++;  // 记录收到的分片数
+
+                            // 当所有分片都接收到后，重组完整帧
+                            if (partsReceived == totalParts) {
+                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                for (int i = 0; i < totalParts; i++) {
+                                    byteArrayOutputStream.write(videoPartsMap.get(i));  // 将所有分片合并
+                                }
+
+                                byte[] completeFrameData = byteArrayOutputStream.toByteArray();
+                                BufferedImage receivedImage = ImageIO.read(new ByteArrayInputStream(completeFrameData));
+
+                                if (receivedImage != null) {
+                                    videoMeetingController.updateVideoFrame(receivedImage);  // 显示视频帧
+                                } else {
+                                    System.out.println("接收到的视频帧无法解析");
+                                }
+
+                                // 清空分片数据
+                                videoPartsMap.clear();
+                                partsReceived = 0;
+                                totalParts = -1;
+                            }
+                        } else if (dataType == 2) {
+                            // 处理音频数据...
+                            byte[] audioData = new byte[receivePacket.getLength() - 40];
+                            receivedBuffer.get(audioData);
+                            playAudioFrame(audioData);  // 播放音频
                         }
 
                         // 控制音视频同步，基于时间戳
@@ -239,27 +304,46 @@ public class VideoStreamClient {
                 }
             }).start();
 
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     // 播放音频帧
     private void playAudioFrame(byte[] audioData) {
         try {
+            // 如果 audioFormat 未初始化，则进行初始化
+            if (audioFormat == null) {
+                audioFormat = new AudioFormat(44100, 16, 2, true, true);  // 初始化为立体声、16位、44100Hz
+            }
+
             SourceDataLine line;
             DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
+
+            // 检查音频线是否支持该格式
+            if (!AudioSystem.isLineSupported(info)) {
+                System.out.println("不支持的音频格式");
+                return;
+            }
+
             line = (SourceDataLine) AudioSystem.getLine(info);
-            line.open(audioFormat);
+            line.open(audioFormat);  // 打开音频线
             line.start();
 
-            // 播放音频
-            line.write(audioData, 0, audioData.length);
-            line.drain();
-            line.close();
+            int frameSize = audioFormat.getFrameSize();  // 获取每帧的大小
+            int lengthToWrite = (audioData.length / frameSize) * frameSize;  // 计算符合帧大小的字节数
+
+            // 播放音频数据，确保写入的字节数是 frameSize 的整数倍
+            line.write(audioData, 0, lengthToWrite);
+            line.drain();  // 确保所有数据被播放
+            line.close();  // 关闭音频线
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
     // 客户端退出会议的请求
     public void leaveMeeting(String meetingId, String serverIp, int serverPort) {
         try {
