@@ -49,7 +49,7 @@ public class MainApp extends Application {
 
 
             // 设置窗口为透明
-            primaryStage.initStyle(StageStyle.TRANSPARENT);
+//            primaryStage.initStyle(StageStyle.TRANSPARENT);
             // 设置 Stage 的样式为无边框
             // primaryStage.initStyle(StageStyle.UNDECORATED);
             // 设置场景和标题 之后需要删除
