@@ -48,16 +48,16 @@ public class VideoStreamServer {
             System.out.println("有人加入meetingid："+meetingId);
             handleJoinMeeting(meetingId, clientAddress, clientPort);
         } else if (packetType == 1) {
-            System.out.println("发送给；"+meetingId+clientAddress+clientPort);
+//            System.out.println("发送给；"+meetingId+clientAddress+clientPort);
 
 //            System.out.println("ByteBuffer 总容量: " + byteBuffer.capacity());
 //            System.out.println("ByteBuffer 剩余数据长度: " + byteBuffer.remaining());
             // 处理视频帧数据
-            byte[] frameData = byteBuffer.array();
-//            System.out.println("ByteBufferfram 剩余数据长度: " + byteBuffer.remaining());
+            byte[] frameData = readFrameData(byteBuffer);
+            System.out.println("ByteBufferfram 剩余数据长度: " + frameData.length);
             // 检查 byteBuffer 中是否还有未读取的数据
 //            System.out.println("剩余数据长度: " + byteBuffer.remaining());
-            System.out.println(frameData);
+//            System.out.println(frameData);
             if (frameData != null) {
                 broadcastToMeeting(meetingId, frameData, clientAddress, clientPort);
             }
@@ -134,7 +134,6 @@ public class VideoStreamServer {
 
                 // 直接转发客户端发送的分块数据
                 DatagramPacket packet = new DatagramPacket(frameData, frameData.length, client.getAddress(), client.getPort());
-
                 udpSocket.send(packet);  // 转发数据包
             }
         }

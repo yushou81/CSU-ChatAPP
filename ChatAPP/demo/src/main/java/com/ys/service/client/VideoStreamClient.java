@@ -147,12 +147,13 @@ public class VideoStreamClient {
             for (int part = 0; part < totalParts; part++) {
                 int start = part * MAX_UDP_PACKET_SIZE;
                 int length = Math.min(imageBytes.length - start, MAX_UDP_PACKET_SIZE);  // 当前分片大小
-
-                ByteBuffer buffer = ByteBuffer.allocate(20 + + 4 + 4 + 8 + 4 + 4 + length);  // 20字节会议ID, 4字节标志位, 8字节时间戳, 4字节总分片数, 4字节当前分片号
+                System.out.println("videooparts"+part+"length"+length);
+                ByteBuffer buffer = ByteBuffer.allocate(20 +4 + 4 + 4 + 8 + 4 + 4 + length);  // 20字节会议ID, 4字节标志位, 8字节时间戳, 4字节总分片数, 4字节当前分片号
 
                 byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
                 buffer.put(idBytes);
                 buffer.putInt(1);
+                buffer.putInt(4 + 8 + 4 + 4 + length);
                 buffer.putInt(1);  // 1 表示视频数据
                 buffer.putLong(timestamp);  // 写入时间戳
                 buffer.putInt(totalParts);  // 总分片数
@@ -175,9 +176,10 @@ public class VideoStreamClient {
             int totalParts = (int) Math.ceil(audioData.length / (double) MAX_UDP_PACKET_SIZE);
 
             for (int part = 0; part < totalParts; part++) {
+
                 int start = part * MAX_UDP_PACKET_SIZE;
                 int length = Math.min(audioData.length - start, MAX_UDP_PACKET_SIZE);  // 当前分片大小
-
+                System.out.println("audiooparts"+part+"length"+length);
                 ByteBuffer buffer = ByteBuffer.allocate(20 +  4 + 4 + 8 + 4 + 4 + length);  // 20字节会议ID, 4字节标志位, 8字节时间戳, 4字节总分片数, 4字节当前分片号
 
                 byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
