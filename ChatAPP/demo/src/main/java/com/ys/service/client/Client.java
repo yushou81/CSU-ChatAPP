@@ -323,6 +323,43 @@ public class Client {
             e.printStackTrace();
         }
     }
+    public boolean searchFriend(String friendId) {
+        // 发送搜索好友请求到服务器
+        if (sendMessage("SEARCH_FRIEND:" + friendId)) {
+            System.out.println("客户端发送搜索好友请求: " + friendId);
+            return handleSearchFriendResponse();  // 处理服务器的响应
+        } else {
+            System.out.println("搜索好友请求发送失败");
+            return false;
+        }
+    }
+    private boolean handleSearchFriendResponse() {
+        try {
+            String response = in.readLine();  // 读取服务器的响应
+            System.out.println("收到好友搜索响应: " + response);
+
+            if (response.startsWith("SEARCH_FRIEND_SUCCESS:")) {
+                System.out.println("好友存在: " + response.split(":")[1]);  // 输出好友ID
+                return true;  // 好友存在
+            } else if (response.startsWith("SEARCH_FRIEND_FAILURE")) {
+                System.out.println("未找到该好友: " + response);
+                return false;  // 好友不存在
+            }
+        } catch (IOException e) {
+            System.err.println("处理好友搜索响应时出错: " + e.getMessage());
+        }
+        return false;  // 出现错误，返回失败
+    }
+    // 发送好友请求
+    public boolean sendFriendRequest(String friendId, String message) {
+        if (sendMessage("ADD_FRIEND:" + this.userId + ":" + friendId + ":" + message)) {
+            System.out.println("发送好友请求: " + friendId + " 消息: " + message);
+            return true;  // 请求发送成功
+        } else {
+            System.out.println("好友请求发送失败");
+            return false;  // 请求发送失败
+        }
+    }
 
 
 }
