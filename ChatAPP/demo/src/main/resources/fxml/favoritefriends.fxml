@@ -18,9 +18,9 @@
          </style>
       </Label>
 
-      <Pane layoutX="42.0" layoutY="155.0" prefHeight="502.0" prefWidth="1127.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
+      <Pane layoutX="42.0" layoutY="155.0" prefHeight="502.0" prefWidth="857.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
          <children>
-            <VBox layoutX="35.0" layoutY="14.0" prefHeight="447.0" prefWidth="1062.0">
+            <VBox layoutX="35.0" layoutY="14.0" prefHeight="447.0" prefWidth="762.0">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -28,7 +28,7 @@
                            <Image url="@../images/testAvatar.jpg" />
                         </ImageView>
 
-                        <Label prefHeight="90.0" prefWidth="776.0" text="  联系人1">
+                        <Label prefHeight="90.0" prefWidth="500.0" text="  联系人1">
                            <font>
                               <Font size="36.0" />
                            </font>
@@ -47,7 +47,7 @@
                            <Image url="@../images/testAvatar.jpg" />
                         </ImageView>
 
-                        <Label prefHeight="100.0" prefWidth="774.0" text="  联系人2">
+                        <Label prefHeight="100.0" prefWidth="500.0" text="  联系人2">
                            <font>
                               <Font size="36.0" />
                            </font>
@@ -66,7 +66,7 @@
                            <Image url="@../images/testAvatar.jpg" />
                         </ImageView>
 
-                        <Label prefHeight="100.0" prefWidth="780.0" text="  联系人3">
+                        <Label prefHeight="100.0" prefWidth="500.0" text="  联系人3">
                            <font>
                               <Font size="36.0" />
                            </font>

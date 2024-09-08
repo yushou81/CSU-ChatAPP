@@ -33,18 +33,18 @@
             </font>
         </Button>
 
-        <Pane layoutX="14.0" layoutY="230.0" prefHeight="519.0" prefWidth="1094.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);" />
-        <VBox layoutX="73.0" layoutY="251.0" prefHeight="354.0" prefWidth="1047.0">
+        <Pane layoutX="14.0" layoutY="230.0" prefHeight="519.0" prefWidth="954.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);" />
+        <VBox layoutX="73.0" layoutY="251.0" prefHeight="354.0" prefWidth="880.0">
             <children>
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                <HBox prefHeight="100.0" prefWidth="800.0">
                     <children>
-                        <ImageView fitHeight="100.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="100.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../images/testAvatar.jpg" />
                             </image>
                         </ImageView>
 
-                        <Label prefHeight="90.0" prefWidth="533.0" text="  文件1">
+                        <Label prefHeight="90.0" prefWidth="400.0" text="  文件1">
                             <font>
                                 <Font size="36.0" />
                             </font>
@@ -56,7 +56,7 @@
                             </font>
                         </Button>
 
-                        <Pane prefHeight="0.0" prefWidth="10.0" style="-fx-background-color: white;" />
+                        <Pane prefHeight="100.0" prefWidth="10.0" style="-fx-background-color: white;" />
 
                         <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="删除">
                             <font>
@@ -66,15 +66,15 @@
                     </children>
                 </HBox>
 
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                <HBox prefHeight="100.0" prefWidth="800.0">
                     <children>
-                        <ImageView fitHeight="100.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="100.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../images/testAvatar.jpg" />
                             </image>
                         </ImageView>
 
-                        <Label prefHeight="100.0" prefWidth="535.0" text="  文件2">
+                        <Label prefHeight="100.0" prefWidth="400.0" text="  文件2">
                             <font>
                                 <Font size="36.0" />
                             </font>
@@ -86,7 +86,7 @@
                             </font>
                         </Button>
 
-                        <Pane prefHeight="0.0" prefWidth="10.0" style="-fx-background-color: white;" />
+                        <Pane prefHeight="100.0" prefWidth="10.0" style="-fx-background-color: white;" />
 
                         <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="删除">
                             <font>
@@ -96,15 +96,15 @@
                     </children>
                 </HBox>
 
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                <HBox prefHeight="100.0" prefWidth="800.0">
                     <children>
-                        <ImageView fitHeight="100.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="100.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../images/testAvatar.jpg" />
                             </image>
                         </ImageView>
 
-                        <Label prefHeight="100.0" prefWidth="539.0" text="  文件3">
+                        <Label prefHeight="100.0" prefWidth="400.0" text="  文件3">
                             <font>
                                 <Font size="36.0" />
                             </font>

@@ -14,7 +14,7 @@
 
 <AnchorPane style="-fx-background-color: #a9d4e1;" prefHeight="776.0" prefWidth="984.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.GroupController">
    <children>
-      <StackPane fx:id="mainStackPane" layoutX="218.0" layoutY="19.0" prefHeight="767.0" prefWidth="946.0">
+      <StackPane fx:id="mainStackPane" layoutX="218.0" layoutY="19.0" prefHeight="767.0" prefWidth="746.0">
          <children>
          </children>
       </StackPane>

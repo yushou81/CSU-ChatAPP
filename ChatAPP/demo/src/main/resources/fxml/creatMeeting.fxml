@@ -10,7 +10,7 @@
     <children>
 
 
-        <Label layoutX="572.0" layoutY="73.0" text="创建会议" />
+
         <Label layoutX="470.0" layoutY="25.0" prefHeight="70.0" prefWidth="200.0" text="创建会议">
 
 
@@ -59,7 +59,7 @@
         </Label>
 
 
-        <Label layoutX="980.0" layoutY="780.0" text="创建">
+        <Label layoutX="780.0" layoutY="780.0" text="创建">
             <font>
                 <Font size="30.0" />
             </font>

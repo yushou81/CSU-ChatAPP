@@ -13,7 +13,7 @@
               <Font size="48.0" />
           </font>
       </Label>
-      <Label layoutX="260.0" layoutY="275.0" text="会议名">
+      <Label layoutX="264.0" layoutY="229.0" text="会议名:">
 
           <font>
               <Font size="40.0" />
@@ -32,25 +32,25 @@
           </font>
       </Label>
 
-      <Label layoutX="869.0" layoutY="780.0" text="开启视频">
+      <Label layoutX="693.0" layoutY="780.0" text="开启视频">
           <font>
               <Font size="40.0" />
           </font>
       </Label>
 
-      <Label layoutX="457.0" layoutY="780.0" text="开启扬声器">
+      <Label layoutX="389.0" layoutY="780.0" text="开启扬声器">
           <font>
               <Font size="40.0" />
           </font>
       </Label>
 
-      <TextField fx:id="meetingIdField" layoutX="489.0" layoutY="219.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+      <TextField fx:id="meetingIdField" layoutX="489.0" layoutY="219.0" prefHeight="71.0" prefWidth="469.0" promptText="请输入会议名称" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
           <font>
               <Font size="30.0" />
           </font>
       </TextField>
 
-      <TextField fx:id="passwordField" layoutX="489.0" layoutY="354.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+      <TextField fx:id="passwordField" layoutX="489.0" layoutY="354.0" prefHeight="71.0" prefWidth="469.0" promptText="请输入您的名称" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
           <font>
               <Font size="30.0" />
           </font>
@@ -66,7 +66,7 @@
           </graphic>
       </Button>
 
-      <Button fx:id="sound" layoutX="506.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
+      <Button fx:id="sound" layoutX="419.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
           <graphic>
               <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -76,7 +76,7 @@
           </graphic>
       </Button>
 
-      <Button  fx:id="Oview" onAction="#Openview" layoutX="898.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+      <Button fx:id="Oview" layoutX="711.0" layoutY="645.0" mnemonicParsing="false" onAction="#Openview" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
 
           <graphic>
               <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
@@ -87,7 +87,7 @@
           </graphic>
       </Button>
 
-       <Button fx:id="cancel" onAction="#Hide" layoutX="1190.0" layoutY="0.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
+       <Button fx:id="cancel" layoutX="920.0" layoutY="0.0" mnemonicParsing="false" onAction="#Hide" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
            <graphic>
                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                    <image>
