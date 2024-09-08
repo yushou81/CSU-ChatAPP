@@ -41,21 +41,16 @@
               <Font size="40.0" />
           </font>
       </Label>
-<<<<<<< HEAD
-      <TextField layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" >
+      <TextField fx:id="meetingIdField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" >
           <font>
               <Font size="30.0" />
           </font>
       </TextField>
-      <TextField layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" >
+      <TextField  fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" >
           <font>
               <Font size="30.0" />
           </font>
       </TextField>
-=======
-      <TextField fx:id="meetingIdField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" />
-      <TextField fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" />
->>>>>>> e8ef16b7f21fef52b04b7f21e9b4409c488fb5d1
       <Button fx:id="mac" layoutX="137.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
           <graphic>
               <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">

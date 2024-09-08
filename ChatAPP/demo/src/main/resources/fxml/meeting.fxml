@@ -17,7 +17,7 @@
 <AnchorPane layoutX="100.0" layoutY="80.0" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MeetingController">
    <children>
 
-      <Button fx:id="initiateBtn" onAction="#Initiate" alignment="BOTTOM_CENTER" blendMode="MULTIPLY" contentDisplay="GRAPHIC_ONLY" layoutX="200.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0">
+      <Button fx:id="creatMeetingBtn" onAction="#creatMeeting" alignment="BOTTOM_CENTER" blendMode="MULTIPLY" contentDisplay="GRAPHIC_ONLY" layoutX="200.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0">
 
          <graphic>
               <ImageView fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true">
@@ -57,7 +57,7 @@
 
          </graphic></Button>
 
-      <Button fx:id="getinBtn" layoutX="412.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#Getin" prefHeight="120.0" prefWidth="120.0">
+      <Button fx:id="joinMeetingBtn" layoutX="412.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#joinMeeting" prefHeight="120.0" prefWidth="120.0">
 
          <graphic>
               <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
