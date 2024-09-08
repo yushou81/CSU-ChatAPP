@@ -13,15 +13,13 @@
 <AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.VideoMeetingController">
    <children>
    
-       <ImageView fitHeight="60.0" fitWidth="120.0" layoutX="570.0" layoutY="5" pickOnBounds="true" preserveRatio="true">
+       <ImageView id="video" fitHeight="60.0" fitWidth="120.0" layoutX="570.0" layoutY="5" pickOnBounds="true" preserveRatio="true">
       <image>
               <Image url="@../images/video_meeting.png" />
       </image>
        </ImageView>
    
        <Rectangle fill="darkgray" height="1.7" width="1224" x="20" y="55" />
-   
-       <Rectangle fill="darkgray" height="585" width="1224" x="20" y="65" />
    
        <Button id="voiceButton" layoutX="40.0" layoutY="700.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="81.0" style="-fx-background-color: transparent;" styleClass="button">
            <graphic>
@@ -56,6 +54,8 @@
                </ImageView>
            </graphic>
        </Button>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="400.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="617.0" fitWidth="1224.0" layoutX="20.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 
 </AnchorPane>

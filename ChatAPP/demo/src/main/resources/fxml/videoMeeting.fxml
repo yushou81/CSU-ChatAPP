@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -7,55 +8,60 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.shape.Rectangle?>
-<AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.ys.controller.VideoMeetingController">
 
-    <ImageView fitHeight="60.0" fitWidth="120.0" layoutX="570.0" layoutY="5" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@../images/video_meeting.png"/>
-    </ImageView>
-
-    <Rectangle x="20" y="55" width="1224" height="1.7" fill="darkgray"/>
-
-    <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="532.0" layoutY="200.0" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@../images/profile_picture.png"/>
-    </ImageView>
-
-    <Button id="voiceButton" layoutX="40.0" layoutY="700.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="81.0"
-            styleClass="button" >
-        <graphic>
-            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@../images/cancel_voice.png"/>
-            </ImageView>
-        </graphic>
-    </Button>
-
-    <Text layoutX="60.0" layoutY="820" >开启语音</Text>
-
-    <Button id="cameraButton" layoutX="180.0" layoutY="700.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="81.0"
-            styleClass="button">
-        <graphic>
-            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@../images/camera1.png"/>
-            </ImageView>
-        </graphic>
-    </Button>
-
-    <Text layoutX="200.0" layoutY="820" >开启视频</Text>
-
-    <Button id="endButton" layoutX="1020.0" layoutY="710" mnemonicParsing="false" prefHeight="80.0"
-            prefWidth="160.0" styleClass="button">
-        <graphic>
-            <ImageView fitHeight="80.0" fitWidth="160.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@../images/end.png"/>
-            </ImageView>
-        </graphic>
-    </Button>
+<AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.VideoMeetingController">
+   <children>
+   
+       <ImageView fitHeight="60.0" fitWidth="120.0" layoutX="570.0" layoutY="5" pickOnBounds="true" preserveRatio="true">
+      <image>
+              <Image url="@../images/video_meeting.png" />
+      </image>
+       </ImageView>
+   
+       <Rectangle fill="darkgray" height="1.7" width="1224" x="20" y="55" />
+   
+       <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="532.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+              <Image url="@../images/profile_picture.png" />
+      </image>
+       </ImageView>
+   
+       <Button id="voiceButton" layoutX="40.0" layoutY="700.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="81.0" styleClass="button">
+           <graphic>
+               <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../images/cancel_voice.png" />
+                  </image>
+               </ImageView>
+           </graphic>
+       </Button>
+   
+       <Text layoutX="60.0" layoutY="820">开启语音</Text>
+   
+       <Button id="cameraButton" onAction="#startVideoMeeting" layoutX="180.0" layoutY="700.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="81.0" styleClass="button">
+           <graphic>
+               <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../images/camera1.png" />
+                  </image>
+               </ImageView>
+           </graphic>
+       </Button>
+   
+       <Text layoutX="200.0" layoutY="820">开启视频</Text>
+   
+       <Button id="endButton" layoutX="1020.0" layoutY="710" mnemonicParsing="false" prefHeight="80.0" prefWidth="160.0" styleClass="button">
+           <graphic>
+               <ImageView fitHeight="80.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                      <Image url="@../images/end.png" />
+                  </image>
+               </ImageView>
+           </graphic>
+       </Button>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="videoImageView"  fitHeight="283.0" fitWidth="482.0" layoutX="44.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
 
 </AnchorPane>

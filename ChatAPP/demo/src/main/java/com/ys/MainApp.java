@@ -22,15 +22,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
+import org.bytedeco.ffmpeg.global.avcodec;
+import org.bytedeco.javacv.CanvasFrame;
+import org.bytedeco.javacv.FFmpegFrameRecorder;
+import org.bytedeco.javacv.Frame;
+import org.bytedeco.javacv.OpenCVFrameGrabber;
+import org.bytedeco.opencv.opencv_core.IplImage;
 
 public class MainApp extends Application {
     private Client client;  // 客户端连接实例
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//         初始化客户端并连接服务器
-
-
+        //         初始化客户端并连接服务器
         client = new Client();
         client.connect("100.64.83.48", 8080);  // 替换为你的服务器IP和端口号
 //        100.64.83.48
