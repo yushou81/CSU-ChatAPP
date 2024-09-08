@@ -1,5 +1,6 @@
 package com.ys.service.client;
 
+import com.ys.controller.VideoMeetingController;
 import org.bytedeco.javacv.*;
 
 import javax.imageio.ImageIO;
@@ -11,6 +12,13 @@ import java.nio.channels.SocketChannel;
 
 public class VideoStreamClient {
     private SocketChannel videoChannel;
+    private OpenCVFrameGrabber grabber;
+    private VideoMeetingController videoMeetingController;
+
+    // 构造函数，传递 VideoMeetingController 实例
+    public void setVideoMeetingController(VideoMeetingController controller) {
+        this.videoMeetingController = controller;
+    }
     public void startVideoStream(String meetingId, String serverIp, int serverPort) {
         try {
             // 连接到视频服务器
@@ -19,9 +27,18 @@ public class VideoStreamClient {
             videoChannel.connect(new InetSocketAddress(serverIp, serverPort));
             System.out.println("成功连接到视频服务器，端口: " + serverPort);
 
-            // 启动摄像头并开始捕获视频流
-            OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(0); // 使用默认摄像头
-            grabber.start();
+            // 启动摄像头并捕获视频帧，发送到服务器
+            startCaptureAndSendFrames(meetingId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    // 捕获视频帧并发送到服务器
+    private void startCaptureAndSendFrames(String meetingId) {
+        try {
+            // 启动摄像头
+            startCamera();
 
             Frame frame;
             while ((frame = grabber.grab()) != null) {
@@ -29,23 +46,41 @@ public class VideoStreamClient {
                 Java2DFrameConverter converter = new Java2DFrameConverter();
                 BufferedImage bufferedImage = converter.convert(frame);
 
+                // 显示视频帧到 JavaFX UI
+                videoMeetingController.updateVideoFrame(bufferedImage);  // 将帧传递给 Controller 更新 UI
+
                 // 将视频帧转换为字节流
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
                 byte[] imageBytes = byteArrayOutputStream.toByteArray();
 
                 // 通过 sendVideoFrame 发送视频帧
-                sendVideoFrame(meetingId, imageBytes);
+//                sendVideoFrame(meetingId, imageBytes);
 
                 // 控制帧率，避免占用过多资源
                 Thread.sleep(100);  // 控制帧率为 10 FPS
             }
 
-            grabber.stop();
+            stopCamera();  // 停止摄像头
             closeConnection();  // 视频流结束后，关闭连接
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    // 启动摄像头
+    private void startCamera() throws FrameGrabber.Exception {
+        grabber = new OpenCVFrameGrabber(0); // 使用默认摄像头
+        grabber.start();
+        System.out.println("摄像头启动成功");
+    }
+
+    // 停止摄像头
+    private void stopCamera() throws FrameGrabber.Exception {
+        if (grabber != null) {
+            grabber.stop();
+            grabber.release();
+            System.out.println("摄像头已停止");
         }
     }
     // 发送视频帧给服务端

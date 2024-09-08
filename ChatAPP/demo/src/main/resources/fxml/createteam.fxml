@@ -1,14 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreateTeamController">
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreateTeamController">
+
    <children>
-      <Button fx:id="createTeamIDButton" layoutX="365.0" layoutY="189.0" mnemonicParsing="false" text="createteam" />
-      <TextArea fx:id="createTeamID" layoutX="77.0" layoutY="79.0" prefHeight="200.0" prefWidth="200.0" />
+      <Label layoutX="370.0" layoutY="25.0" prefHeight="70.0" prefWidth="200.0" text="创建团队">
+         <font>
+            <Font size="50.0" />
+         </font>
+         <style>
+            -fx-text-fill: #35889a;
+            -fx-font-weight: bold;
+         </style>
+      </Label>
+
+      <Label layoutX="268.0" layoutY="242.0" prefHeight="30.0" prefWidth="150.0" text="团队名称:">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+
+      <TextField layoutX="468.0" layoutY="230.0" prefHeight="64.0" prefWidth="298.0" promptText="请输入团队名称" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </TextField>
+
+      <Label layoutX="268.0" layoutY="360.0" prefHeight="58.0" prefWidth="150.0" text="团队ID:">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+
+      <TextField layoutX="468.0" layoutY="356.0" prefHeight="64.0" prefWidth="298.0" promptText="请输入团队ID" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </TextField>
+
+      <Button layoutX="598.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+
+      <Button layoutX="298.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="取消">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

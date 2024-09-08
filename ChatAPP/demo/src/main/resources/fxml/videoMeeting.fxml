@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -7,9 +8,10 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.shape.Rectangle?>
-<AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+
+<AnchorPane prefHeight="776.0" prefWidth="984.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+
             fx:controller="com.ys.controller.VideoMeetingController">
 
     <ImageView fitHeight="60.0" fitWidth="120.0" layoutX="570.0" layoutY="5" pickOnBounds="true"
@@ -17,7 +19,7 @@
         <Image url="@../images/video_meeting.png"/>
     </ImageView>
 
-    <Rectangle x="20" y="55" width="1224" height="1.7" fill="darkgray"/>
+    <Rectangle x="20" y="55" width="1144" height="1.7" fill="darkgray"/>
 
     <ImageView fx:id="image" fitHeight="200.0" fitWidth="200.0" layoutX="532.0" layoutY="200.0" pickOnBounds="true"
                preserveRatio="true">
@@ -60,8 +62,10 @@
         </graphic>
     </Button>
 
+
     <Button fx:id="cameraButton" onAction="#Closeview" layoutX="180.0" layoutY="700.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="81.0"
             styleClass="button">
+
         <graphic>
             <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
                        preserveRatio="true">
@@ -76,7 +80,9 @@
         </font>
     </Label>
 
+
     <Button fx:id="endButton" onAction="#End" layoutX="1020.0" layoutY="710" mnemonicParsing="false" prefHeight="80.0"
+
             prefWidth="160.0" styleClass="button">
         <graphic>
             <ImageView fitHeight="80.0" fitWidth="160.0" pickOnBounds="true"
@@ -85,5 +91,4 @@
             </ImageView>
         </graphic>
     </Button>
-
 </AnchorPane>
