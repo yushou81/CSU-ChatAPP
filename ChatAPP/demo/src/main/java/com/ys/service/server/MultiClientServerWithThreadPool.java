@@ -15,7 +15,7 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 import com.ys.service.MeetingService;
-
+//import com.ys.service.server.VideoStreamServer;
 public class MultiClientServerWithThreadPool {
     // 使用一个线程安全的集合来存储客户端的Socket
     private static Map<String, Socket> userSockets = new ConcurrentHashMap<>();
@@ -27,6 +27,10 @@ public class MultiClientServerWithThreadPool {
         try {
             ServerSocket serverSocket = new ServerSocket(8080);  // 监听8080端口
             System.out.println("Server is listening on port 8080");
+
+            // 启动处理视频流的服务器
+//            VideoStreamServer videoServer = new VideoStreamServer(5555); // 处理视频流的端口
+//            videoServer.start();
 
             MeetingDao meetingDao = new MeetingDao();
             MeetingService meetingService = new MeetingService(meetingDao);
@@ -134,11 +138,13 @@ public class MultiClientServerWithThreadPool {
                     } else if (message.startsWith("CREATE_TEAM")){
                         System.out.println("进入创建群聊");
                       handleCreateTeam(message,out);
+
                     }else if(message.startsWith("JOIN_TEAM")){
                         System.out.println("进入加入群聊");
                         handleJoinTeam(message,out);
                     }
                     else if (message.startsWith("CREATE_MEETING")) {
+                        System.out.println("接收到创建会议");
                         handleCreateMeeting(message, out);
                     } else if (message.startsWith("JOIN_MEETING")) {
                         handleJoinMeeting(message, out);
@@ -375,7 +381,6 @@ public class MultiClientServerWithThreadPool {
                 out.println("FAILURE: 加入群聊信息格式错误");
             }
         }
-
 
         // 处理创建会议，服务器生成 meeting_id
         private void handleCreateMeeting(String message, PrintWriter out) {

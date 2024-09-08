@@ -77,5 +77,9 @@ public class CreateTeamController implements Client.MessageListener{
     }
 
 
+    public void  setClient(Client client){
+        this.client=client;
+    }
+
 
 }
