@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
 
    <children>
-      <Label layoutX="492.0" layoutY="24.0" prefHeight="70.0" prefWidth="270.0" text="我的团队">
+      <Label layoutX="422.0" layoutY="36.0" prefHeight="70.0" prefWidth="270.0" text="我的团队">
          <font>
             <Font size="50.0" />
          </font>
@@ -20,7 +20,7 @@
       </Label>
 
       <!--输入框-->
-      <TextField layoutX="350.0" layoutY="150.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入团队名或ID" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+      <TextField layoutX="333.0" layoutY="149.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入团队名或ID" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
          <font>
             <Font size="21.0" />
          </font>
@@ -33,18 +33,18 @@
          </font>
       </Button>
 
-      <Pane layoutX="42.0" layoutY="236.0" prefHeight="519.0" prefWidth="1116.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);" />
-      <VBox layoutX="73.0" layoutY="251.0" prefHeight="354.0" prefWidth="1047.0">
+      <Pane layoutX="42.0" layoutY="236.0" prefHeight="510.0" prefWidth="1010.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);" />
+      <VBox layoutX="73.0" layoutY="251.0" prefHeight="354.0" prefWidth="1017.0">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/testAvatar.jpg" />
                      </image>
                   </ImageView>
 
-                  <Label prefHeight="90.0" prefWidth="569.0" text="  团队1">
+                  <Label prefHeight="90.0" prefWidth="444.0" text="  团队1">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -74,7 +74,7 @@
                      </image>
                   </ImageView>
 
-                  <Label prefHeight="100.0" prefWidth="570.0" text="  团队2">
+                  <Label prefHeight="100.0" prefWidth="444.0" text="  团队2">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -95,16 +95,15 @@
                   </Button>
                </children>
             </HBox>
-
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/testAvatar.jpg" />
                      </image>
                   </ImageView>
 
-                  <Label prefHeight="100.0" prefWidth="574.0" text="  团队3">
+                  <Label prefHeight="100.0" prefWidth="444.0" text="  团队3">
                      <font>
                         <Font size="36.0" />
                      </font>

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
 
    <children>
-      <Label layoutX="494.0" layoutY="42.0" prefHeight="70.0" prefWidth="270.0" text="新的好友">
+      <Label layoutX="422.0" layoutY="36.0" prefHeight="70.0" prefWidth="270.0" text="新的朋友">
          <font>
             <Font size="50.0" />
          </font>
@@ -19,18 +18,18 @@
          </style>
       </Label>
 
-      <Pane layoutX="42.0" layoutY="171.0" prefHeight="544.0" prefWidth="1116.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);" />
-      <VBox layoutX="73.0" layoutY="189.0" prefHeight="507.0" prefWidth="1047.0">
+      <Pane layoutX="42.0" layoutY="146.0" prefHeight="510.0" prefWidth="1010.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);" />
+      <VBox layoutX="73.0" layoutY="156.0" prefHeight="449.0" prefWidth="1018.0">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/testAvatar.jpg" />
                      </image>
                   </ImageView>
 
-                  <Label prefHeight="90.0" prefWidth="569.0" text="  好友申请1">
+                  <Label prefHeight="90.0" prefWidth="444.0" text="  好友申请1">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -60,7 +59,7 @@
                      </image>
                   </ImageView>
 
-                  <Label prefHeight="100.0" prefWidth="570.0" text="  好友申请2">
+                  <Label prefHeight="100.0" prefWidth="444.0" text="  好友申请2">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -81,16 +80,15 @@
                   </Button>
                </children>
             </HBox>
-
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="100.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/testAvatar.jpg" />
                      </image>
                   </ImageView>
 
-                  <Label prefHeight="100.0" prefWidth="574.0" text="  好友申请3">
+                  <Label prefHeight="100.0" prefWidth="444.0" text="  好友申请3">
                      <font>
                         <Font size="36.0" />
                      </font>
