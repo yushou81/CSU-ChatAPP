@@ -12,19 +12,19 @@
         <module>demo</module>
     </modules>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version> <!-- 或者更高版本 -->
-                <configuration>
-                    <source>1.8</source> <!-- 设置为 Java 8 -->
-                    <target>1.8</target> <!-- 设置为 Java 8 -->
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <version>3.8.1</version> &lt;!&ndash; 或者更高版本 &ndash;&gt;-->
+<!--                <configuration>-->
+<!--                    <source>1.8</source> &lt;!&ndash; 设置为 Java 8 &ndash;&gt;-->
+<!--                    <target>1.8</target> &lt;!&ndash; 设置为 Java 8 &ndash;&gt;-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 
 
 

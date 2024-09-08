@@ -148,7 +148,7 @@ public class ChatController {
         friendListView.setItems(friends);
 
 
-        
+
 
         // 初始化每个好友的聊天记录
         for (String friend : friends) {
