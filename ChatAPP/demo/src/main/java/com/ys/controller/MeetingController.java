@@ -15,7 +15,7 @@ public class MeetingController {
     public Button initiateBtn;
     public Button liveBtn;
 
-    public void Initiate(ActionEvent actionEvent) {
+    public void joinMeeting(ActionEvent actionEvent) {
 
         try {
             Parent view = FXMLLoader.load(getClass().getResource("/fxml/takepartin.fxml"));
@@ -38,6 +38,8 @@ public class MeetingController {
         }
     }
 
+    public Button creatMeetingBtn;
+
     public void LiveBrocast(ActionEvent actionEvent) {
         try {
             AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/openLive.fxml"));
@@ -58,4 +60,27 @@ public class MeetingController {
             throw new RuntimeException(e);
         }
     }
+
+    public void creatMeeting(ActionEvent actionEvent){
+        try {
+            Parent view = FXMLLoader.load(getClass().getResource("/fxml/creatMeeting.fxml"));
+            Stage newStage1 = new Stage();
+
+            // 设置新Stage的场景，将加载的FXML视图作为根节点
+            Scene newScene = new Scene(view);
+            newStage1.setScene(newScene);
+
+            // 设置新Stage的标题（可选）
+            newStage1.setTitle("新窗口");
+
+            // 显示新Stage
+            newStage1.show();
+            //隐藏旧的Stage
+            creatMeetingBtn.getScene().getWindow().hide();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
