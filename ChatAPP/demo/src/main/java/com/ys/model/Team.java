@@ -1,6 +1,7 @@
 package com.ys.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Team {
 
@@ -9,6 +10,7 @@ public class Team {
     private String teamName;
     private String createBy;
     private Timestamp createAt;
+    private List<String> members;
 
     public int getTeamId() {
         return teamId;

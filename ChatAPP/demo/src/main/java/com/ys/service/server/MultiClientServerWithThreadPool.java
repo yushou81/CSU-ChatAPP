@@ -9,6 +9,7 @@ import com.ys.dao.TeamDao;
 import com.ys.model.MeetingRoom;
 
 import com.ys.model.Message;
+import com.ys.model.Team;
 import com.ys.model.User;
 import java.io.*;
 import java.net.*;
@@ -308,7 +309,7 @@ public class MultiClientServerWithThreadPool {
         // 处理获取好友列表
         private void handleGetFriends(PrintWriter out) {
             List<User> friends = userDao.getFriends(Integer.parseInt(userId));
-
+            List<Team> teams =teamDao.getTeams(Integer.parseInt(userId));
             if (friends.isEmpty()) {
                 System.out.println("好友列表为空");
                 out.println("好友列表为空");
@@ -318,8 +319,21 @@ public class MultiClientServerWithThreadPool {
                     out.println("好友ID: " + friend.getUser_id() + ", 好友名: " + friend.getUsername());
                 }
             }
+
             System.out.println("END_OF_FRIEND_LIST");
             out.println("END_OF_FRIEND_LIST"); // 结束符，标识好友列表发送完毕
+            if (teams.isEmpty()) {
+                System.out.println("团队列表为空");
+                out.println("团队列表为空");
+            } else {
+                for (Team team : teams) {
+                    System.out.println("发送团队ID: " + team.getTeamId() + ", 群聊名: " + team.getTeamName());
+                    out.println("团队ID: " + team.getTeamId() + ", 群聊名: " + team.getTeamName());
+                }
+            }
+            System.out.println("END_OF_FRIEND_LIST");
+            out.println("END_OF_TEAM_LIST"); // 结束符，标识好友列表发送完毕
+
         }
 
         // 处理添加好友

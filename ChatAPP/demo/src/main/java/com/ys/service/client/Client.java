@@ -44,7 +44,7 @@ public class Client {
         //收到好友列表时调用
         void onFriendListReceived(Map<String, String> friendList);  // 添加好友列表的回调
         void onCreateGroup(String teamName,boolean success);  // 新增的方法
-
+        void onTeamListReceived(Map<String,String> groupList);
 
 
 
@@ -239,7 +239,7 @@ public class Client {
                 String message;
                 List<String> history = new ArrayList<>();
                 Map<String, String> friendList = new HashMap<>();
-
+                Map<String,String>teamList=new HashMap<>();
                 while ((message = in.readLine()) != null) {
 
                     System.out.println(message);
@@ -252,10 +252,15 @@ public class Client {
                         history.clear();
                     } else if (message.equals("END_OF_FRIEND_LIST")) {
                         if (messageListener != null) {
-                            System.out.println("好友列表接收完毕");
                             messageListener.onFriendListReceived(friendList);
+                            System.out.println("好友列表接收完毕");
                         }
                         friendList.clear();
+                    } else if (message.equals("END_OF_TEAM_LIST")) {
+                        if(messageListener!=null){
+                            messageListener.onTeamListReceived(teamList);
+                            System.out.println("群聊列表接收完毕");
+                        }
                     } else if (message.startsWith("时间:")) {
                         history.add(message);
                     } else if (message.startsWith("好友ID:")) {

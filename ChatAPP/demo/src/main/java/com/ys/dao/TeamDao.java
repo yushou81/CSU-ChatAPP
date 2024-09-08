@@ -81,6 +81,31 @@ public class TeamDao {
         }
     }
 
+    //获取用户的团队
+    public List<Team>getTeams(int userId){
+        List<Team>teams=new ArrayList<>();
+        String query = "SELECT t.* FROM teams t " +
+                "JOIN team_members tm ON t.team_id = tm.team_id " +
+                "WHERE tm.user_id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Team team = new Team();
+                team.setTeamId(rs.getInt("team_id"));
+                team.setTeamName(rs.getString("team_name"));
+                teams.add(team);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return teams;
+    }
+
     // 获取团队成员
     public List<Integer> getTeamMembers(String teamName) {
         List<Integer> members = new ArrayList<>();

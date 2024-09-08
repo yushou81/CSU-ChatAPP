@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="settingPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.SettingController">
+<AnchorPane fx:id="settingPane" prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.SettingController">
    <children>
-      <Label layoutX="522.0" layoutY="14.0" prefHeight="70.0" prefWidth="139.0" text="设置">
+      <Label layoutX="431.0" layoutY="28.0" prefHeight="70.0" prefWidth="139.0" text="设置">
          <font>
             <Font size="50.0" />
          </font>
@@ -16,7 +16,7 @@
          </style>
       </Label>
 
-      <VBox layoutX="447.0" layoutY="112.0" spacing="20">
+      <VBox layoutX="369.0" layoutY="130.0" spacing="20">
          <Label fx:id="usernameLabel" prefHeight="36.0" prefWidth="158.0" text="用户名更改：">
             <font>
                <Font size="24.0" />
@@ -60,7 +60,7 @@
          </TextField>
       </VBox>
 
-      <Button fx:id="confirmButton" layoutX="441.0" layoutY="480.0" onAction="#handleConfirm" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
+      <Button fx:id="confirmButton" layoutX="364.0" layoutY="507.0" onAction="#handleConfirm" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
          <font>
             <Font size="24.0" />
          </font>
@@ -69,7 +69,7 @@
          </style>
       </Button>
 
-      <Button fx:id="returnButton" layoutX="573.0" layoutY="480.0" onAction="#handleReturn" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="返回">
+      <Button fx:id="returnButton" layoutX="524.0" layoutY="507.0" onAction="#handleReturn" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="返回">
          <font>
             <Font size="24.0" />
          </font>
@@ -78,7 +78,7 @@
          </style>
       </Button>
 
-      <Button fx:id="changeIcon" layoutX="510.0" layoutY="388.0" onAction="#handleChangeIcon" prefHeight="58.0" prefWidth="120.0" styleClass="button" text="更换头像" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
+      <Button fx:id="changeIcon" layoutX="441.0" layoutY="410.0" onAction="#handleChangeIcon" prefHeight="58.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" styleClass="button" text="更换头像">
          <font>
             <Font size="24.0" />
          </font>

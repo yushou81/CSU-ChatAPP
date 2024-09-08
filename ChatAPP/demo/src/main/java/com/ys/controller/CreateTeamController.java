@@ -21,7 +21,8 @@ public class CreateTeamController implements Client.MessageListener{
 
     @FXML
     private Button createTeamButton;
-
+    @FXML
+    private Button cancelButton;
     private Client client;
 
     @FXML
@@ -64,6 +65,9 @@ public class CreateTeamController implements Client.MessageListener{
     public void onFriendListReceived(Map<String,String>friendList){
 
     }
+    @Override
+    public void onTeamListReceived(Map<String,String> groupList){}
+
 
 
 

@@ -24,14 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 public class ChatController {
     public ListView friendListView;
-
     //需要在点击contractList中内容时切换chatPane内容和nameTitle内容
     @FXML
     private StackPane nameTitle;//顶部名称和头像区域
-
     @FXML
     private ListView<String> messageListView; // 右侧消息列表
     @FXML
@@ -94,9 +91,9 @@ public class ChatController {
                     }
                 });
             }
+
             @Override
             public void onCreateGroup(String teamName,boolean success){
-
             }
 
             @Override
@@ -107,6 +104,14 @@ public class ChatController {
                     loadFriendList(friendListCopy);
                 });
             }
+            @Override
+            public void onTeamListReceived(Map<String,String> teamList){
+                Map<String,String> teamListCopy=new HashMap<>(teamList);
+                Platform.runLater(() -> {
+                    loadFriendList(teamListCopy);
+                });
+            }
+
         });
 
         // 异步获取好友列表
@@ -139,9 +144,11 @@ public class ChatController {
         this.friendMap = new HashMap<>(friendMap);
         String[] userNames = getUserNames(friendMap);
         ObservableList<String> friends = FXCollections.observableArrayList(userNames);
-        System.out.println("加载好友列表");
+        System.out.println("客户端加载好友列表");
         friendListView.setItems(friends);
 
+
+        
 
         // 初始化每个好友的聊天记录
         for (String friend : friends) {
