@@ -21,17 +21,15 @@
             <version>8.0.23</version>
         </dependency>
         <dependency>
-            <groupId>javax.websocket</groupId>
-            <artifactId>javax.websocket-api</artifactId>
-            <version>1.1</version>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>1.5.8</version>
         </dependency>
         <dependency>
             <groupId>org.bytedeco</groupId>
-            <artifactId>javacv</artifactId>
-            <version>1.5.7</version>
-            <scope>compile</scope>
+            <artifactId>opencv-platform</artifactId>
+            <version>4.6.0-1.5.8</version> <!-- 与JavaCV版本保持一致 -->
         </dependency>
-
     </dependencies>
 
     <build>
