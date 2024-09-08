@@ -10,87 +10,87 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Rectangle?>
 
+<AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.VideoMeetingController">
+    <children>
 
-<AnchorPane prefHeight="776.0" prefWidth="984.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+        <ImageView fitHeight="60.0" fitWidth="120.0" layoutX="570.0" layoutY="5" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/video_meeting.png" />
+            </image>
+        </ImageView>
 
-            fx:controller="com.ys.controller.VideoMeetingController">
+        <Rectangle fill="darkgray" height="4.0" layoutY="-2.0" width="1206.0" x="20" y="55" />
 
-    <ImageView fitHeight="60.0" fitWidth="120.0" layoutX="570.0" layoutY="5" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@../images/video_meeting.png"/>
-    </ImageView>
+        <ImageView fx:id="image" fitHeight="200.0" fitWidth="200.0" layoutX="532.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/profile_picture.png" />
+            </image>
+        </ImageView>
 
-    <Rectangle x="20" y="55" width="1144" height="1.7" fill="darkgray"/>
+        <Button fx:id="voiceButtonYes" layoutX="40.0" layoutY="700.0" mnemonicParsing="false" onAction="#voiceclick1" prefHeight="81.0" prefWidth="81.0" styleClass="button">
+            <graphic>
+                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/open_voice.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
 
-    <ImageView fx:id="image" fitHeight="200.0" fitWidth="200.0" layoutX="532.0" layoutY="200.0" pickOnBounds="true"
-               preserveRatio="true">
-        <Image url="@../images/profile_picture.png"/>
-    </ImageView>
+        <Button fx:id="voiceButtonNO" layoutX="40.0" layoutY="700.0" mnemonicParsing="false" onAction="#voiceclick" prefHeight="81.0" prefWidth="81.0" styleClass="button">
+            <graphic>
+                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/cancel_voice.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
 
-    <Button fx:id="voiceButtonYes" onAction="#voiceclick1" layoutX="40.0" layoutY="700.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="81.0"
-            styleClass="button" >
-        <graphic>
-            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@../images/open_voice.png"/>
-            </ImageView>
-        </graphic>
-    </Button>
+        <Label layoutX="58.0" layoutY="790.0" prefHeight="33.0" prefWidth="76.0" text="语音开关">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
 
-    <Button fx:id="voiceButtonNO" onAction="#voiceclick" layoutX="40.0" layoutY="700.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="81.0"
-            styleClass="button" >
-        <graphic>
-            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@../images/cancel_voice.png"/>
-            </ImageView>
-        </graphic>
-    </Button>
-
-    <Label layoutX="58.0" layoutY="790.0" prefHeight="33.0" prefWidth="76.0" text="语音开关" >
-        <font>
-            <Font size="18.0" />
-        </font>
-    </Label>
-
-    <Button fx:id="cameraoOButton" onAction="#Openview" layoutX="180.0" layoutY="700.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="81.0"
-            styleClass="button">
-        <graphic>
-            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@../images/open_view.png"/>
-            </ImageView>
-        </graphic>
-    </Button>
-
-
-    <Button fx:id="cameraButton" onAction="#Closeview" layoutX="180.0" layoutY="700.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="81.0"
-            styleClass="button">
-
-        <graphic>
-            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@../images/camera1.png"/>
-            </ImageView>
-        </graphic>
-    </Button>
-
-    <Label layoutX="200.0" layoutY="790.0" prefHeight="33.0" prefWidth="76.0" text="视频开关" >
-        <font>
-            <Font size="18.0" />
-        </font>
-    </Label>
+        <Button fx:id="cameraoOButton" layoutX="180.0" layoutY="700.0" mnemonicParsing="false" onAction="#Openview" prefHeight="81.0" prefWidth="81.0" styleClass="button">
+            <graphic>
+                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/open_view.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
 
 
-    <Button fx:id="endButton" onAction="#End" layoutX="1020.0" layoutY="710" mnemonicParsing="false" prefHeight="80.0"
+        <Button fx:id="cameraButton" layoutX="180.0" layoutY="700.0" mnemonicParsing="false" onAction="#Closeview" prefHeight="81.0" prefWidth="81.0" styleClass="button">
 
-            prefWidth="160.0" styleClass="button">
-        <graphic>
-            <ImageView fitHeight="80.0" fitWidth="160.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@../images/end.png"/>
-            </ImageView>
-        </graphic>
-    </Button>
+            <graphic>
+                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/camera1.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+        <Label layoutX="200.0" layoutY="790.0" prefHeight="33.0" prefWidth="76.0" text="视频开关">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+
+
+        <Button fx:id="endButton" layoutX="1020.0" layoutY="710" mnemonicParsing="false" onAction="#End" prefHeight="80.0" prefWidth="160.0" styleClass="button">
+            <graphic>
+                <ImageView fitHeight="80.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/end.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </children>
 
 </AnchorPane>

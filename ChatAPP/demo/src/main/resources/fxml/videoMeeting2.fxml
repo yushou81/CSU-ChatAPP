@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="1184.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.VideoMeetingController">
+<AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.VideoMeetingController">
    <children>
    
        <ImageView id="video" fitHeight="60.0" fitWidth="120.0" layoutX="570.0" layoutY="5" pickOnBounds="true" preserveRatio="true">
