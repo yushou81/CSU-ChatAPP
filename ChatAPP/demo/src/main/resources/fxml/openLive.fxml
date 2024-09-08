@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.OpenLiveController">
+<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.OpenLiveController">
    <children>
-      <Button fx:id="back" layoutX="71.0" layoutY="70.0" mnemonicParsing="false" onAction="#Backhome" prefHeight="99.0" prefWidth="106.0">
-          <graphic>
-              <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                      <Image url="@../images/home_icon.png" />
-                  </image>
-              </ImageView>
-          </graphic>
-      </Button>
-      <Label layoutX="550.0" layoutY="70.0" prefHeight="99.0" prefWidth="233.0" text="直播广场" textAlignment="CENTER">
-         <font>
-            <Font size="48.0" />
-         </font>
-      </Label>
-      <Button fx:id="open" layoutX="580.0" layoutY="700.0" mnemonicParsing="false" prefHeight="122.0" prefWidth="127.0">
+       <Label layoutX="470.0" layoutY="25.0" prefHeight="70.0" prefWidth="200.0" text="直播广场">
+           <font>
+               <Font size="50.0" />
+           </font>
+           <style>
+               -fx-text-fill: #35889a;
+               -fx-font-weight: bold;
+           </style>
+       </Label>
+
+      <Button fx:id="open" layoutX="502.0" layoutY="316.0" mnemonicParsing="false" prefHeight="122.0" prefWidth="127.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
           <graphic>
               <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -34,9 +26,10 @@
               </ImageView>
           </graphic>
       </Button>
-      <Label layoutX="756.0" layoutY="943.0" prefHeight="71.0" prefWidth="163.0" text="开播">
+
+      <Label layoutX="534.0" layoutY="486.0" prefHeight="71.0" prefWidth="89.0" text="开播">
          <font>
-            <Font size="36.0" />
+            <Font size="30.0" />
          </font>
       </Label>
    </children>

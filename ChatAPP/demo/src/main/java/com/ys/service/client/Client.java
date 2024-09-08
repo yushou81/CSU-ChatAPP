@@ -2,12 +2,16 @@ package com.ys.service.client;
 
 import com.mysql.cj.protocol.MessageListener;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.bytedeco.javacv.*;
+import org.bytedeco.opencv.opencv_core.*;
 
 public class Client {
     private Socket socket;
@@ -20,7 +24,14 @@ public class Client {
     }
 
     private String userId;
+
+    private String serverIp;
     private MessageListener messageListener;
+    private VideoStreamClient videoStreamClient;
+
+    public Client() {
+        this.videoStreamClient = VideoStreamClientManager.getClient();  // 创建视频流客户端实例
+    }
 
 
     public interface MessageListener {
@@ -41,6 +52,7 @@ public class Client {
     // 初始化客户端，连接到服务器，并返回布尔值指示连接是否成功
     public boolean connect(String serverIp, int serverPort) {
         try {
+            this.serverIp=serverIp;
             socket = new Socket(serverIp, serverPort);
             System.out.println("Connected to server: " + serverIp+"from src/main/java/com/ys/service/client/Client.java");
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -239,8 +251,6 @@ public class Client {
                 Map<String, String> friendList = new HashMap<>();
 
                 while ((message = in.readLine()) != null) {
-
-
                     if (message.equals("END_OF_MESSAGE_HISTORY")) {
                         if (messageListener != null) {
                             messageListener.onHistoryReceived(history);
@@ -252,7 +262,6 @@ public class Client {
                             messageListener.onFriendListReceived(friendList);
                         }
                         friendList.clear();
-
                     } else if (message.startsWith("时间:")) {
                         history.add(message);
                     } else if (message.startsWith("好友ID:")) {
@@ -284,9 +293,12 @@ public class Client {
                         //这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
                         String[] parts = message.split("CREATE_GROUP_SUCCESS:");
                         String teamName=parts[1].trim();
-
-
-
+                    }else if(message.startsWith("SUCCESS: 会议 ")){
+                        // 解析服务端返回的会议号
+                        String meetingId = message.split(":")[1].trim();
+                        System.out.println("会议创建成功，会议号为: " + meetingId);
+                        // 连接视频流服务器并开始传输视频
+                        videoStreamClient.startVideoStream(meetingId, serverIp, 5555);  // 视频流端口是 5555
                     }
                 }
             } catch (IOException e) {
@@ -294,6 +306,7 @@ public class Client {
             }
         }).start();
     }
+
     //关闭客户端连接
     public void close() {
         try {

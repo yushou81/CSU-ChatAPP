@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.JointeamController">
+<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.AddfriendsController">
    <children>
-      <Button fx:id="joinTeamButton" layoutX="158.0" layoutY="84.0" mnemonicParsing="false" text="jointeam" />
-      <TextField fx:id="teamID" layoutX="167.0" layoutY="177.0" />
+      <!--主标题-->
+      <Label layoutX="470.0" layoutY="25.0" prefHeight="70.0" prefWidth="200.0" text="加入团队">
+         <font>
+            <Font size="50.0" />
+         </font>
+         <style>
+            -fx-text-fill: #35889a;
+            -fx-font-weight: bold;
+         </style>
+      </Label>
+
+      <!--输入框-->
+      <TextField layoutX="350.0" layoutY="150.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入团队名称" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </TextField>
+
+      <!--搜索按钮-->
+      <Button layoutX="680.0" layoutY="145.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="搜索">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+
+      <!--添加按钮-->
+      <Button layoutX="387.0" layoutY="619.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="加入">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+
+      <!--返回按钮-->
+      <Button layoutX="636.0" layoutY="619.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="返回">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+
+      <TextField alignment="TOP_LEFT" layoutX="354.0" layoutY="274.0" prefHeight="240.0" prefWidth="416.0" promptText="输入请求信息" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </TextField>
    </children>
+
 </AnchorPane>

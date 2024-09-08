@@ -52,7 +52,7 @@ public class GroupController {
             }
 
             joinTeamPane = FXMLLoader.load(getClass().getResource("/fxml/jointeam.fxml"));
-            createTeamPane = FXMLLoader.load(getClass().getResource("/fxml/createteam.fxml"));
+//            createTeamPane = FXMLLoader.load(getClass().getResource("/fxml/createteam.fxml"));
 
 
             System.out.println("groupmainStackPane: " + mainStackPane);

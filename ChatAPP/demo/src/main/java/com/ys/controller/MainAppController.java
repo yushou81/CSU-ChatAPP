@@ -15,7 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;  ///
+import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -156,6 +156,8 @@ public class MainAppController {
         collectionPane.setVisible(false);
         workbenchPane.setVisible(false);
         settingPane.setVisible(false);
+
+
         // 隐藏其他 AnchorPane
     }
 
