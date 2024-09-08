@@ -94,6 +94,10 @@ public class ChatController {
                     }
                 });
             }
+            @Override
+            public void onCreateGroup(String teamName,boolean success){
+
+            }
 
             @Override
             public void onFriendListReceived(Map<String, String> friendList) {

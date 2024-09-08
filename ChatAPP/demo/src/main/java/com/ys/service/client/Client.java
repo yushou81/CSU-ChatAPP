@@ -1,6 +1,7 @@
 package com.ys.service.client;
 
 import com.mysql.cj.protocol.MessageListener;
+import com.ys.controller.CreateTeamController;
 
 import java.io.*;
 import java.net.*;
@@ -31,6 +32,11 @@ public class Client {
         void onHistoryReceived(List<String> history);
         //收到好友列表时调用
         void onFriendListReceived(Map<String, String> friendList);  // 添加好友列表的回调
+        void onCreateGroup(String teamName,boolean success);  // 新增的方法
+
+
+
+
     }
 
     // 注册监听器，用于在外部处理消息接收
@@ -68,7 +74,7 @@ public class Client {
         return handleLoginOrRegisterResponse();
     }
 
-    public boolean sendCreateTeamRequest(String userId,String teamName) {
+    public void sendCreateTeamRequest(String userId,String teamName) {
         // 发送创建团队请求到服务器
         if (sendMessage("CREATE_TEAM:"+userId +":"+ teamName)) {
             System.out.println("客户端发送"+"CREATE_TEAM:"+userId +":"+ teamName);
@@ -77,7 +83,7 @@ public class Client {
         }
 
         // 处理服务器的响应
-        return handleCreateTeamResponse();
+        return ;
     }
     // 发送加入团队请求
     public boolean sendJoinTeamRequest(String userId, String teamName) {
@@ -93,24 +99,8 @@ public class Client {
     }
 
 
-    private boolean handleCreateTeamResponse() {
-        try {
-            String response = in.readLine();  // 读取服务器的响应
-            //debug信息
-            System.out.println(response);
-            if (response.startsWith("CREATE_GROUP_SUCCESS:")) {
-                this.userId = response.split(":")[1];
-                System.out.println("创建群聊成功");
-                return true;
-            } else if (response.startsWith("CREATE_GROUP_FAILURE")) {
-                System.out.println("创建群聊失败: " + response);
-                return false;
-            }
-        } catch (IOException e) {
-            System.err.println("Error while handling server response: " + e.getMessage());
-        }
-        return false;
-    }
+
+
 
 
     // 处理服务器返回的加入团队响应
@@ -239,7 +229,7 @@ public class Client {
                 Map<String, String> friendList = new HashMap<>();
 
                 while ((message = in.readLine()) != null) {
-
+                    System.out.println(message);
 
                     if (message.equals("END_OF_MESSAGE_HISTORY")) {
                         if (messageListener != null) {
@@ -269,25 +259,40 @@ public class Client {
                             messageListener.onMessageReceived(message);
                         }
 
-                    } else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
-
-                        String[] parts = message.split("CREATE_GROUP_SUCCESS:");
-
+                    }
+                    else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
+                        String[] parts = message.split(":",2);
+                        if(parts.length==2){
                         String teamName=parts[1].trim();
                         //这里写加入群聊的函数
                         this.sendJoinTeamRequest(this.getUserId(),teamName);
-     //                   (client.sendJoinTeamRequest(client.getUserId(), teamName.getText()))
+                            if (messageListener != null) {
+                                messageListener.onCreateGroup(teamName,true);  // 调用监听器回调方法
+                            }
+                        }
+                        else{
+                            System.err.println("CREATE_GROUP_SUCCESS 消息格式不正确: " + message);
+
+                        }
+                    } else if (message.startsWith("FAILURE:")) {
+                        String[] parts = message.split(":",2);
 
 
-
-                    }else if(message.startsWith("JOIN_GROUP_SUCCESS:")){
-                        //这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
+                        if(parts.length==2){
+                            String wrongMessage=parts[1].trim();
+                        if(messageListener!=null){
+                            messageListener.onCreateGroup(wrongMessage,false);
+                        }
+                    }
+                    } else if(message.startsWith("JOIN_GROUP_SUCCESS:")){
+                      //  这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
                         String[] parts = message.split("CREATE_GROUP_SUCCESS:");
                         String teamName=parts[1].trim();
 
 
 
                     }
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();

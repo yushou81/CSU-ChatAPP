@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreateTeamController">
    <children>
-      <Button fx:id="createTeamIDButton" layoutX="365.0" layoutY="189.0" mnemonicParsing="false" text="createteam" />
-      <TextArea fx:id="createTeamID" layoutX="77.0" layoutY="79.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button fx:id="createTeamButton" layoutX="365.0" layoutY="189.0" mnemonicParsing="false" text="createteam" />
+      <TextField fx:id="teamNameField" layoutX="77.0" layoutY="79.0" prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
