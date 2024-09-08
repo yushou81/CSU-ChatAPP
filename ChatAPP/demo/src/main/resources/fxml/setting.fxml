@@ -1,21 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="settingPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.SettingController">
+<AnchorPane fx:id="settingPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.SettingController">
    <children>
-      <VBox layoutX="20.0" layoutY="20.0" spacing="20">
-         <children>
-            <Label text="账号设置：" />
-            <HBox spacing="10" />
-         </children>
+      <Label layoutX="522.0" layoutY="14.0" prefHeight="70.0" prefWidth="139.0" text="设置">
+         <font>
+            <Font size="50.0" />
+         </font>
+         <style>
+            -fx-text-fill: #35889a;
+            -fx-font-weight: bold;
+         </style>
+      </Label>
+
+      <VBox layoutX="447.0" layoutY="112.0" spacing="20">
+         <Label fx:id="usernameLabel" prefHeight="36.0" prefWidth="158.0" text="用户名更改：">
+            <font>
+               <Font size="24.0" />
+            </font>
+            <style>
+               -fx-text-fill: #35889a;
+               -fx-font-weight: bold;
+            </style>
+         </Label>
+
+         <TextField fx:id="usernameField" prefHeight="57.0" prefWidth="246.0" promptText="请输入新的用户名" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+            <font>
+               <Font size="20.0" />
+            </font>
+            <style>
+               -fx-background-color: white;
+               -fx-border-color: #35889a;
+               -fx-border-radius: 5;
+            </style>
+         </TextField>
+
+         <Label fx:id="passwordLabel" prefHeight="36.0" prefWidth="158.0" text="密码更改：">
+            <font>
+               <Font size="24.0" />
+            </font>
+            <style>
+               -fx-text-fill: #35889a;
+               -fx-font-weight: bold;
+            </style>
+         </Label>
+         <TextField fx:id="passwordField" prefHeight="58.0" prefWidth="246.0" promptText="请输入新的密码" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+            <font>
+               <Font size="20.0" />
+            </font>
+            <style>
+               -fx-background-color: white;
+               -fx-border-color: #35889a;
+               -fx-border-radius: 5;
+            </style>
+         </TextField>
+
+         <HBox spacing="20" />
       </VBox>
-      <TextField fx:id="usernamefield" layoutX="152.0" layoutY="79.0" prefHeight="24.0" prefWidth="154.0" />
-      <Label fx:id="usernamelabel" layoutX="64.0" layoutY="74.0" prefHeight="36.0" prefWidth="72.0" text="用户名：" />
-      <Button fx:id="changeicon" layoutX="40.0" layoutY="210.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" styleClass="button" text="更换头像" />
-      <Button fx:id="changepassword" layoutX="42.0" layoutY="139.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" styleClass="button" text="密码更改" />
+      <Button fx:id="confirmButton" layoutX="441.0" layoutY="480.0" onAction="#handleConfirm" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <style>
+            -fx-border-radius: 5;
+         </style>
+      </Button>
+      <Button fx:id="returnButton" layoutX="573.0" layoutY="480.0" onAction="#handleReturn" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="返回">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <style>
+            -fx-border-radius: 5;
+         </style>
+      </Button>
+      <Button fx:id="changeIcon" layoutX="510.0" layoutY="388.0" onAction="#handleChangeIcon" prefHeight="58.0" prefWidth="120.0" styleClass="button" text="更换头像" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <style>
+            -fx-background-color: #35889a;
+            -fx-text-fill: white;
+            -fx-border-radius: 5;
+         </style>
+      </Button>
    </children>
 </AnchorPane>

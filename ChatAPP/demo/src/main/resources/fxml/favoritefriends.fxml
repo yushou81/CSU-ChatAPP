@@ -1,67 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="486.0" prefWidth="838.0" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
+<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
+
    <children>
-      <VBox layoutX="330.0" layoutY="50.0" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <HBox prefHeight="69.0" prefWidth="319.0">
-               <children>
-                  <ImageView fitHeight="77.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/testAvatar.jpg" />
-                     </image>
-                  </ImageView>
-                  <Label text="happydog" />
-               </children>
-            </HBox>
-            <Line endX="100.0" startX="-100.0" />
-         </children>
-      </VBox>
-      <VBox layoutX="330.0" layoutY="140.0" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <HBox prefHeight="69.0" prefWidth="319.0">
-               <children>
-                  <ImageView fitHeight="77.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/testAvatar.jpg" />
-                     </image>
-                  </ImageView>
-                  <Label text="happydog" />
-               </children>
-            </HBox>
-            <Line endX="100.0" startX="-100.0" />
-         </children>
-      </VBox>
-      <Label layoutX="39.0" layoutY="14.0" prefHeight="78.0" prefWidth="164.0" text="常用联系人">
+      <Label layoutX="492.0" layoutY="24.0" prefHeight="70.0" prefWidth="270.0" text="常用联系人">
          <font>
-            <Font size="24.0" />
-         </font></Label>
-      <VBox layoutX="330.0" layoutY="230.0" prefHeight="100.0" prefWidth="200.0">
+            <Font size="50.0" />
+         </font>
+         <style>
+            -fx-text-fill: #35889a;
+            -fx-font-weight: bold;
+         </style>
+      </Label>
+
+      <Pane layoutX="42.0" layoutY="155.0" prefHeight="502.0" prefWidth="1127.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
          <children>
-            <HBox prefHeight="69.0" prefWidth="319.0">
+            <VBox layoutX="35.0" layoutY="14.0" prefHeight="447.0" prefWidth="1062.0">
                <children>
-                  <ImageView fitHeight="77.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/testAvatar.jpg" />
-                     </image>
-                  </ImageView>
-                  <Label text="happydog" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+                           <Image url="@../images/testAvatar.jpg" />
+                        </ImageView>
+                        <Label prefHeight="90.0" prefWidth="776.0" text="  联系人1">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                        <Button mnemonicParsing="false" prefHeight="83.0" prefWidth="182.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                           <Image url="@../images/testAvatar.jpg" />
+                        </ImageView>
+                        <Label prefHeight="100.0" prefWidth="774.0" text="  联系人2">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                        <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="184.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+                           <Image url="@../images/testAvatar.jpg" />
+                        </ImageView>
+                        <Label prefHeight="100.0" prefWidth="780.0" text="  联系人3">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                        <Button mnemonicParsing="false" prefHeight="87.0" prefWidth="183.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
-            <Line endX="100.0" startX="-100.0" />
-         </children>
-      </VBox>
-      <Button fx:id="favuser1" layoutX="325.0" layoutY="44.0" mnemonicParsing="false" onAction="#chatfavuser1" prefHeight="78.0" prefWidth="218.0" style="-fx-background-color: transparent;" styleClass="button" />
-      <Button fx:id="favuser11" layoutX="316.0" layoutY="121.0" mnemonicParsing="false" onAction="#chatfavuser2" prefHeight="92.0" prefWidth="218.0" style="-fx-background-color: transparent;" styleClass="button" />
-      <Button fx:id="favuser12" layoutX="317.0" layoutY="215.0" mnemonicParsing="false" onAction="#chatfavsuer3" prefHeight="85.0" prefWidth="218.0" style="-fx-background-color: transparent;" styleClass="button" />
+            </VBox>
+         </children></Pane>
    </children>
 </AnchorPane>
