@@ -16,39 +16,18 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class CreatMeetingController {
-    public Button back;
     public TextField meetingNameField;
 
     public TextField passwordField;
+    public Button cancel;
+    public Button creation;
     private Client client;
     public CreatMeetingController() {
         // 使用ClientManager来获取共享的Client实例
         this.client = ClientManager.getClient();
     }
 
-    public void Backhome(ActionEvent actionEvent) {
-        try {
-            AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/meeting.fxml"));
-            AnchorPane view1 = FXMLLoader.load(getClass().getResource("/fxml/mainapp.fxml"));
-            view1.getChildren().add(view);
-            AnchorPane.setLeftAnchor(view, 100.0);
-            Stage newStage1 = new Stage();
 
-            // 设置新Stage的场景，将加载的FXML视图作为根节点
-            Scene newScene = new Scene(view1);
-            newStage1.setScene(newScene);
-
-            // 设置新Stage的标题（可选）
-            newStage1.setTitle("新窗口");
-
-            // 显示新Stage
-            newStage1.show();
-            //隐藏旧的Stage
-            back.getScene().getWindow().hide();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
 
@@ -70,7 +49,7 @@ public class CreatMeetingController {
         showAlert("会议创建成功", "您的会议已成功创建！");
 
         // 返回到主界面（可选）
-        Backhome(actionEvent);
+        //Backhome(actionEvent);
     }
 
     // 显示警告或提示框
@@ -80,5 +59,27 @@ public class CreatMeetingController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void Hide(ActionEvent actionEvent) {
+        cancel.getScene().getWindow().hide();
+    }
+
+    public void Creat1(ActionEvent actionEvent) {
+        try {
+            AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/videoMeeting.fxml"));
+            Stage newStage1 = new Stage();
+            // 设置新Stage的场景，将加载的FXML视图作为根节点
+            Scene newScene = new Scene(view,1264,840);
+            newStage1.setScene(newScene);
+            // 设置新Stage的标题（可选）
+            newStage1.setTitle("新窗口");
+            // 显示新Stage
+            newStage1.show();
+            //隐藏旧的Stage
+            creation.getScene().getWindow().hide();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
