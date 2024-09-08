@@ -52,6 +52,7 @@ public class CreateTeamController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
     public void  setClient(Client client){
         this.client=client;
     }

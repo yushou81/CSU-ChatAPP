@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Rectangle?>
 
+
 <AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.VideoMeetingController">
    <children>
    
@@ -57,5 +58,4 @@
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="400.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="617.0" fitWidth="1224.0" layoutX="20.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" />
    </children>
-
 </AnchorPane>

@@ -1,75 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane layoutX="100.0" layoutY="80.0" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MeetingController">
+<AnchorPane prefHeight="776" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MeetingController">
    <children>
 
-      <Button fx:id="creatMeetingBtn" onAction="#creatMeeting" alignment="BOTTOM_CENTER" blendMode="MULTIPLY" contentDisplay="GRAPHIC_ONLY" layoutX="200.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0">
-
+      <Button fx:id="creatMeetingBtn" layoutX="200.0" layoutY="140.0" mnemonicParsing="false" onAction="#creatMeeting" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
          <graphic>
               <ImageView fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true">
-
-
                   <image>
-                      <!--把URL换为关闭图片资源-->
                       <Image url="@../images/meeting_getin.png" />
                   </image>
               </ImageView>
+         </graphic>
+      </Button>
 
+       <Button fx:id="joinMeetingBtn" layoutX="400.0" layoutY="140.0" mnemonicParsing="false" onAction="#joinMeeting" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
+           <graphic>
+               <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                       <Image url="@../images/meeting_initiate.png" />
+                   </image>
+               </ImageView>
+           </graphic>
+       </Button>
 
-         </graphic></Button>
-      <Button fx:id="liveBtn" contentDisplay="GRAPHIC_ONLY" layoutX="785.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#LiveBrocast" prefHeight="100.0" prefWidth="100.0">
+      <Button fx:id="reservationMeetingBtn" layoutX="600.0" layoutY="140.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
          <graphic>
               <ImageView fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true">
-
                   <image>
-                      <!--把URL换为关闭图片资源-->
-                      <Image url="@../images/meeting_live.png" />
-                  </image>
-              </ImageView>
-
-
-         </graphic></Button>
-      <Button fx:id="reservationMeetingBtn" layoutX="601.0" layoutY="140.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0">
-         <graphic>
-              <ImageView fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true">
-
-
-                  <image>
-                      <!--把URL换为关闭图片资源-->
                       <Image url="@../images/meeting_reservation.png" />
                   </image>
               </ImageView>
+         </graphic>
+      </Button>
 
+       <Button fx:id="liveBtn" layoutX="800.0" layoutY="140.0" mnemonicParsing="false" onAction="#LiveBrocast" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
+           <graphic>
+               <ImageView fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                       <Image url="@../images/meeting_live.png" />
+                   </image>
+               </ImageView>
+           </graphic>
+       </Button>
 
-         </graphic></Button>
-
-      <Button fx:id="joinMeetingBtn" layoutX="412.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#joinMeeting" prefHeight="120.0" prefWidth="120.0">
-
-         <graphic>
-              <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                      <!--把URL换为关闭图片资源-->
-                      <Image url="@../images/meeting_initiate.png" />
-                  </image>
-              </ImageView>
-
-         </graphic></Button>
       <Rectangle arcHeight="5.0" arcWidth="1200.81" fill="#c6cfd7" height="5.0" layoutX="30.0" layoutY="60.0" opacity="0.59" stroke="BLACK" strokeType="INSIDE" width="1000.0" />
-      <Label layoutX="250.0" layoutY="270.0" prefHeight="33.0" prefWidth="76.0" text="发起会议" />
-      <Label layoutX="450.0" layoutY="270.0" prefHeight="33.0" prefWidth="76.0" text="加入会议" />
-      <Label layoutX="650.0" layoutY="270.0" prefHeight="33.0" prefWidth="76.0" text="预约会议" />
-      <Label layoutX="850.0" layoutY="270.0" prefHeight="33.0" prefWidth="76.0" text="直播" />
 
+       <Label layoutX="224.0" layoutY="279.0" prefHeight="40.0" prefWidth="81.0" text="发起会议">
+         <font>
+            <Font size="18.0" />
+         </font>
+       </Label>
+
+       <Label layoutX="425.0" layoutY="279.0" prefHeight="40.0" prefWidth="91.0" text="加入会议">
+         <font>
+            <Font size="18.0" />
+         </font>
+       </Label>
+
+       <Label layoutX="627.0" layoutY="279.0" prefHeight="40.0" prefWidth="91.0" text="预约会议">
+         <font>
+            <Font size="18.0" />
+         </font>
+       </Label>
+
+       <Label layoutX="835.0" layoutY="279.0" prefHeight="40.0" prefWidth="69.0" text="直播">
+         <font>
+            <Font size="18.0" />
+         </font>
+       </Label>
 
    </children>
 </AnchorPane>
