@@ -1,5 +1,6 @@
 package com.ys.controller;
 
+import com.ys.service.client.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class SettingController {
-
 
         @FXML
         private TextField usernameField;
@@ -38,9 +38,15 @@ public class SettingController {
         @FXML
         private Button returnButton;
 
+        private Client client;
+
 
         // 初始化
         public void initialize() {
+                confirmButton.setOnAction(event -> modify());
+        }
+
+        private void modify() {
 
         }
 
