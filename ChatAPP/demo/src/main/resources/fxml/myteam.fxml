@@ -35,10 +35,10 @@
 
       <Pane layoutX="42.0" layoutY="236.0" prefHeight="510.0" prefWidth="888.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
          <children>
-            <ListView layoutX="0.1" layoutY="1.0" prefHeight="482.0" prefWidth="222.0" />
-            <ListView layoutX="222.0" layoutY="1.0" prefHeight="482.0" prefWidth="222.0" />
-            <ListView layoutX="444.0" layoutY="1.0" prefHeight="482.0" prefWidth="222.0" />
-            <ListView layoutX="666.0" layoutY="1.0" prefHeight="482.0" prefWidth="222.0" />
+            <ListView layoutY="1.0" prefHeight="504.0" prefWidth="222.0" />
+            <ListView layoutX="129.0" layoutY="1.0" prefHeight="504.0" prefWidth="448.0" />
+            <ListView layoutX="576.0" layoutY="1.0" prefHeight="504.0" prefWidth="152.0" />
+            <ListView layoutX="728.0" layoutY="1.0" prefHeight="504.0" prefWidth="160.0" />
          </children>
       </Pane>
    </children>
