@@ -2,24 +2,45 @@ package com.ys.service.client;
 
 import com.mysql.cj.protocol.MessageListener;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.bytedeco.javacv.*;
+import org.bytedeco.opencv.opencv_core.*;
 
 public class Client {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
     private BufferedReader userInput;
+
+    public String getUserId() {
+        return userId;
+    }
+
     private String userId;
+
+    private String serverIp;
     private MessageListener messageListener;
+    private VideoStreamClient videoStreamClient;
+
+    public Client() {
+        this.videoStreamClient = VideoStreamClientManager.getClient();  // 创建视频流客户端实例
+    }
+
 
     public interface MessageListener {
+
+        //收到新消息时调用
         void onMessageReceived(String message);
+        //收到历史信息记录时调用
         void onHistoryReceived(List<String> history);
+        //收到好友列表时调用
         void onFriendListReceived(Map<String, String> friendList);  // 添加好友列表的回调
     }
 
@@ -31,6 +52,7 @@ public class Client {
     // 初始化客户端，连接到服务器，并返回布尔值指示连接是否成功
     public boolean connect(String serverIp, int serverPort) {
         try {
+            this.serverIp=serverIp;
             socket = new Socket(serverIp, serverPort);
             System.out.println("Connected to server: " + serverIp+"from src/main/java/com/ys/service/client/Client.java");
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -56,6 +78,70 @@ public class Client {
             System.out.println("登录发送失败");
         }
         return handleLoginOrRegisterResponse();
+    }
+
+    public boolean sendCreateTeamRequest(String userId,String teamName) {
+        // 发送创建团队请求到服务器
+        if (sendMessage("CREATE_TEAM:"+userId +":"+ teamName)) {
+            System.out.println("客户端发送"+"CREATE_TEAM:"+userId +":"+ teamName);
+        } else {
+            System.out.println("创建团队请求发送失败");
+        }
+
+        // 处理服务器的响应
+        return handleCreateTeamResponse();
+    }
+    // 发送加入团队请求
+    public boolean sendJoinTeamRequest(String userId, String teamName) {
+        // 发送加入团队请求到服务器
+        if (sendMessage("JOIN_TEAM:"+userId +":"+ teamName)) {
+            System.out.println("客户端发送"+"JOIN_TEAM:"+userId +":"+ teamName);
+        } else {
+            System.out.println("加入团队请求发送失败");
+        }
+
+        // 处理服务器的响应
+        return handleJoinTeamResponse();
+    }
+
+
+    private boolean handleCreateTeamResponse() {
+        try {
+            String response = in.readLine();  // 读取服务器的响应
+            //debug信息
+            System.out.println(response);
+            if (response.startsWith("CREATE_GROUP_SUCCESS:")) {
+                this.userId = response.split(":")[1];
+                System.out.println("创建群聊成功");
+                return true;
+            } else if (response.startsWith("CREATE_GROUP_FAILURE")) {
+                System.out.println("创建群聊失败: " + response);
+                return false;
+            }
+        } catch (IOException e) {
+            System.err.println("Error while handling server response: " + e.getMessage());
+        }
+        return false;
+    }
+
+
+    // 处理服务器返回的加入团队响应
+    private boolean handleJoinTeamResponse() {
+        try {
+            String response = in.readLine();  // 读取服务器的响应
+            //debug信息
+            System.out.println(response);
+            if (response.startsWith("JOIN_GROUP_SUCCESS:")) {
+                System.out.println("加入团队成功: " + response.split(":")[1]);
+                return true;
+            } else if (response.startsWith("JOIN_GROUP_FAILURE")) {
+                System.out.println("加入团队失败: " + response);
+                return false;
+            }
+        } catch (IOException e) {
+            System.err.println("Error while handling server response: " + e.getMessage());
+        }
+        return false;
     }
 
     // 处理服务器返回的登录或注册响应
@@ -88,6 +174,7 @@ public class Client {
         if (out != null) {
             try {
                 out.println(message);
+                System.out.println("发送给服务器"+message);
                 out.flush(); // 强制刷新
                 if (out.checkError()) {
                     System.err.println("client信息发送失败");
@@ -138,7 +225,24 @@ public class Client {
     public void requestMessageHistory(int targetUserId) {
         sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);
     }
-//    开始接收
+
+    // 创建会议，服务器返回 meeting_id
+    public void createMeeting(String meetingName, String password) {
+        sendMessage("CREATE_MEETING:" + meetingName + ":" + password);
+    }
+
+
+    // 加入会议
+    public void joinMeeting(String meetingId, String password) {
+        sendMessage("JOIN_MEETING:" + meetingId + ":" + password);
+    }
+
+    // 离开会议
+    public void leaveMeeting(String meetingId) {
+        sendMessage("LEAVE_MEETING:" + meetingId);
+    }
+  
+    //    开始接收
     public void startReceiveMessages() {
         new Thread(() -> {
             try {
@@ -158,7 +262,6 @@ public class Client {
                             messageListener.onFriendListReceived(friendList);
                         }
                         friendList.clear();
-
                     } else if (message.startsWith("时间:")) {
                         history.add(message);
                     } else if (message.startsWith("好友ID:")) {
@@ -168,11 +271,34 @@ public class Client {
                             String friendName = parts[1].trim();
                             friendList.put(friendName, friendId);
 
+
                         }
                     } else if (message.startsWith("私聊消息: 来自用户")) {
                         if (messageListener != null) {
                             messageListener.onMessageReceived(message);
                         }
+
+                    } else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
+
+                        String[] parts = message.split("CREATE_GROUP_SUCCESS:");
+
+                        String teamName=parts[1].trim();
+                        //这里写加入群聊的函数
+                        this.sendJoinTeamRequest(this.getUserId(),teamName);
+     //                   (client.sendJoinTeamRequest(client.getUserId(), teamName.getText()))
+
+
+
+                    }else if(message.startsWith("JOIN_GROUP_SUCCESS:")){
+                        //这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
+                        String[] parts = message.split("CREATE_GROUP_SUCCESS:");
+                        String teamName=parts[1].trim();
+                    }else if(message.startsWith("SUCCESS: 会议 ")){
+                        // 解析服务端返回的会议号
+                        String meetingId = message.split(":")[1].trim();
+                        System.out.println("会议创建成功，会议号为: " + meetingId);
+                        // 连接视频流服务器并开始传输视频
+                        videoStreamClient.startVideoStream(meetingId, serverIp, 5555);  // 视频流端口是 5555
                     }
                 }
             } catch (IOException e) {
@@ -180,6 +306,7 @@ public class Client {
             }
         }).start();
     }
+
     //关闭客户端连接
     public void close() {
         try {
@@ -196,6 +323,7 @@ public class Client {
             e.printStackTrace();
         }
     }
+
 
 }
 

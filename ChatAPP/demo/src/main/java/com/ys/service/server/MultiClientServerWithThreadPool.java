@@ -1,14 +1,21 @@
 package com.ys.service.server;
 
+import com.ys.dao.MeetingDao;
 import com.ys.dao.MessageDao;
 import com.ys.dao.UserDao;
+
+import com.ys.dao.TeamDao;
+
+import com.ys.model.MeetingRoom;
+
 import com.ys.model.Message;
 import com.ys.model.User;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
-
+import com.ys.service.MeetingService;
+import com.ys.service.server.VideoStreamServer;
 public class MultiClientServerWithThreadPool {
     // 使用一个线程安全的集合来存储客户端的Socket
     private static Map<String, Socket> userSockets = new ConcurrentHashMap<>();
@@ -21,13 +28,20 @@ public class MultiClientServerWithThreadPool {
             ServerSocket serverSocket = new ServerSocket(8080);  // 监听8080端口
             System.out.println("Server is listening on port 8080");
 
+            // 启动处理视频流的服务器
+            VideoStreamServer videoServer = new VideoStreamServer(5555); // 处理视频流的端口
+            videoServer.start();
+
+            MeetingDao meetingDao = new MeetingDao();
+            MeetingService meetingService = new MeetingService(meetingDao);
+
             while (true) {
                 // 接受客户端连接
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("New client connected");
 
                 // 使用线程池处理客户端，并传递UserDao
-                threadPool.submit(new ClientHandler(clientSocket, new UserDao()));
+                threadPool.submit(new ClientHandler(clientSocket, new UserDao(),meetingService));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,11 +85,14 @@ public class MultiClientServerWithThreadPool {
     static class ClientHandler implements Runnable {
         private Socket clientSocket;
         private UserDao userDao;
+        private TeamDao teamDao;
         private String userId;
+        private MeetingService meetingService;
 
-        public ClientHandler(Socket clientSocket, UserDao userDao) {
+        public ClientHandler(Socket clientSocket, UserDao userDao,MeetingService meetingService) {
             this.clientSocket = clientSocket;
             this.userDao = userDao;
+            this.meetingService = meetingService;
         }
 
         @Override
@@ -114,7 +131,17 @@ public class MultiClientServerWithThreadPool {
                         handleAddFriend(message, out);
                     } else if (message.startsWith("GET_MESSAGE_HISTORY")) {
                         handleGetMessageHistory(message, out);
-                    } else {
+                    } else if (message.startsWith("CREATE_TEAM")){
+                      handleCreateTeam(message,out);
+                    }else if (message.startsWith("CREATE_MEETING")) {
+                        System.out.println("接收到创建会议");
+                        handleCreateMeeting(message, out);
+                    } else if (message.startsWith("JOIN_MEETING")) {
+                        handleJoinMeeting(message, out);
+                    } else if (message.startsWith("LEAVE_MEETING")) {
+                        handleLeaveMeeting(message, out);
+                    }
+                    else {
                         if (userId != null) {
                             broadcastMessage("用户 " + userId + " 说: " + message, clientSocket);
                         } else {
@@ -300,7 +327,89 @@ public class MultiClientServerWithThreadPool {
             }
         }
 
+      
+        private void handleCreateTeam(String message,PrintWriter out){
+            String[] parts = message.split(":");
+            if (parts.length == 3) {
+                String teamName=parts[2];
+                String userID=parts[1];
+                boolean success = teamDao.createTeam(userID,teamName);
 
+                if (success) {
+                    out.println("CREATE_GROUP_SUCCESS:"+teamName);
+                } else {
+                    out.println("FAILURE: 创建群聊失败");
+                }
+            } else {
+                out.println("FAILURE: 创建群聊信息格式错误");
+            }
+        }
+        private void handleJoinTeam(String message,PrintWriter out){
+            String[] parts = message.split(":");
+            if (parts.length == 3) {
+                String teamName=parts[2];
+                String userID=parts[1];
+                boolean success = teamDao.joinTeam(userID,teamName);
+
+                if (success) {
+                    out.println("JOIN_GROUP_SUCCESS:"+teamName);
+                } else {
+                    out.println("FAILURE: 加入群聊失败");
+                }
+            } else {
+                out.println("FAILURE: 加入群聊信息格式错误");
+            }
+        }
+
+        // 处理创建会议，服务器生成 meeting_id
+        private void handleCreateMeeting(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 3) {
+                String meetingName = parts[1];
+                String password = parts[2];
+
+
+                String meetingId = meetingService.createMeeting(meetingName, password, Integer.parseInt(userId));
+                if (meetingId != null) {
+                    out.println("SUCCESS: 会议 " + meetingName + " 已创建, 会议ID: " + meetingId);
+                } else {
+                    out.println("FAILURE: 创建会议失败");
+                }
+            } else {
+                out.println("FAILURE: 创建会议信息格式错误");
+            }
+        }
+
+        // 处理加入会议，验证密码和人数限制
+        private void handleJoinMeeting(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 3) {
+                String meetingId = parts[1];
+                String password = parts[2];
+
+                boolean success = meetingService.joinMeeting(meetingId, userId, password);
+                if (success) {
+                    out.println("SUCCESS: 已加入会议 " + meetingId);
+                } else {
+                    out.println("FAILURE: 密码错误或会议已满");
+                }
+            } else {
+                out.println("FAILURE: 加入会议信息格式错误");
+            }
+        }
+
+        // 处理离开会议
+        private void handleLeaveMeeting(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                String meetingId = parts[1];
+
+                meetingService.leaveMeeting(meetingId, userId);
+                out.println("SUCCESS: 已离开会议 " + meetingId);
+            } else {
+                out.println("FAILURE: 离开会议信息格式错误");
+            }
+        }
     }
 }
 

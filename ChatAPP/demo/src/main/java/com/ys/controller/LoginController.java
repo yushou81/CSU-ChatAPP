@@ -10,10 +10,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 
 public class LoginController {
@@ -39,10 +42,15 @@ public class LoginController {
     public Button loginBtn;
 
     @FXML
+    private AnchorPane rootPane;
+    @FXML
     private TextField usernameField;
 
     @FXML
     private PasswordField passwordField;
+    // 记录鼠标按下时的偏移量
+    private double xOffset = 0;
+    private double yOffset = 0;
 
     private UserDao userDao = new UserDao();
 
@@ -107,6 +115,12 @@ public class LoginController {
             Parent root = loader.load();
             Stage mainStage = new Stage();
             Scene mainScene = new Scene(root);
+
+//            mainScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+//            mainStage.initStyle(StageStyle.TRANSPARENT);
+
+
+
             mainStage.setScene(mainScene);
             mainStage.setTitle("主应用");
             mainStage.show();
@@ -123,4 +137,23 @@ public class LoginController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
+    @FXML
+    public void initialize() {
+
+
+        // 为rootPane添加鼠标事件来实现窗口拖动功能
+        rootPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        rootPane.setOnMouseDragged(event -> {
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
+    }
+
 }

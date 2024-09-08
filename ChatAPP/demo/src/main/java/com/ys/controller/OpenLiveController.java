@@ -1,35 +1,5 @@
 package com.ys.controller;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-
 public class OpenLiveController {
-    public Button back;
 
-    public void Backhome(ActionEvent actionEvent) {
-        try {
-            Parent view = FXMLLoader.load(getClass().getResource("/fxml/meeting.fxml"));
-            Stage newStage1 = new Stage();
-
-            // 设置新Stage的场景，将加载的FXML视图作为根节点
-            Scene newScene = new Scene(view);
-            newStage1.setScene(newScene);
-
-            // 设置新Stage的标题（可选）
-            newStage1.setTitle("新窗口");
-
-            // 显示新Stage
-            newStage1.show();
-            //隐藏旧的Stage
-            back.getScene().getWindow().hide();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
