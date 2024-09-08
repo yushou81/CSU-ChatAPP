@@ -21,6 +21,6 @@
             <Font size="30.0" />
          </font>
       </Button>
-      <Pane layoutX="34.0" layoutY="234.0" prefHeight="555.0" prefWidth="1146.0" />
+
    </children>
 </AnchorPane>

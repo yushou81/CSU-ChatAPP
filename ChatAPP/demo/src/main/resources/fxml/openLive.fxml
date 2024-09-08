@@ -29,7 +29,7 @@
       </Button>
 
 
-       <Button fx:id="cancel" onAction="#Hide" layoutX="1190.0" layoutY="0.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
+       <Button fx:id="cancel" onAction="#Hide" layoutX="900.0" layoutY="0.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
            <graphic>
                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                    <image>
