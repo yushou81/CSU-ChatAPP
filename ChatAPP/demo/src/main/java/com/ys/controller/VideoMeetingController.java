@@ -1,8 +1,14 @@
 package com.ys.controller;
 
 import com.ys.service.client.VideoStreamClient;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+
 import com.ys.service.client.VideoStreamClientManager;
 import javafx.fxml.FXML;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.application.Platform;
@@ -14,6 +20,13 @@ import javax.imageio.ImageIO;
 
 public class VideoMeetingController {
 
+    public Button endButton;
+    public Button voiceButtonNO;
+    public Button voiceButtonYes;
+    public Button cameraButton;
+    public Button cameraoOButton;
+    @FXML
+    private ImageView image;
     @FXML
     private ImageView videoImageView;  // 用于在 JavaFX 中显示捕获的视频帧
 
@@ -49,5 +62,25 @@ public class VideoMeetingController {
     public void stopMeeting() {
         isStreaming = false;
         videoStreamClient.closeConnection();  // 停止视频流传输并关闭连接
+    }
+
+    public void End(ActionEvent actionEvent) {
+        endButton.getScene().getWindow().hide();//endButton.getGraphic().setVisible();
+    }
+
+    public void voiceclick(ActionEvent actionEvent) {
+        voiceButtonNO.setVisible(false);voiceButtonYes.setVisible(true);
+    }
+
+    public void voiceclick1(ActionEvent actionEvent) {
+        voiceButtonNO.setVisible(true);voiceButtonYes.setVisible(false);
+    }
+
+    public void Closeview(ActionEvent actionEvent) {
+        cameraButton.setVisible(false);cameraoOButton.setVisible(true);image.setVisible(false);
+    }
+
+    public void Openview(ActionEvent actionEvent) {
+        cameraoOButton.setVisible(false);cameraButton.setVisible(true);image.setVisible(true);
     }
 }
