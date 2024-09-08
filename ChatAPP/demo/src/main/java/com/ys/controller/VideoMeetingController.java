@@ -4,6 +4,7 @@ import com.ys.service.client.VideoStreamClient;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 
 import com.ys.service.client.VideoStreamClientManager;
@@ -24,7 +25,7 @@ public class VideoMeetingController {
     public Button voiceButtonNO;
     public Button voiceButtonYes;
     public Button cameraButton;
-    public Button cameraoOButton;
+    public Button cameraOffButton;
     @FXML
     private ImageView image;
     @FXML
@@ -32,6 +33,10 @@ public class VideoMeetingController {
 
     private VideoStreamClient videoStreamClient;
     private boolean isStreaming = false;
+    private boolean isCameraOn = true;
+    private boolean isMicrophoneOn = true;
+
+
     public VideoMeetingController(){
         this.videoStreamClient = VideoStreamClientManager.getClient();
     }
@@ -39,6 +44,7 @@ public class VideoMeetingController {
     public void initialize() {
         videoStreamClient.setVideoMeetingController(this);  // 创建 VideoClient 实例
     }
+
     // 启动视频会议的按钮点击事件
     @FXML
     public void startVideoMeeting() {
@@ -56,6 +62,41 @@ public class VideoMeetingController {
             videoImageView.setImage(fxImage);  // 更新 ImageView
         });
     }
+    // 启动摄像头
+    @FXML
+    public void turnOnCamera(ActionEvent actionEvent) {
+        isCameraOn = true;
+        videoStreamClient.setCameraStatus(true);
+        cameraButton.setVisible(false);
+        cameraOffButton.setVisible(true);
+    }
+
+    // 关闭摄像头
+    @FXML
+    public void turnOffCamera(ActionEvent actionEvent) {
+        isCameraOn = false;
+        videoStreamClient.setCameraStatus(false);
+        cameraButton.setVisible(true);
+        cameraOffButton.setVisible(false);
+    }
+
+    // 打开麦克风
+    @FXML
+    public void unmuteMic(ActionEvent actionEvent) {
+        isMicrophoneOn = true;
+        videoStreamClient.setMicrophoneStatus(true);
+        voiceButtonNO.setVisible(false);
+        voiceButtonYes.setVisible(true);
+    }
+
+    // 静音麦克风
+    @FXML
+    public void muteMic(ActionEvent actionEvent) {
+        isMicrophoneOn = false;
+        videoStreamClient.setMicrophoneStatus(false);
+        voiceButtonNO.setVisible(true);
+        voiceButtonYes.setVisible(false);
+    }
 
     // 停止视频会议
     @FXML
@@ -65,7 +106,7 @@ public class VideoMeetingController {
     }
 
     public void End(ActionEvent actionEvent) {
-        endButton.getScene().getWindow().hide();//endButton.getGraphic().setVisible();
+        endButton.getScene().getWindow().hide(); // 关闭窗口
     }
 
     public void voiceclick(ActionEvent actionEvent) {
@@ -77,10 +118,10 @@ public class VideoMeetingController {
     }
 
     public void Closeview(ActionEvent actionEvent) {
-        cameraButton.setVisible(false);cameraoOButton.setVisible(true);image.setVisible(false);
+        cameraButton.setVisible(false);cameraOffButton.setVisible(true);image.setVisible(false);
     }
 
     public void Openview(ActionEvent actionEvent) {
-        cameraoOButton.setVisible(false);cameraButton.setVisible(true);image.setVisible(true);
+        cameraOffButton.setVisible(false);cameraButton.setVisible(true);image.setVisible(true);
     }
 }

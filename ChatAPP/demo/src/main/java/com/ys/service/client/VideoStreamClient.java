@@ -5,122 +5,291 @@ import org.bytedeco.javacv.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.InetSocketAddress;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.net.*;
 import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
+import javax.sound.sampled.*;
 
 public class VideoStreamClient {
-    private SocketChannel videoChannel;
-    private OpenCVFrameGrabber grabber;
     private VideoMeetingController videoMeetingController;
+    private DatagramSocket udpSocket;
+    private OpenCVFrameGrabber videoGrabber;
+    private AudioFormat audioFormat;
+    private TargetDataLine microphone;
+    private InetAddress serverAddress;
+    private int serverPort;
+    private boolean isCameraOn = true;
+    private boolean isMicrophoneOn = true;
+    private boolean isRunning = true;
 
     // 构造函数，传递 VideoMeetingController 实例
     public void setVideoMeetingController(VideoMeetingController controller) {
         this.videoMeetingController = controller;
     }
+
+    // 开始视频流传输
     public void startVideoStream(String meetingId, String serverIp, int serverPort) {
         try {
-            // 连接到视频服务器
-            videoChannel = SocketChannel.open();
-            videoChannel.configureBlocking(true); // 阻塞模式，确保数据按顺序传输
-            videoChannel.connect(new InetSocketAddress(serverIp, serverPort));
-            System.out.println("成功连接到视频服务器，端口: " + serverPort);
+            udpSocket = new DatagramSocket();
+            serverAddress = InetAddress.getByName(serverIp);
+            this.serverPort = serverPort;
 
-            // 启动摄像头并捕获视频帧，发送到服务器
-            startCaptureAndSendFrames(meetingId);
-
+            // 启动摄像头和麦克风的采集和发送
+            new Thread(() -> {
+                try {
+                    startCaptureAndSendFrames(meetingId);
+                } catch (FrameGrabber.Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    // 捕获视频帧并发送到服务器
-    private void startCaptureAndSendFrames(String meetingId) {
+
+    // 捕获视频和音频帧并发送到服务器
+    private void startCaptureAndSendFrames(String meetingId) throws FrameGrabber.Exception {
         try {
-            // 启动摄像头
-            startCamera();
+            if (isCameraOn) startCamera();
+            if (isMicrophoneOn) startMicrophone();
 
-            Frame frame;
-            while ((frame = grabber.grab()) != null) {
-                // 将 Frame 转换为 BufferedImage
-                Java2DFrameConverter converter = new Java2DFrameConverter();
-                BufferedImage bufferedImage = converter.convert(frame);
+            while (isRunning) {
+                long currentTime = System.currentTimeMillis();  // 当前时间戳
 
-                // 显示视频帧到 JavaFX UI
-                videoMeetingController.updateVideoFrame(bufferedImage);  // 将帧传递给 Controller 更新 UI
+                if (isCameraOn) {
+                    // 获取视频帧并发送
+                    Frame frame = videoGrabber.grab();
+                    if (frame != null) {
+                        BufferedImage bufferedImage = new Java2DFrameConverter().convert(frame);
+                        videoMeetingController.updateVideoFrame(bufferedImage);
+                        sendVideoFrame(meetingId, bufferedImage, currentTime);
+                    }
+                }
 
-                // 将视频帧转换为字节流
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
-                byte[] imageBytes = byteArrayOutputStream.toByteArray();
+                if (isMicrophoneOn) {
+                    // 获取音频帧并发送
+                    byte[] audioData = captureAudio();
+                    sendAudioFrame(meetingId, audioData, currentTime);
+                }
 
-                // 通过 sendVideoFrame 发送视频帧
-//                sendVideoFrame(meetingId, imageBytes);
-
-                // 控制帧率，避免占用过多资源
-                Thread.sleep(100);  // 控制帧率为 10 FPS
+                Thread.sleep(100);  // 控制帧率
             }
-
-            stopCamera();  // 停止摄像头
-            closeConnection();  // 视频流结束后，关闭连接
-
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            stopCamera();
+            stopMicrophone();
         }
     }
+
     // 启动摄像头
     private void startCamera() throws FrameGrabber.Exception {
-        grabber = new OpenCVFrameGrabber(0); // 使用默认摄像头
-        grabber.start();
+        videoGrabber = new OpenCVFrameGrabber(0);
+        videoGrabber.start();
         System.out.println("摄像头启动成功");
     }
 
     // 停止摄像头
     private void stopCamera() throws FrameGrabber.Exception {
-        if (grabber != null) {
-            grabber.stop();
-            grabber.release();
+        if (videoGrabber != null) {
+            videoGrabber.stop();
+            videoGrabber.release();
             System.out.println("摄像头已停止");
         }
     }
-    // 发送视频帧给服务端
-    public void sendVideoFrame(String meetingId, byte[] frameData) {
+
+    // 启动麦克风
+    private void startMicrophone() {
         try {
-            // 发送会议ID
-            ByteBuffer buffer = ByteBuffer.allocate(1024);
-            buffer.put(meetingId.getBytes());
-            buffer.flip();
-            videoChannel.write(buffer);
-            buffer.clear();
-
-            // 发送帧大小
-            ByteBuffer frameBuffer = ByteBuffer.allocate(4 + frameData.length);
-            frameBuffer.putInt(frameData.length);
-            frameBuffer.put(frameData);
-            frameBuffer.flip();
-
-            // 发送视频帧数据
-            while (frameBuffer.hasRemaining()) {
-                videoChannel.write(frameBuffer);
-            }
-            frameBuffer.clear();
-
-        } catch (IOException e) {
+            audioFormat = new AudioFormat(44100, 16, 2, true, true);
+            DataLine.Info info = new DataLine.Info(TargetDataLine.class, audioFormat);
+            microphone = (TargetDataLine) AudioSystem.getLine(info);
+            microphone.open(audioFormat);
+            microphone.start();
+            System.out.println("麦克风启动成功");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // 关闭连接
+    // 停止麦克风
+    private void stopMicrophone() {
+        if (microphone != null) {
+            microphone.stop();
+            microphone.close();
+            System.out.println("麦克风已停止");
+        }
+    }
+
+    // 捕获音频数据
+    private byte[] captureAudio() {
+        byte[] buffer = new byte[4096];
+        microphone.read(buffer, 0, buffer.length);
+        return buffer;
+    }
+
+    // 发送视频帧，带有时间戳
+// 发送视频帧，带有会议ID和时间戳
+    private void sendVideoFrame(String meetingId, BufferedImage image, long timestamp) {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ImageIO.write(image, "jpg", byteArrayOutputStream);
+            byte[] imageBytes = byteArrayOutputStream.toByteArray();
+
+            // 包装会议ID、时间戳和图像数据
+            ByteBuffer buffer = ByteBuffer.allocate(20 + 8 + imageBytes.length);  // 20字节用于会议ID，8字节用于存储时间戳
+            buffer.put(meetingId.getBytes());  // 写入会议ID
+            buffer.putLong(timestamp);  // 写入时间戳
+            buffer.put(imageBytes);  // 写入图像数据
+
+            DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, serverPort);
+            udpSocket.send(packet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 发送音频帧，带有会议ID和时间戳
+    private void sendAudioFrame(String meetingId, byte[] audioData, long timestamp) {
+        try {
+            // 包装会议ID、时间戳和音频数据
+            ByteBuffer buffer = ByteBuffer.allocate(20 + 8 + audioData.length);  // 20字节用于会议ID，8字节用于存储时间戳
+            buffer.put(meetingId.getBytes());  // 写入会议ID
+            buffer.putLong(timestamp);  // 写入时间戳
+            buffer.put(audioData);  // 写入音频数据
+
+            DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, serverPort);
+            udpSocket.send(packet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    // 设置摄像头状态
+    public void setCameraStatus(boolean status) {
+        this.isCameraOn = status;
+    }
+
+    // 设置麦克风状态
+    public void setMicrophoneStatus(boolean status) {
+        this.isMicrophoneOn = status;
+    }
+
+    // 发送加入会议的请求并启动接收线程
+    public void joinMeeting(String meetingId, String serverIp, int serverPort) {
+        try {
+            udpSocket = new DatagramSocket();
+            serverAddress = InetAddress.getByName(serverIp);
+            this.serverPort = serverPort;
+
+            // 发送加入会议请求
+            ByteBuffer buffer = ByteBuffer.allocate(24);  // 假设会议ID为20字节 + 4字节的“加入会议”标识
+            buffer.put(meetingId.getBytes());  // 会议ID
+            buffer.putInt(0);  // 0表示这是加入会议的请求，而不是视频帧
+
+            DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, serverPort);
+            udpSocket.send(packet);
+            System.out.println("加入会议请求已发送: " + meetingId);
+
+            // 启动接收视频和音频的线程
+            new Thread(() -> {
+                try {
+                    while (isRunning) {
+                        byte[] bufferReceive = new byte[65535];  // 接收视频和音频的数据包
+                        DatagramPacket receivePacket = new DatagramPacket(bufferReceive, bufferReceive.length);
+
+                        udpSocket.receive(receivePacket);  // 接收数据包
+                        ByteBuffer receivedBuffer = ByteBuffer.wrap(receivePacket.getData());
+
+                        // 提取时间戳和数据
+                        long timestamp = receivedBuffer.getLong();  // 提取时间戳
+                        byte[] frameData = new byte[receivePacket.getLength() - 8];  // 剩余部分是视频/音频数据
+                        receivedBuffer.get(frameData);
+
+                        // 假设我们判断帧大小小于一定值的是音频，其他是视频
+                        if (frameData.length > 1024) {
+                            // 视频数据，显示视频帧
+                            BufferedImage receivedImage = ImageIO.read(new ByteArrayInputStream(frameData));
+                            videoMeetingController.updateVideoFrame(receivedImage);  // 更新UI中的视频帧
+                        } else {
+                            // 音频数据，播放音频
+                            playAudioFrame(frameData);  // 调用播放音频的方法
+                        }
+
+                        // 控制音视频同步，基于时间戳
+                        long currentTime = System.currentTimeMillis();
+                        long sleepTime = timestamp - currentTime;
+                        if (sleepTime > 0) {
+                            Thread.sleep(sleepTime);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    // 播放音频帧
+    private void playAudioFrame(byte[] audioData) {
+        try {
+            SourceDataLine line;
+            DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
+            line = (SourceDataLine) AudioSystem.getLine(info);
+            line.open(audioFormat);
+            line.start();
+
+            // 播放音频
+            line.write(audioData, 0, audioData.length);
+            line.drain();
+            line.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    // 客户端退出会议的请求
+    public void leaveMeeting(String meetingId, String serverIp, int serverPort) {
+        try {
+
+
+            ByteBuffer buffer = ByteBuffer.allocate(24);  // 假设会议ID为20字节 + 4字节的“退出会议”标识
+            buffer.put(meetingId.getBytes());  // 会议ID
+            buffer.putInt(-1);  // -1表示退出会议请求
+
+            DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, serverPort);
+            udpSocket.send(packet);
+            System.out.println("退出会议请求已发送: " + meetingId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void connect(String meetingId, String serverIp, int serverPort) throws SocketException, UnknownHostException {
+        udpSocket = new DatagramSocket();
+        serverAddress = InetAddress.getByName(serverIp);
+        this.serverPort = serverPort;
+    }
+
+    // 关闭连接，释放资源
     public void closeConnection() {
         try {
-            if (videoChannel != null && videoChannel.isOpen()) {
-                videoChannel.close();
-                System.out.println("视频连接关闭");
+            isRunning = false;  // 停止发送线程
+
+            if (udpSocket != null && !udpSocket.isClosed()) {
+                udpSocket.close();
+                System.out.println("UDP socket 已关闭");
             }
-        } catch (IOException e) {
+
+            stopCamera();
+            stopMicrophone();
+
+            System.out.println("音视频流已停止");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
 }

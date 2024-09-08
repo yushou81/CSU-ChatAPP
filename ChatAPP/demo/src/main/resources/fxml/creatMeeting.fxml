@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreatMeetingController">
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreatMeetingController">
     <children>
-
-        <Label layoutX="572.0" layoutY="73.0" text="创建会议">
-        <Label layoutX="470.0" layoutY="25.0" prefHeight="70.0" prefWidth="200.0" text="创建会议">
+        <Label layoutX="522.0" layoutY="42.0" prefHeight="70.0" prefWidth="200.0" text="创建会议">
 
             <font>
                 <Font size="50.0" />
@@ -32,93 +31,41 @@
             </font>
         </Label>
 
-        <Label layoutX="103.0" layoutY="780.0" text="开启麦克风">
-
+        <Label layoutX="103.0" layoutY="780.0">
             <font>
                 <Font size="30.0" />
             </font>
         </Label>
 
-        <Label layoutX="683.0" layoutY="780.0" text="开启视频">
-
+        <Label layoutX="592.0" layoutY="734.0" text="创建">
             <font>
                 <Font size="30.0" />
             </font>
         </Label>
-
-        <Label layoutX="392.0" layoutY="780.0" text="开启扬声器">
-
-            <font>
-                <Font size="30.0" />
-            </font>
-        </Label>
-
-        <Label layoutX="980.0" layoutY="780.0" text="创建">
-            <font>
-                <Font size="30.0" />
-            </font>
-        </Label>
-        <TextField  fx:id="meetingNameField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" >
+        <TextField fx:id="meetingNameField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0">
             <font>
                 <Font size="30.0" />
             </font>
         </TextField>
-        <TextField  fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" >
+        <TextField fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0">
             <font>
                 <Font size="30.0" />
             </font>
         </TextField>
-        <Button fx:id="mac" layoutX="130.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
 
-            <graphic>
-                <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/mac_icon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
+        <Button fx:id="cancel" layoutX="1141.0" layoutY="15.0" mnemonicParsing="false" onAction="#Hide" prefHeight="50.0" prefWidth="50.0" />
+          <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="577.0" layoutY="628.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                  <Image url="@../images/meeting_creation.png" />
+              </image>
+          </ImageView>
+          <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1141.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                  <Image url="@../images/cancel_icon.png" />
+              </image>
+          </ImageView>
 
-        <Button fx:id="sound" layoutX="406.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
-
-            <graphic>
-                <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/sound_icon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-
-        <Button fx:id="view" layoutX="698.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
-
-            <graphic>
-                <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/view_icon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-
-        <Button fx:id="creation" onAction="#Creat1" layoutX="970.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
-            <graphic>
-                <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/meeting_creation.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button fx:id="cancel" onAction="#Hide" layoutX="1190.0" layoutY="0.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
-            <graphic>
-                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/cancel_icon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
+        <Button fx:id="creation" layoutX="571.0" layoutY="623.0" mnemonicParsing="false" onAction="#createMeetingBtn" prefHeight="100.0" prefWidth="102.0" style="-fx-background-color: transparent;" />
 
     </children>
 

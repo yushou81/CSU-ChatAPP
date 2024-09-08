@@ -115,7 +115,6 @@ public class MultiClientServerWithThreadPool {
                     } else if (message.startsWith("LOGIN")) {
                         isLoggedIn = handleLogin(message, out);
                     }
-
                 }
 
                 String message;
