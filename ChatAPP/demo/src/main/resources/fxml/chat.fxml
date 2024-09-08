@@ -17,7 +17,7 @@
 <?import javafx.collections.*?>
 
 <!--主布局-->
-<AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0"
+<AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="984.0"
             style="-fx-background-color: rgba(255, 255, 255, 1);"
             stylesheets="@/styles/chatpage.css"
             xmlns="http://javafx.com/javafx/8"
@@ -29,12 +29,12 @@
         <ListView fx:id="friendListView" prefHeight="776.0" prefWidth="216.0" />
 
         <!--右侧主区域-->
-        <AnchorPane layoutX="216.0" prefHeight="776.0" prefWidth="968.0"
+        <AnchorPane layoutX="216.0" prefHeight="776.0" prefWidth="768.0"
                     style="-fx-background-color: rgba(243, 244, 245, 1);">
 
             <children>
                 <!--顶部标题-->
-                <StackPane fx:id="nameTitle" prefHeight="60.0" prefWidth="968.0"
+                <StackPane fx:id="nameTitle" prefHeight="60.0" prefWidth="768.0"
                            style="-fx-background-color: F3F4F5;" />
 
                 <!--输入框-->
@@ -43,11 +43,11 @@
                           style="-fx-opacity: 0.3;" />
 
                 <!--顶部分隔线-->
-                <Separator layoutY="60.0" opacity="0.26" prefWidth="968.0"
+                <Separator layoutY="60.0" opacity="0.26" prefWidth="768.0"
                            style="-fx-background-color: rgba(204, 204, 204, 1); -fx-opacity: 1;" />
 
                 <!--底部分隔线-->
-                <Separator layoutY="532.0" prefHeight="0.0" prefWidth="968.0"
+                <Separator layoutY="532.0" prefHeight="0.0" prefWidth="768.0"
                            style="-fx-background-color: rgba(204, 204, 204, 1);" />
 
                 <!--发送按钮-->
@@ -59,7 +59,7 @@
 
                 <!--消息列表-->
                 <ListView fx:id="messageListView" layoutY="61.0"
-                          prefHeight="473.0" prefWidth="968.0" />
+                          prefHeight="473.0" prefWidth="768.0" />
 
                 <!--表情按钮-->
                 <Button fx:id="emojiButton" layoutX="36.0" layoutY="537.0"

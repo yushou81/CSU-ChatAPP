@@ -4,13 +4,11 @@ import com.ys.service.client.Client;
 import com.ys.service.client.ClientManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,8 +16,9 @@ import java.io.IOException;
 public class TakepartinController {
     public Button back;
     public TextField meetingIdField;
-
+    public Button Oview;
     public TextField passwordField;
+    public Button cancel;
     private Client client;
     public TakepartinController() {
         // 使用ClientManager来获取共享的Client实例
@@ -82,4 +81,41 @@ public class TakepartinController {
         alert.showAndWait();
     }
 
+    public void Hide(ActionEvent actionEvent) {
+        cancel.getScene().getWindow().hide();
+    }
+
+
+
+    public void Openview(ActionEvent actionEvent) {
+        try {
+            AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/videoMeeting.fxml"));
+            Stage newStage1 = new Stage();
+            // 设置新Stage的场景，将加载的FXML视图作为根节点
+            Scene newScene = new Scene(view,1264,840);
+            newStage1.setScene(newScene);
+            // 设置新Stage的标题（可选）
+            newStage1.setTitle("新窗口");
+            // 显示新Stage
+            newStage1.show();
+            Oview.getScene().getWindow().hide();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+//        try {
+//            AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/videoMeeting.fxml"));
+//            Stage newStage1 = new Stage();
+//            // 设置新Stage的场景，将加载的FXML视图作为根节点
+//            Scene newScene = new Scene(view,1264,840);
+//            newStage1.setScene(newScene);
+//            // 设置新Stage的标题（可选）
+//            newStage1.setTitle("新窗口");
+//            // 显示新Stage
+//            newStage1.show();
+//            //隐藏旧的Stage
+//            Oview.getScene().getWindow().hide();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+    }
 }

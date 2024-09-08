@@ -1,62 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreatMeetingController">
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreatMeetingController">
     <children>
-        <Button fx:id="back" layoutX="58.0" layoutY="43.0" mnemonicParsing="false" onAction="#Backhome" prefHeight="106.0" prefWidth="112.0">
-            <graphic>
-                <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/home_icon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <Label layoutX="572.0" layoutY="73.0" text="加入会议">
+
+
+
+        <Label layoutX="470.0" layoutY="25.0" prefHeight="70.0" prefWidth="200.0" text="创建会议">
+
+
             <font>
-                <Font size="48.0" />
+                <Font size="50.0" />
             </font>
+            <style>
+                -fx-text-fill: #35889a;
+                -fx-font-weight: bold;
+            </style>
         </Label>
-        <Label layoutX="260.0" layoutY="275.0" text="会议名">
-            <font>
-                <Font size="40.0" />
-            </font>
-        </Label>
-        <Label layoutX="280.0" layoutY="407.0" text="密码">
+
+        <Label layoutX="193.0" layoutY="275.0" text="会议名：">
             <font>
                 <Font size="40.0" />
             </font>
         </Label>
-        <Label layoutX="88.0" layoutY="780.0" text="开启麦克风">
+
+        <Label layoutX="193.0" layoutY="407.0" prefHeight="51.0" prefWidth="121.0" text="密码：">
             <font>
                 <Font size="40.0" />
             </font>
         </Label>
-        <Label layoutX="869.0" layoutY="780.0" text="开启视频">
+
+
+        <Label layoutX="103.0" layoutY="780.0" text="开启麦克风">
+
+
             <font>
-                <Font size="40.0" />
+                <Font size="30.0" />
             </font>
         </Label>
-        <Label layoutX="457.0" layoutY="780.0" text="开启扬声器">
+
+        <Label layoutX="683.0" layoutY="780.0" text="开启视频">
+
             <font>
-                <Font size="40.0" />
+                <Font size="30.0" />
             </font>
         </Label>
-        <TextField  fx:id="meetingNameField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" />
-        <TextField  fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" />
-        <Button fx:id="mac" layoutX="137.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+
+        <Label layoutX="392.0" layoutY="780.0" text="开启扬声器">
+
+            <font>
+                <Font size="30.0" />
+            </font>
+        </Label>
+
+
+        <Label layoutX="780.0" layoutY="780.0" text="创建">
+            <font>
+                <Font size="30.0" />
+            </font>
+        </Label>
+        <TextField  fx:id="meetingNameField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" >
+            <font>
+                <Font size="30.0" />
+            </font>
+        </TextField>
+        <TextField  fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" >
+            <font>
+                <Font size="30.0" />
+            </font>
+        </TextField>
+        <Button fx:id="mac" layoutX="130.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+
+
             <graphic>
                 <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -65,7 +85,9 @@
                 </ImageView>
             </graphic>
         </Button>
-        <Button fx:id="sound" layoutX="506.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+
+        <Button fx:id="sound" layoutX="406.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+
             <graphic>
                 <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -74,7 +96,9 @@
                 </ImageView>
             </graphic>
         </Button>
-        <Button layoutX="898.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+
+        <Button fx:id="view" layoutX="698.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+
             <graphic>
                 <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -83,7 +107,29 @@
                 </ImageView>
             </graphic>
         </Button>
-      <Button fx:id="createMeeting" onAction="#createMeetingBtn" layoutX="758.0" layoutY="540.0" mnemonicParsing="false" text="创建" />
+        -->
+
+
+        <Button fx:id="creation" onAction="#Creat1" layoutX="970.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+            <graphic>
+                <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/meeting_creation.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="cancel" onAction="#Hide" layoutX="1190.0" layoutY="0.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
+            <graphic>
+                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/cancel_icon.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+
+
     </children>
 
 

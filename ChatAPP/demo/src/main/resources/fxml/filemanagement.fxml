@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FileManagementController">
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
+
     <children>
-        <!--主标题-->
-        <Label layoutX="492.0" layoutY="24.0" prefHeight="70.0" prefWidth="200.0" text="文件管理">
+        <Label layoutX="492.0" layoutY="24.0" prefHeight="70.0" prefWidth="270.0" text="文件管理">
             <font>
                 <Font size="50.0" />
             </font>
@@ -25,14 +27,105 @@
         </TextField>
 
         <!--搜索按钮-->
-        <Button layoutX="680.0" layoutY="145.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="搜索">
+        <Button layoutX="679.0" layoutY="144.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="搜索">
             <font>
                 <Font size="30.0" />
             </font>
         </Button>
 
-        <!--搜索结果显示窗口-->
-        <Pane layoutX="28.0" layoutY="252.0" prefHeight="502.0" prefWidth="1127.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
-        </Pane>
+        <Pane layoutX="14.0" layoutY="230.0" prefHeight="519.0" prefWidth="954.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);" />
+        <VBox layoutX="73.0" layoutY="251.0" prefHeight="354.0" prefWidth="880.0">
+            <children>
+                <HBox prefHeight="100.0" prefWidth="800.0">
+                    <children>
+                        <ImageView fitHeight="100.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/testAvatar.jpg" />
+                            </image>
+                        </ImageView>
+
+                        <Label prefHeight="90.0" prefWidth="400.0" text="  文件1">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Label>
+
+                        <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Button>
+
+                        <Pane prefHeight="100.0" prefWidth="10.0" style="-fx-background-color: white;" />
+
+                        <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="删除">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+
+                <HBox prefHeight="100.0" prefWidth="800.0">
+                    <children>
+                        <ImageView fitHeight="100.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/testAvatar.jpg" />
+                            </image>
+                        </ImageView>
+
+                        <Label prefHeight="100.0" prefWidth="400.0" text="  文件2">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Label>
+
+                        <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Button>
+
+                        <Pane prefHeight="100.0" prefWidth="10.0" style="-fx-background-color: white;" />
+
+                        <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="删除">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+
+                <HBox prefHeight="100.0" prefWidth="800.0">
+                    <children>
+                        <ImageView fitHeight="100.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/testAvatar.jpg" />
+                            </image>
+                        </ImageView>
+
+                        <Label prefHeight="100.0" prefWidth="400.0" text="  文件3">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Label>
+
+                        <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Button>
+
+                        <Pane prefHeight="0.0" prefWidth="10.0" style="-fx-background-color: white;" />
+
+                        <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="删除">
+                            <font>
+                                <Font size="36.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
     </children>
 </AnchorPane>
