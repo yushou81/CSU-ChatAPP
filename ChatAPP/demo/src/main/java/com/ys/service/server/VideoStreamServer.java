@@ -45,6 +45,7 @@ public class VideoStreamServer {
 
         if (packetType == 0) {
             // 处理加入会议的请求
+            System.out.println("有人加入meetingid："+meetingId);
             handleJoinMeeting(meetingId, clientAddress, clientPort);
         } else if (packetType == 1) {
             // 处理视频帧数据
@@ -61,6 +62,7 @@ public class VideoStreamServer {
         List<ClientInfo> clients = meetingsMap.get(meetingId);
 
         if (clients == null) {
+            System.out.println("meeting没人");
             clients = new ArrayList<>();
             meetingsMap.put(meetingId, clients);  // 创建新的会议
         }
@@ -95,6 +97,8 @@ public class VideoStreamServer {
     private void broadcastToMeeting(String meetingId, byte[] frameData, InetAddress senderAddress, int senderPort) throws IOException {
         List<ClientInfo> clients = meetingsMap.get(meetingId);
 
+        System.out.println("传输给："+meetingId);
+
         if (clients == null) {
             clients = new ArrayList<>();
             meetingsMap.put(meetingId, clients);  // 创建新的会议
@@ -112,6 +116,9 @@ public class VideoStreamServer {
         // 广播给会议中的其他客户端
         for (ClientInfo client : clients) {
             if (!client.getAddress().equals(senderAddress) || client.getPort() != senderPort) {
+
+                System.out.println("fasong");
+
                 // 发送视频帧给其他客户端
                 ByteBuffer buffer = ByteBuffer.allocate(4 + frameData.length);
                 buffer.putInt(frameData.length);  // 视频帧大小

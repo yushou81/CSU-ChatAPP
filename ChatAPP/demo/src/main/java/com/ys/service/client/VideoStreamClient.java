@@ -143,7 +143,7 @@ public class VideoStreamClient {
             ByteBuffer buffer = ByteBuffer.allocate(totalCapacity);  // 20字节用于会议ID，8字节用于存储时间戳
             byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
             buffer.put(idBytes);
-            buffer.putInt(0);
+            buffer.putInt(1);
             buffer.putLong(timestamp);  // 写入时间戳
             buffer.put(imageBytes);  // 写入图像数据
 
@@ -165,7 +165,7 @@ public class VideoStreamClient {
             byte[] meetingIdPadded = Arrays.copyOf(meetingIdBytes, 20);  // 确保会议ID长度为20字节
             byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
             buffer.put(idBytes);
-            buffer.putInt(0);
+            buffer.putInt(1);
             buffer.putLong(timestamp);  // 写入时间戳
             buffer.put(audioData);  // 写入音频数据
 

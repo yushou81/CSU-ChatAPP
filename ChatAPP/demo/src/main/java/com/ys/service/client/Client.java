@@ -295,13 +295,13 @@ public class Client {
                         String teamName=parts[1].trim();
                     }else if(message.startsWith("SUCCESS: 会议 ")){
                         // 解析服务端返回的会议号
-                        String meetingId = message.split(":")[1].trim();
+                        String meetingId = message.split(":")[2].trim();
                         System.out.println("会议创建成功，会议号为: " + meetingId);
                         // 连接视频流服务器并开始传输视频
                         videoStreamClient.startVideoStream(meetingId, serverIp, 5555);  // 视频流端口是 5555
-                    }else if(message.startsWith("SUCCESS: 已加入会议 ")){
+                    }else if(message.startsWith("SUCCESS: 已加入会议: ")){
                         // 解析服务端返回的会议号
-                        String meetingId = message.split(":")[1].trim();
+                        String meetingId = message.split(":")[2].trim();
                         System.out.println("会议加入成功，会议号为: " + meetingId);
                         // 连接视频流服务器并开始传输视频
                         videoStreamClient.joinMeeting(meetingId, serverIp, 5555);  // 视频流端口是 5555

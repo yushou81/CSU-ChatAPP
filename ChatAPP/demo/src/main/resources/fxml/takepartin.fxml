@@ -77,10 +77,10 @@
           </graphic>
       </Button>
 
-      <Button fx:id="Oview" layoutX="898.0" layoutY="645.0" mnemonicParsing="false" onAction="#Openview" prefHeight="100.0" prefWidth="102.0">
+      <Button id="aasd"  fx:id="Oview" layoutX="898.0" layoutY="645.0" mnemonicParsing="false" onAction="#joinMeeting" prefHeight="100.0" prefWidth="102.0">
 
           <graphic>
-              <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+              <ImageView id="aaa" fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                       <Image url="@../images/view_icon.png" />
                   </image>
