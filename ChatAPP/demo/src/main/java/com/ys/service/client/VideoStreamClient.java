@@ -9,6 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.*;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import javax.sound.sampled.*;
 
 public class VideoStreamClient {
@@ -138,8 +139,11 @@ public class VideoStreamClient {
             byte[] imageBytes = byteArrayOutputStream.toByteArray();
 
             // 包装会议ID、时间戳和图像数据
-            ByteBuffer buffer = ByteBuffer.allocate(20 + 8 + imageBytes.length);  // 20字节用于会议ID，8字节用于存储时间戳
-            buffer.put(meetingId.getBytes());  // 写入会议ID
+            int totalCapacity = 20 + 4 + 8 + imageBytes.length;
+            ByteBuffer buffer = ByteBuffer.allocate(totalCapacity);  // 20字节用于会议ID，8字节用于存储时间戳
+            byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
+            buffer.put(idBytes);
+            buffer.putInt(0);
             buffer.putLong(timestamp);  // 写入时间戳
             buffer.put(imageBytes);  // 写入图像数据
 
@@ -153,9 +157,15 @@ public class VideoStreamClient {
     // 发送音频帧，带有会议ID和时间戳
     private void sendAudioFrame(String meetingId, byte[] audioData, long timestamp) {
         try {
-            // 包装会议ID、时间戳和音频数据
-            ByteBuffer buffer = ByteBuffer.allocate(20 + 8 + audioData.length);  // 20字节用于会议ID，8字节用于存储时间戳
-            buffer.put(meetingId.getBytes());  // 写入会议ID
+            // 确保 ByteBuffer 的容量足够大
+            int totalCapacity = 20 + 4 + 8 + audioData.length;  // 20字节用于会议ID，8字节用于存储时间戳，加上音频数据的大小
+            ByteBuffer buffer = ByteBuffer.allocate(totalCapacity);  // 动态分配足够容量的缓冲区
+
+            byte[] meetingIdBytes = meetingId.getBytes();  // 将会议ID转换为字节数组
+            byte[] meetingIdPadded = Arrays.copyOf(meetingIdBytes, 20);  // 确保会议ID长度为20字节
+            byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
+            buffer.put(idBytes);
+            buffer.putInt(0);
             buffer.putLong(timestamp);  // 写入时间戳
             buffer.put(audioData);  // 写入音频数据
 
@@ -165,7 +175,6 @@ public class VideoStreamClient {
             e.printStackTrace();
         }
     }
-
 
     // 设置摄像头状态
     public void setCameraStatus(boolean status) {
@@ -254,8 +263,6 @@ public class VideoStreamClient {
     // 客户端退出会议的请求
     public void leaveMeeting(String meetingId, String serverIp, int serverPort) {
         try {
-
-
             ByteBuffer buffer = ByteBuffer.allocate(24);  // 假设会议ID为20字节 + 4字节的“退出会议”标识
             buffer.put(meetingId.getBytes());  // 会议ID
             buffer.putInt(-1);  // -1表示退出会议请求
