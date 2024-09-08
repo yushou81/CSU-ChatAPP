@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="840.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.TakepartinController">
+<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.TakepartinController">
    <children>
 <!--      -->
-      <Label layoutX="572.0" layoutY="73.0" text="加入会议">
-          <font>
-              <Font size="48.0" />
-          </font>
-      </Label>
-      <Label layoutX="260.0" layoutY="275.0" text="会议名">
+       <Label layoutX="470.0" layoutY="25.0" prefHeight="70.0" prefWidth="200.0" text="加入会议">
+           <font>
+               <Font size="50.0" />
+           </font>
+           <style>
+               -fx-text-fill: #35889a;
+               -fx-font-weight: bold;
+           </style>
+       </Label>
+      <Label layoutX="269.0" layoutY="229.0" text="会议名：">
           <font>
               <Font size="40.0" />
           </font>
       </Label>
-      <Label layoutX="220.0" layoutY="407.0" text="您的名称">
+      <Label layoutX="229.0" layoutY="364.0" text="您的名称：">
           <font>
               <Font size="40.0" />
           </font>
@@ -41,17 +42,17 @@
               <Font size="40.0" />
           </font>
       </Label>
-      <TextField fx:id="meetingIdField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" >
+      <TextField fx:id="meetingIdField" layoutX="489.0" layoutY="219.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
           <font>
               <Font size="30.0" />
           </font>
       </TextField>
-      <TextField  fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" >
+      <TextField fx:id="passwordField" layoutX="489.0" layoutY="354.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
           <font>
               <Font size="30.0" />
           </font>
       </TextField>
-      <Button fx:id="mac" layoutX="137.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+      <Button fx:id="mac" layoutX="137.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
           <graphic>
               <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -60,7 +61,7 @@
               </ImageView>
           </graphic>
       </Button>
-      <Button fx:id="sound" layoutX="506.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+      <Button fx:id="sound" layoutX="506.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
           <graphic>
               <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -69,7 +70,7 @@
               </ImageView>
           </graphic>
       </Button>
-      <Button layoutX="898.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+      <Button layoutX="898.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
           <graphic>
               <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -77,6 +78,11 @@
                   </image>
               </ImageView>
           </graphic>
+      </Button>
+      <Button layoutX="490.0" layoutY="497.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="160.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
+         <font>
+            <Font size="34.0" />
+         </font>
       </Button>
    </children>
 </AnchorPane>
