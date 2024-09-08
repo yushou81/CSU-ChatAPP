@@ -17,7 +17,7 @@
 <?import javafx.collections.*?>
 
 <!--主布局-->
-<AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0"
+<AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="984.0"
             style="-fx-background-color: rgba(255, 255, 255, 1);"
             stylesheets="@/styles/chatpage.css"
             xmlns="http://javafx.com/javafx/8"

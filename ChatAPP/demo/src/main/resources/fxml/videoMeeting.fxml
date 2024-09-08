@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.shape.Rectangle?>
-<AnchorPane prefHeight="776.0" prefWidth="1184.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="776.0" prefWidth="984.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.ys.controller.VideoMeetingController">
 
     <ImageView fitHeight="60.0" fitWidth="120.0" layoutX="570.0" layoutY="5" pickOnBounds="true"
