@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1;-fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.OpenLiveController">
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1;-fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.OpenLiveController">
    <children>
        <Label layoutX="380.0" layoutY="64.0" prefHeight="70.0" prefWidth="200.0" text="直播广场">
            <font>
@@ -29,7 +28,7 @@
       </Button>
 
 
-       <Button fx:id="cancel" onAction="#Hide" layoutX="900.0" layoutY="0.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
+       <Button fx:id="cancel" layoutX="900.0" layoutY="0.0" mnemonicParsing="false" onAction="#Hide" prefHeight="50.0" prefWidth="50.0">
            <graphic>
                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                    <image>
@@ -39,9 +38,7 @@
            </graphic>
        </Button>
 
-       <Label layoutX="756.0" layoutY="943.0" prefHeight="71.0" prefWidth="163.0" text="开播">
-
-
+       <Label layoutX="435.0" layoutY="489.0" prefHeight="71.0" prefWidth="163.0" text="开播">
          <font>
             <Font size="30.0" />
          </font>

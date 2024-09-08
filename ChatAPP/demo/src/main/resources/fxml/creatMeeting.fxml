@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreatMeetingController">
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreatMeetingController">
     <children>
-
-
-
         <Label layoutX="470.0" layoutY="25.0" prefHeight="70.0" prefWidth="200.0" text="创建会议">
-
-
             <font>
                 <Font size="50.0" />
             </font>
@@ -59,17 +53,17 @@
         </Label>
 
 
-        <Label layoutX="780.0" layoutY="780.0" text="创建">
+        <Label layoutX="993.0" layoutY="765.0" text="创建">
             <font>
                 <Font size="30.0" />
             </font>
         </Label>
-        <TextField  fx:id="meetingNameField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" >
+        <TextField fx:id="meetingNameField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0">
             <font>
                 <Font size="30.0" />
             </font>
         </TextField>
-        <TextField  fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" >
+        <TextField fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0">
             <font>
                 <Font size="30.0" />
             </font>
@@ -107,10 +101,10 @@
                 </ImageView>
             </graphic>
         </Button>
-        -->
+        
 
 
-        <Button fx:id="creation" onAction="#Creat1" layoutX="970.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0">
+        <Button fx:id="creation" layoutX="970.0" layoutY="645.0" mnemonicParsing="false" onAction="#Creat1" prefHeight="100.0" prefWidth="102.0">
             <graphic>
                 <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -119,7 +113,7 @@
                 </ImageView>
             </graphic>
         </Button>
-        <Button fx:id="cancel" onAction="#Hide" layoutX="1190.0" layoutY="0.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
+        <Button fx:id="cancel" layoutX="1190.0" layoutY="0.0" mnemonicParsing="false" onAction="#Hide" prefHeight="50.0" prefWidth="50.0">
             <graphic>
                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                     <image>
