@@ -39,6 +39,7 @@ public class MainApp extends Application {
         client = new Client();
 
 
+
         client.connect("172.20.10.2", 8080);  // 替换为你的服务器IP和端口号
 
     //        100.64.83.48
