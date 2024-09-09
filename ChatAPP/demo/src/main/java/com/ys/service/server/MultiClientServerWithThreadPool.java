@@ -261,7 +261,7 @@ public class MultiClientServerWithThreadPool {
             }
         }
 
-        // 新增 handleGetMessageHistory 用于获取聊天记录
+        //用于获取聊天记录
         private void handleGetMessageHistory(String message, PrintWriter out) {
             String[] parts = message.split(":");
             if (parts.length == 2) {
@@ -465,6 +465,20 @@ public class MultiClientServerWithThreadPool {
             out.println(friendListBuilder.toString());
         }
 
+        private void handleModifyUserInfo(String message, PrintWriter out){
+
+            String[] parts = message.split(":");
+            if(parts.length==4){
+                int userid= Integer.parseInt(parts[1]);
+                String newusername = parts[2];
+                String newPassword = parts[3];
+
+                userDao.updateUsernameAndPassword(userid,newusername,newPassword);
+            }
+
+
+
+        }
 
     }
 }

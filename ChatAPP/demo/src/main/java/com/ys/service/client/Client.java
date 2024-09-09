@@ -319,13 +319,12 @@ public class Client {
 
                         // 连接视频流服务器并开始传输视频
                         videoStreamClient.joinMeeting(meetingId, serverIp, 5555);  // 视频流端口是 5555
-                    } else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {g
+                    } else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {
                         settingController.fail();
                     }else if (message.startsWith("Failure: 用户信息修改失败: ")) {
                         settingController.success();
                         System.out.println("用户信息修改成功");
                     }
-
                 }
             } catch (IOException e) {
                 e.printStackTrace();
