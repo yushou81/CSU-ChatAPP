@@ -1,6 +1,7 @@
 package com.ys.service.client;
 
 import com.mysql.cj.protocol.MessageListener;
+import com.ys.controller.CreateTeamController;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.application.Platform;
+
 
 import com.ys.controller.AddfriendsController;
 import com.ys.controller.SettingController;
@@ -48,6 +51,11 @@ public class Client {
         void onHistoryReceived(List<String> history);
         //收到好友列表时调用
         void onFriendListReceived(Map<String, String> friendList);  // 添加好友列表的回调
+        void onCreateGroup(String teamName,boolean success);  // 新增的方法
+        void onTeamListReceived(Map<String,String> groupList);
+
+
+
     }
 
     // 注册监听器，用于在外部处理消息接收
@@ -86,7 +94,7 @@ public class Client {
         return handleLoginOrRegisterResponse();
     }
 
-    public boolean sendCreateTeamRequest(String userId,String teamName) {
+    public void sendCreateTeamRequest(String userId,String teamName) {
         // 发送创建团队请求到服务器
         if (sendMessage("CREATE_TEAM:"+userId +":"+ teamName)) {
             System.out.println("客户端发送"+"CREATE_TEAM:"+userId +":"+ teamName);
@@ -95,7 +103,7 @@ public class Client {
         }
 
         // 处理服务器的响应
-        return handleCreateTeamResponse();
+        return ;
     }
     // 发送加入团队请求
     public boolean sendJoinTeamRequest(String userId, String teamName) {
@@ -111,24 +119,8 @@ public class Client {
     }
 
 
-    private boolean handleCreateTeamResponse() {
-        try {
-            String response = in.readLine();  // 读取服务器的响应
-            //debug信息
-            System.out.println(response);
-            if (response.startsWith("CREATE_GROUP_SUCCESS:")) {
-                this.userId = response.split(":")[1];
-                System.out.println("创建群聊成功");
-                return true;
-            } else if (response.startsWith("CREATE_GROUP_FAILURE")) {
-                System.out.println("创建群聊失败: " + response);
-                return false;
-            }
-        } catch (IOException e) {
-            System.err.println("Error while handling server response: " + e.getMessage());
-        }
-        return false;
-    }
+
+
 
 
     // 处理服务器返回的加入团队响应
@@ -238,7 +230,7 @@ public class Client {
     public void requestMessageHistory(int targetUserId) {
         sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);
     }
-
+    public void requestTeamMessageHistory(int targetTeamId){sendMessage("GET_TEAM_MESSAGE_HISTORY:" + targetTeamId);}
     // 创建会议，服务器返回 meeting_id
     public void createMeeting(String meetingName, String password) {
         sendMessage("CREATE_MEETING:" + meetingName + ":" + password);
@@ -254,7 +246,7 @@ public class Client {
     public void leaveMeeting(String meetingId) {
         sendMessage("LEAVE_MEETING:" + meetingId);
     }
-  
+
     //    开始接收
     public void startReceiveMessages() {
         new Thread(() -> {
@@ -262,8 +254,12 @@ public class Client {
                 String message;
                 List<String> history = new ArrayList<>();
                 Map<String, String> friendList = new HashMap<>();
-
+                Map<String,String>teamList=new HashMap<>();
                 while ((message = in.readLine()) != null) {
+
+                    System.out.println(message);
+
+
                     if (message.equals("END_OF_MESSAGE_HISTORY")) {
                         if (messageListener != null) {
                             messageListener.onHistoryReceived(history);
@@ -271,10 +267,16 @@ public class Client {
                         history.clear();
                     } else if (message.equals("END_OF_FRIEND_LIST")) {
                         if (messageListener != null) {
-                            System.out.println("好友列表接收完毕");
                             messageListener.onFriendListReceived(friendList);
+                            System.out.println("好友列表接收完毕");
                         }
                         friendList.clear();
+                    } else if (message.equals("END_OF_TEAM_LIST")) {
+                        if(messageListener!=null){
+                            messageListener.onTeamListReceived(teamList);
+                            System.out.println("群聊列表接收完毕");
+                        }
+                        teamList.clear();
                     } else if (message.startsWith("时间:")) {
                         history.add(message);
                     } else if (message.startsWith("好友ID:")) {
@@ -283,12 +285,59 @@ public class Client {
                             String friendId = parts[0].replace("好友ID: ", "").trim();
                             String friendName = parts[1].trim();
                             friendList.put(friendName, friendId);
+
+                        }
+                    }else if (message.startsWith("团队ID:")) {
+                        String[] parts = message.split(", 群聊名: ");
+                        if (parts.length == 2) {
+                            String teamId = parts[0].replace("团队ID: ", "").trim();
+                            String teamName = parts[1].trim();
+                            System.out.println("获取到的团队id"+teamId+"团队名称"+teamName);
+                            teamList.put(teamName, teamId);
+
+
                         }
                     } else if (message.startsWith("私聊消息: 来自用户")) {
                         if (messageListener != null) {
                             messageListener.onMessageReceived(message);
                         }
-                    } else if (message.startsWith("FRIEND_LIST:")) {
+
+
+                    }
+                    else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
+                        String[] parts = message.split(":",2);
+                        if(parts.length==2){
+                        String teamName=parts[1].trim();
+                        //这里写加入群聊的函数
+                        this.sendJoinTeamRequest(this.getUserId(),teamName);
+                            if (messageListener != null) {
+                                messageListener.onCreateGroup(teamName,true);  // 调用监听器回调方法
+                            }
+                        }
+                        else{
+                            System.err.println("CREATE_GROUP_SUCCESS 消息格式不正确: " + message);
+
+                        }
+                    } else if (message.startsWith("FAILURE:")) {
+                        String[] parts = message.split(":",2);
+
+
+                        if(parts.length==2){
+                            String wrongMessage=parts[1].trim();
+                        if(messageListener!=null){
+                            messageListener.onCreateGroup(wrongMessage,false);
+                        }
+                    }
+                    } else if(message.startsWith("JOIN_GROUP_SUCCESS:")){
+                      //  这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
+                        String[] parts = message.split("CREATE_GROUP_SUCCESS:");
+                        String teamName = parts[1].trim();
+                        // 这里写加入群聊的函数
+                      //这行不知道要不要 
+                      // this.sendJoinTeamRequest(this.getUserId(), teamName);
+                    }
+
+                     else if (message.startsWith("FRIEND_LIST:")) {
                         // 处理服务器返回的好友列表
                         String friendsData = message.substring("FRIEND_LIST:".length()).trim();
                         String[] friends = friendsData.split(";");
@@ -306,15 +355,11 @@ public class Client {
                         if (messageListener != null) {
                             messageListener.onFriendListReceived(friendList);
                         }
-                    } else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
-                        String[] parts = message.split("CREATE_GROUP_SUCCESS:");
-                        String teamName = parts[1].trim();
-                        // 这里写加入群聊的函数
-                        this.sendJoinTeamRequest(this.getUserId(), teamName);
-                    } else if (message.startsWith("JOIN_GROUP_SUCCESS:")) {
-                        String[] parts = message.split("JOIN_GROUP_SUCCESS:");
-                        String teamName = parts[1].trim();
-                    } else if (message.startsWith("SUCCESS: 会议 ")) {
+                    } 
+
+  
+                         
+                     else if (message.startsWith("SUCCESS: 会议 ")) {
                         String meetingId = message.split(":")[2].trim();
                         System.out.println("会议创建成功，会议号为: " + meetingId);
                         videoStreamClient.startVideoStream(meetingId, serverIp, 5555);
@@ -332,6 +377,7 @@ public class Client {
                         handleSearchFriendResponse(message);
                         System.out.println("搜索用户成功");
                     }
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -360,6 +406,15 @@ public class Client {
         // 发送搜索好友请求到服务器
         if (sendMessage("SEARCH_FRIEND:" + friendId)) {
             System.out.println("客户端发送搜索好友请求: " + friendId);
+            if (this.searchFriend(friendId)){
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("搜索成功");
+                    alert.setHeaderText(null);
+                    alert.setContentText("找到好友: " + friendId);
+                    alert.showAndWait();
+                });
+        }
             return true;
         } else {
             System.out.println("搜索好友请求发送失败");
@@ -371,28 +426,44 @@ public class Client {
         String [] parts = response.split(":");
         String userName = parts[1];
         System.out.println("好友存在: " + userName);  // 输出好友ID
+
+        // 弹出成功的Aler
+
         addfriendsController.success("好友存在: " + userName);
         return true;  // 好友存在
     }
+
 
     // 发送好友请求
     public boolean sendFriendRequest(String friendId, String message) {
         if (sendMessage("ADD_FRIEND:" + this.userId + ":" + friendId + ":" + message)) {
             System.out.println("发送好友请求: " + friendId + " 消息: " + message);
+
+            // 弹出成功的Alert
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("请求已发送");
+                alert.setHeaderText(null);
+                alert.setContentText("好友请求已发送给client: " + friendId);
+                alert.showAndWait();
+            });
+
             return true;  // 请求发送成功
         } else {
             System.out.println("好友请求发送失败");
             return false;  // 请求发送失败
         }
     }
+
     // 发送同意好友请求到服务器
-    public boolean acceptFriendRequest(String requesterId) {
-        return sendMessage("ACCEPT_FRIEND:" + requesterId);
+    public boolean acceptFriendRequest(String requesterId, String currentUserId) {
+        return sendMessage("ACCEPT_FRIEND:" + requesterId + ":" + currentUserId);
     }
 
+
     // 发送拒绝好友请求到服务器
-    public boolean rejectFriendRequest(String requesterId) {
-        return sendMessage("REJECT_FRIEND:" + requesterId);
+    public boolean rejectFriendRequest(String requesterId,String currentUserId) {
+        return sendMessage("REJECT_FRIEND:" + requesterId + currentUserId);
     }
     // 发送请求从服务器获取好友列表
     public boolean requestFriendList() {

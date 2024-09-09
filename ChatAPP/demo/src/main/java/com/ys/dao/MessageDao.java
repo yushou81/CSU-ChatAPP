@@ -16,11 +16,17 @@ public class MessageDao {
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-
             stmt.setInt(1, message.getSenderId());
-            stmt.setInt(2, message.getReceiverId());
-            stmt.setObject(3, message.getTeamId() != null ? message.getTeamId() : null, Types.INTEGER);  // 用 setObject 设置 team_id
-//            stmt.setInt(3, message.getTeamId() != null ? message.getTeamId() : null);  // 群聊时才有team_id
+            if (message.getTeamId() == null) {
+                stmt.setInt(2, message.getReceiverId());  // 私聊消息
+                stmt.setNull(3, Types.INTEGER);           // team_id 为空
+            } else {
+                stmt.setNull(2, Types.INTEGER);           // 群聊消息，receiver_id 设为 null
+                stmt.setInt(3, message.getTeamId());      // 设置 team_id
+            }
+//            stmt.setInt(2, message.getReceiverId());
+//            stmt.setObject(3, message.getTeamId() != null ? message.getTeamId() : null, Types.INTEGER);  // 用 setObject 设置 team_id
+////            stmt.setInt(3, message.getTeamId() != null ? message.getTeamId() : null);  // 群聊时才有team_id
             stmt.setString(4, message.getMessageContent());
             stmt.setString(5, message.getMessageType());
             stmt.setString(6, message.getFileUrl());
@@ -42,12 +48,10 @@ public class MessageDao {
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-
             stmt.setInt(1, senderId);
             stmt.setInt(2, receiverId);
             stmt.setInt(3, receiverId);
             stmt.setInt(4, senderId);
-
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Message message = new Message();
@@ -62,11 +66,40 @@ public class MessageDao {
 
                 messageList.add(message);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return messageList;
     }
+    //查找群聊聊天记录
+public List<Message>getTeamMessages(int userId,int teamId){
+    String query = "SELECT * FROM messages WHERE team_id = ? ORDER BY sent_at ASC";
+    List<Message> messageList = new ArrayList<>();
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        // 设置查询参数
+        stmt.setInt(1, teamId);
+        // 执行查询
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            Message message = new Message();
+            message.setMessageId(rs.getInt("message_id"));
+            message.setSenderId(rs.getInt("sender_id"));
+            message.setReceiverId(rs.getInt("receiver_id")); // 在团队消息中可能是 null
+            message.setTeamId(rs.getInt("team_id"));
+            message.setMessageContent(rs.getString("message_content"));
+            message.setMessageType(rs.getString("message_type"));
+            message.setFileUrl(rs.getString("file_url"));
+            message.setSentAt(rs.getTimestamp("sent_at"));
+            // 将消息添加到列表中
+            messageList.add(message);
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return messageList;
+
+}
 }

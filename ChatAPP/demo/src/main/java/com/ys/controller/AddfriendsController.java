@@ -35,6 +35,11 @@ public class AddfriendsController {
             return;
         }
         client.searchFriend(friendId);
+        if (client.searchFriend(friendId)) {
+            showAlert("成功", "好友请求已发送！");
+        } else {
+            showAlert("错误", "发送好友请求失败！");
+        }
     }
 
     // 添加好友按钮点击处理

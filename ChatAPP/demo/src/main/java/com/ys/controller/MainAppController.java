@@ -83,6 +83,7 @@ public class MainAppController {
             System.out.println("contractListPane加载成功");
             groupPane = FXMLLoader.load(getClass().getResource("/fxml/group.fxml"));
             System.out.println("groupPane加载成功");
+
             meetingPane = FXMLLoader.load(getClass().getResource("/fxml/meeting.fxml"));
             fileManagementPane = FXMLLoader.load(getClass().getResource("/fxml/filemanagement.fxml"));
             collectionPane = FXMLLoader.load(getClass().getResource("/fxml/collection.fxml"));
@@ -103,8 +104,9 @@ public class MainAppController {
     }
 
 
-
-
+    public AnchorPane getGroupPane() {
+        return groupPane;
+    }
 
     @FXML
     public void handleContractListButtonClick(ActionEvent event){

@@ -7,6 +7,7 @@ import com.ys.service.client.ClientManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -109,7 +110,7 @@ public class NewfriendsController {
     // 处理同意按钮逻辑
     private void handleAcceptFriend(String currentUserId, String friendRequestId) {
 
-        if (client.acceptFriendRequest(friendRequestId)) {
+        if (client.acceptFriendRequest(friendRequestId, currentUserId)) {
 
             friendsDao.deleteFriendRequest(friendRequestId, currentUserId);
 
@@ -133,7 +134,7 @@ public class NewfriendsController {
     // 处理拒绝按钮逻辑
     private void handleRejectFriend(String currentUserId, String friendRequestId) {
         // 发送拒绝请求到服务器
-        if (client.rejectFriendRequest(friendRequestId)) {
+        if (client.rejectFriendRequest(friendRequestId ,currentUserId)) {
             // 从 addfriends 表中删除好友请求记录
             friendsDao.deleteFriendRequest(friendRequestId, currentUserId);
 
@@ -160,5 +161,9 @@ public class NewfriendsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void refresh(ActionEvent actionEvent) {
+        initialize();
     }
 }
