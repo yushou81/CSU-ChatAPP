@@ -43,7 +43,7 @@ public class ChatController {
 
 
     private Client client;
-    private String currentFriend;  // 当前聊天的好友
+    private String currentFriend;  // 当前聊天的好友和团队
     private String currentFriendID;
     Map<String, String> friendMap;
 
@@ -83,12 +83,14 @@ public class ChatController {
                 List<String> historyCopy = new ArrayList<>(history);
                 // 历史消息处理
                 Platform.runLater(() -> {
-                    System.out.println(historyCopy);
+                    System.out.println("debug historyCopy"+historyCopy);
                     if (currentFriend != null) {
                         System.out.println("开始设置历史消息");
+                        chatMessages.get(currentFriend).clear();
                         chatMessages.get(currentFriend).addAll(historyCopy);
                         showMessagesForFriend(currentFriend);
                     }
+
                 });
             }
 
@@ -111,10 +113,11 @@ public class ChatController {
                 for (Map.Entry<String, String> entry : teamList.entrySet()) {
                     String teamId = entry.getKey();
                     String teamName = entry.getValue();
-                    //到这里能正常传入
+
                     teamListCopy.put(teamId, "团队:" + teamName);  // 加前缀
                 }
                 Platform.runLater(() -> {
+                    //正常
                     loadTeamList(teamListCopy);
                 });
             }
@@ -157,37 +160,42 @@ public class ChatController {
         for (String friend : friends) {
             chatMessages.put(friend, FXCollections.observableArrayList());
         }
-
-        // 设置好友列表点击事件
-        friendListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue!=null){
-            currentFriend = (String) newValue;
-            currentFriendID = friendMap.get(currentFriend);
-
-            // 如果聊天记录为空，则从服务器加载历史记录
-            if (chatMessages.get(currentFriend).isEmpty()||chatMessages.get(currentFriend) == null) {
-                client.requestMessageHistory(Integer.parseInt(currentFriendID));
-            } else {
-                showMessagesForFriend(currentFriend);
-            }
-            }
-        });
+        // 设置好友列表点击事件,这个要和下面的合并
+//        friendListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+//            if(newValue!=null){
+//            currentFriend = (String) newValue;
+//            currentFriendID = friendMap.get(currentFriend);
+//
+//            // 如果聊天记录为空，则从服务器加载历史记录
+//            if (chatMessages.get(currentFriend).isEmpty()||chatMessages.get(currentFriend) == null) {
+////                if(currentFriendID.startsWith("团队:"))
+////                    currentFriendID = currentFriendID.replace("团队:", "");
+//                client.requestMessageHistory(Integer.parseInt(currentFriendID));
+//            } else {
+//                showMessagesForFriend(currentFriend);
+//            }
+//            }
+//        });
     }
     private void loadTeamList(Map<String, String> teamMap) {
-
         Map<String, String> updatedFriendMap = new HashMap<>(friendMap);
+
         for (Map.Entry<String, String> entry : teamMap.entrySet()) {
-            updatedFriendMap.put("团队: " + entry.getKey(), entry.getValue());
+            String teamNameWithPrefix = "团队: " + entry.getKey();
+            updatedFriendMap.put(teamNameWithPrefix, entry.getValue());
+            System.out.println(teamNameWithPrefix);
+        }
+
+        // 创建团队名称列表并添加前缀
+        ObservableList<String> currentItems = friendListView.getItems();
+        ObservableList<String> teams = FXCollections.observableArrayList();
+        for (String teamName : getUserNames(teamMap)) {
+            teams.add("团队: " + teamName);
         }
 
         // 更新 ListView 内容，保留现有好友列表并添加团队
-        ObservableList<String> currentItems = friendListView.getItems();
-        String[] teamNames = getUserNames(teamMap);
-
-        ObservableList<String> teams = FXCollections.observableArrayList(teamNames);
-
         currentItems.addAll(teams);
-        //到这里能用
+
         System.out.println("客户端加载团队列表");
 
         // 初始化每个团队的聊天记录
@@ -195,33 +203,54 @@ public class ChatController {
             chatMessages.put(team, FXCollections.observableArrayList());
         }
 
-        // 保留原来的点击事件处理，并在选择团队时也处理点击事件
+        // 点击事件处理，并在选择团队时也处理点击事件
         friendListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 currentFriend = (String) newValue;
+                System.out.println("debug203: " + currentFriend);
                 currentFriendID = updatedFriendMap.get(currentFriend);
 
-                // 如果聊天记录为空，则从服务器加载历史记录
-                if (chatMessages.get(currentFriend) == null || chatMessages.get(currentFriend).isEmpty()) {
-                    client.requestMessageHistory(Integer.parseInt(currentFriendID));
-                } else {
-                    showMessagesForFriend(currentFriend);
+                // 确保 currentFriendID 不为 null
+                if (currentFriendID != null) {
+                    try {
+                        // 根据前缀判断请求聊天记录
+                        if (currentFriend.startsWith("团队: ")) {
+
+                            currentFriendID = (currentFriendID.substring(3));
+                            System.out.println("现在的friendid"+currentFriendID);
+                            //处理团队信息
+                            client.requestTeamMessageHistory(Integer.parseInt(currentFriendID));
+                        } else {
+                            client.requestMessageHistory(Integer.parseInt(currentFriendID));
+                        }
+                    } catch (NumberFormatException e) {
+                        System.err.println("Invalid ID format for selected item: " + currentFriendID);
+                        e.printStackTrace();
+                    }
                 }
             }
         });
-
     }
-  
+
+
     // 发送私人消息
     @FXML
     private void sendMessage() {
         String message = inputArea.getText();
         if (!message.isEmpty() && currentFriend != null) {
-            chatMessages.get(currentFriend).add("我: " + message);
-            inputArea.clear();
-            System.out.println("发送私聊"+message);
-            client.sendMessage("PRIVATE:" + currentFriendID + ":" + message);
 
+
+                if (currentFriend.startsWith("团队: ")) {
+                    inputArea.clear();
+                    System.out.println("发送群聊" +message);
+                    client.sendMessage("TEAM:"+currentFriendID+":"+message);
+                }
+                else {
+                    chatMessages.get(currentFriend).add("我: " + message);
+                    inputArea.clear();
+                    System.out.println("发送私聊" + message);
+                    client.sendMessage("PRIVATE:" + currentFriendID + ":" + message);
+                }
         }
     }
 
@@ -230,7 +259,9 @@ public class ChatController {
     // 接收消息并显示，在on里面调用
     private void receiveMessage(String fromFriend, String message) {
         chatMessages.get(fromFriend).add(fromFriend + ": " + message);
-        if (fromFriend.equals(currentFriend)) {
+        //currentFriend若为团队则为 团队:
+        //但是不要去除团队前缀
+           if (fromFriend.equals(currentFriend)) {
             showMessagesForFriend(currentFriend);
         }
     }

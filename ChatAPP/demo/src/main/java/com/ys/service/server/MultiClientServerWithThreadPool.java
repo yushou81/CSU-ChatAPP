@@ -81,6 +81,10 @@ public class MultiClientServerWithThreadPool {
             System.out.println("用户 " + targetUserId + " 不在线。");
         }
     }
+    //群聊信息
+    public static void sendTeamMessage(String targetTeamId,String message){
+
+    }
 
     // 处理客户端的线程
     static class ClientHandler implements Runnable {
@@ -128,6 +132,8 @@ public class MultiClientServerWithThreadPool {
 
                     if (message.startsWith("PRIVATE")) {
                         handlePrivateMessage(message);
+                    }else if(message.startsWith("TEAM")){
+                        handleTeamMessage(message);
                     } else if (message.startsWith("FIND_USER")) {
                         handleFindUser(message, out);
                     } else if (message.startsWith("GET_FRIENDS")) {
@@ -136,6 +142,8 @@ public class MultiClientServerWithThreadPool {
                         handleAddFriend(message, out);
                     } else if (message.startsWith("GET_MESSAGE_HISTORY")) {
                         handleGetMessageHistory(message, out);
+                    } else if (message.startsWith("GET_TEAM_MESSAGE_HISTORY")) {
+                        handleGetTeamMessageHistory(message,out);
                     } else if (message.startsWith("CREATE_TEAM")){
                         System.out.println("进入创建群聊");
                       handleCreateTeam(message,out);
@@ -259,6 +267,26 @@ public class MultiClientServerWithThreadPool {
                 System.out.println("私聊消息格式错误！");
             }
         }
+        private void handleTeamMessage(String message){
+            String[] parts = message.split(":");
+            if (parts.length == 3) {
+                String targetTeamId = parts[1];
+                String teamMessage = parts[2];
+
+                // 发送私聊消息
+                sendTeamMessage(targetTeamId, "来自用户 " + userId + " 的团队消息: " + teamMessage);
+                // 存储消息到数据库
+                MessageDao messageDao = new MessageDao();
+                Message msg = new Message();
+                msg.setSenderId(Integer.parseInt(userId));
+                msg.setTeamId(Integer.parseInt(targetTeamId));
+                msg.setMessageContent(teamMessage);
+                msg.setMessageType("text");  // 假设这里为文本类型
+                messageDao.saveMessage(msg);
+            } else {
+                System.out.println("群聊消息格式错误！");
+            }
+        }
 
         // 处理查找用户
         private void handleFindUser(String message, PrintWriter out) {
@@ -282,7 +310,6 @@ public class MultiClientServerWithThreadPool {
             String[] parts = message.split(":");
             if (parts.length == 2) {
                 String targetUserId = parts[1];
-
                 // 获取两人聊天记录
                 MessageDao messageDao = new MessageDao();
                 List<Message> messages = messageDao.getMessagesBetweenUsers(Integer.parseInt(userId), Integer.parseInt(targetUserId));
@@ -304,7 +331,31 @@ public class MultiClientServerWithThreadPool {
                 out.println("聊天记录请求格式错误！");
             }
         }
+        private void handleGetTeamMessageHistory(String message,PrintWriter out){
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                String targetTeamId = parts[1];
+                // 获取团队聊天记录
+                MessageDao messageDao = new MessageDao();
+                List<Message> messages = messageDao.getTeamMessages(Integer.parseInt(userId), Integer.parseInt(targetTeamId));
 
+                if (messages.isEmpty()) {
+                    out.println("没有找到聊天记录");
+                } else {
+                    for (Message msg : messages) {
+                        out.println("时间: " + msg.getSentAt() + " 群聊ID: " + msg.getTeamId() + " 内容: " + msg.getMessageContent());
+                        System.out.println("发送消息: " + msg.getMessageContent());  // 日志，确保每条消息被发送
+                    }
+                }
+                out.println("END_OF_MESSAGE_HISTORY");  // 结束符，标识聊天记录发送完毕
+
+                // 强制刷新输出流，确保所有消息被发送
+                out.flush();
+                System.out.println("输出完成");
+            } else {
+                out.println("聊天记录请求格式错误！");
+            }
+        }
 
         // 处理获取好友列表
         private void handleGetFriends(PrintWriter out) {
