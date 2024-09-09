@@ -12,6 +12,9 @@ import java.util.*;
 import java.util.concurrent.*;
 import com.ys.service.MeetingService;
 import com.ys.service.server.VideoStreamServer;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+
 public class MultiClientServerWithThreadPool {
     // 使用一个线程安全的集合来存储客户端的Socket
     private static Map<String, Socket> userSockets = new ConcurrentHashMap<>();
@@ -92,6 +95,7 @@ public class MultiClientServerWithThreadPool {
             this.userDao = userDao;
             this.meetingService = meetingService;
         }
+
 
         @Override
         public void run() {
@@ -540,15 +544,24 @@ public class MultiClientServerWithThreadPool {
                 userDao.updateUsernameAndPassword(userid,newusername,newPassword);
             }
         }
-        private void handleSearchUser(String message, PrintWriter out){
+        private void handleSearchUser(String message, PrintWriter out) {
             String[] parts = message.split(":");
             String userId = parts[1];
+
             // 搜索好友
             User friend = friendsDao.searchUser(userId);
             if (friend != null) {
-                out.println("SUCCESS搜索到："+friend.getUsername());
+                // 向客户端返回搜索成功的消息
+                out.println("SUCCESS搜索到：" + friend.getUsername());
+                out.flush();  // 确保消息发送出去
+            } else {
+                // 返回搜索失败消息
+                out.println("FAILURE未找到用户");
+                out.flush();
             }
         }
+
     }
+
 }
 

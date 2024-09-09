@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.ys.dao.UserDao;
 import javafx.application.Platform;
 
 
@@ -50,6 +52,8 @@ public class Client {
         void onHistoryReceived(List<String> history);
         //收到好友列表时调用
         void onFriendListReceived(Map<String, String> friendList);  // 添加好友列表的回调
+
+
     }
 
     // 注册监听器，用于在外部处理消息接收
@@ -360,21 +364,16 @@ public class Client {
     }
     public boolean searchFriend(String friendId) {
         // 发送搜索好友请求到服务器
-        if (sendMessage("SEARCH_FRIEND:" + friendId)) {
+        UserDao userDao = new UserDao();
+        String userId = friendId;  // 你想要检查的 userId
+
+
+        if (userDao.isUserExists(userId)) {
             System.out.println("客户端发送搜索好友请求: " + friendId);
-            if (this.searchFriend(friendId)){
-                Platform.runLater(() -> {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("搜索成功");
-                    alert.setHeaderText(null);
-                    alert.setContentText("找到好友: " + friendId);
-                    alert.showAndWait();
-                });
-        }
-            return true;
+            return true;  // 搜索请求发送成功
         } else {
             System.out.println("搜索好友请求发送失败");
-            return false;
+            return false;  // 搜索请求发送失败
         }
     }
     private boolean handleSearchFriendResponse(String response) {

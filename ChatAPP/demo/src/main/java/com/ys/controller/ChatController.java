@@ -104,6 +104,8 @@ public class ChatController {
                     loadFriendList(friendListCopy);
                 });
             }
+
+
         });
 
         // 异步获取好友列表
