@@ -102,7 +102,7 @@ public class FriendsDao {
     }
 
     // 获取某用户的所有好友的 friend_id
-    public List<String> getAllFriendsIds(String userId) {
+    public static List<String> getAllFriendsIds(String userId) {
         String query = "SELECT friend_id FROM user_friends WHERE user_id = ?";
         List<String> friendIds = new ArrayList<>();
 
@@ -125,7 +125,7 @@ public class FriendsDao {
     }
 
     // 根据 friend_id 获取好友的详细信息 (email 和 username)
-    public List<User> getFriendDetails(List<String> friendIds) {
+    public static List<User> getFriendDetails(List<String> friendIds) {
         List<User> friendsDetails = new ArrayList<>();
         String query = "SELECT user_id, username, email FROM users WHERE user_id = ?";
 

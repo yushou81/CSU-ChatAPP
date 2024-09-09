@@ -270,50 +270,60 @@ public class Client {
                             String friendId = parts[0].replace("好友ID: ", "").trim();
                             String friendName = parts[1].trim();
                             friendList.put(friendName, friendId);
-
-
                         }
                     } else if (message.startsWith("私聊消息: 来自用户")) {
                         if (messageListener != null) {
                             messageListener.onMessageReceived(message);
                         }
-
+                    } else if (message.startsWith("FRIEND_LIST:")) {
+                        // 处理服务器返回的好友列表
+                        String friendsData = message.substring("FRIEND_LIST:".length()).trim();
+                        String[] friends = friendsData.split(";");
+                        for (String friend : friends) {
+                            if (!friend.trim().isEmpty()) {
+                                String[] friendInfo = friend.split(",");
+                                if (friendInfo.length == 2) {
+                                    String friendId = friendInfo[0].trim();
+                                    String friendName = friendInfo[1].trim();
+                                    friendList.put(friendName, friendId);
+                                }
+                            }
+                        }
+                        // 好友列表接收完毕，调用回调函数通知前端UI更新
+                        if (messageListener != null) {
+                            messageListener.onFriendListReceived(friendList);
+                        }
                     } else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
-
                         String[] parts = message.split("CREATE_GROUP_SUCCESS:");
-
-                        String teamName=parts[1].trim();
-                        //这里写加入群聊的函数
-                        this.sendJoinTeamRequest(this.getUserId(),teamName);
-     //                   (client.sendJoinTeamRequest(client.getUserId(), teamName.getText()))
-
-
-
-                    }else if(message.startsWith("JOIN_GROUP_SUCCESS:")){
-                        //这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
-                        String[] parts = message.split("CREATE_GROUP_SUCCESS:");
-                        String teamName=parts[1].trim();
-                    }else if(message.startsWith("SUCCESS: 会议 ")){
-                        // 解析服务端返回的会议号
+                        String teamName = parts[1].trim();
+                        // 这里写加入群聊的函数
+                        this.sendJoinTeamRequest(this.getUserId(), teamName);
+                    } else if (message.startsWith("JOIN_GROUP_SUCCESS:")) {
+                        String[] parts = message.split("JOIN_GROUP_SUCCESS:");
+                        String teamName = parts[1].trim();
+                    } else if (message.startsWith("SUCCESS: 会议 ")) {
                         String meetingId = message.split(":")[2].trim();
                         System.out.println("会议创建成功，会议号为: " + meetingId);
-                        // 连接视频流服务器并开始传输视频
-                        videoStreamClient.startVideoStream(meetingId, serverIp, 5555);  // 视频流端口是 5555
-                    }else if(message.startsWith("SUCCESS: 已加入会议: ")){
-                        // 解析服务端返回的会议号
+                        videoStreamClient.startVideoStream(meetingId, serverIp, 5555);
+                    } else if (message.startsWith("SUCCESS: 已加入会议: ")) {
                         String meetingId = message.split(":")[2].trim();
                         System.out.println("会议加入成功，会议号为: " + meetingId);
+
+
                         // 连接视频流服务器并开始传输视频
                         videoStreamClient.joinMeeting(meetingId, serverIp, 5555);  // 视频流端口是 5555
                     } else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {
                         System.out.println("用户信息修改成功");
+
                     }
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }).start();
     }
+
 
     //关闭客户端连接
     public void close() {
@@ -368,6 +378,21 @@ public class Client {
             return false;  // 请求发送失败
         }
     }
+    // 发送同意好友请求到服务器
+    public boolean acceptFriendRequest(String requesterId) {
+        return sendMessage("ACCEPT_FRIEND:" + requesterId);
+    }
+
+    // 发送拒绝好友请求到服务器
+    public boolean rejectFriendRequest(String requesterId) {
+        return sendMessage("REJECT_FRIEND:" + requesterId);
+    }
+    // 发送请求从服务器获取好友列表
+    public boolean requestFriendList() {
+        return sendMessage("GET_FRIENDS:" + this.userId);
+    }
+
+
 
 
 }

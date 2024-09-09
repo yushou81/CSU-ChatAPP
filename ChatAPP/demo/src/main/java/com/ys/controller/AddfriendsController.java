@@ -27,7 +27,7 @@ public class AddfriendsController {
     @FXML
     public void handleSearchFriend(ActionEvent actionEvent) {
         String friendId = friendIdField.getText();
-System.out.println("搜索");
+        System.out.println("搜索");
         if (friendId.isEmpty()) {
             showAlert("错误", "请输入好友ID！");
             return;
