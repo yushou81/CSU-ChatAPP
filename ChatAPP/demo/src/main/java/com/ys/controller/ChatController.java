@@ -100,6 +100,7 @@ public class ChatController {
 
             @Override
             public void onFriendListReceived(Map<String, String> friendList) {
+
                 //在另一个线程进入到platform时，friendlist会被清空不知道为什么
                 Map<String, String> friendListCopy = new HashMap<>(friendList);
                 Platform.runLater(() -> {
@@ -153,8 +154,11 @@ public class ChatController {
     private void loadFriendList(Map<String, String> friendMap) {
         this.friendMap = new HashMap<>(friendMap);
         String[] userNames = getUserNames(friendMap);
+
         ObservableList<String> friends = FXCollections.observableArrayList(userNames);
+
         System.out.println("客户端加载好友列表");
+
         friendListView.setItems(friends);
         // 初始化每个好友的聊天记录
         for (String friend : friends) {

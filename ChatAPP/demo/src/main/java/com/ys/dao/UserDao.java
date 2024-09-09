@@ -151,8 +151,6 @@ public class UserDao {
                 user.setUser_id(rs.getInt("user_id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
-//                user.setPhoneNumber(rs.getString("phone_number"));
-//                user.setRole(rs.getString("role"));
 //                user.setProfilePicture(rs.getString("profile_picture"));
                 friends.add(user);
             }
@@ -161,6 +159,28 @@ public class UserDao {
         }
 
         return friends;
+    }
+
+    // 更新用户名和密码
+    public boolean updateUsernameAndPassword(int userId, String newUsername, String newPassword) {
+
+
+        String query = "UPDATE users SET username = ?, password = ? WHERE user_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, newUsername);
+            stmt.setString(2, newPassword);  // 这里建议对密码加密后再存储
+            stmt.setInt(3, userId);
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

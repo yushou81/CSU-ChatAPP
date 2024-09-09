@@ -25,14 +25,10 @@ public class CreateTeamController implements Client.MessageListener{
     private Button cancelButton;
     private Client client;
 
-    @FXML
-    private void initialize() {
-        this.client = ClientManager.getClient();
-        client.setMessageListener(this);
-        createTeamButton.setOnAction(event -> createTeam());
-    }
+
 
     // 点击创建团队按钮，处理创建团队的逻辑
+    @FXML
     private void createTeam() {
         String teamName = teamNameField.getText().trim();
         if (teamName == null || teamName.trim().isEmpty()) {

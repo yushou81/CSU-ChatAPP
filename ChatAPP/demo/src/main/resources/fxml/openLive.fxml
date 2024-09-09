@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1;-fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.OpenLiveController">
+<AnchorPane prefHeight="840.0" prefWidth="1264.0" style="-fx-background-color: #a9d4e1;-fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.OpenLiveController">
    <children>
-       <Label layoutX="380.0" layoutY="64.0" prefHeight="70.0" prefWidth="200.0" text="直播广场">
+       <Label layoutX="541.0" layoutY="29.0" prefHeight="70.0" prefWidth="200.0" text="直播广场">
            <font>
                <Font size="50.0" />
            </font>
@@ -18,7 +17,7 @@
            </style>
        </Label>
 
-      <Button fx:id="open" layoutX="410.0" layoutY="306.0" mnemonicParsing="false" prefHeight="122.0" prefWidth="127.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
+      <Button fx:id="open" layoutX="564.0" layoutY="308.0" mnemonicParsing="false" prefHeight="122.0" prefWidth="127.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
           <graphic>
               <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -29,9 +28,9 @@
       </Button>
 
 
-       <Button fx:id="cancel" onAction="#Hide" layoutX="1190.0" layoutY="0.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0">
+       <Button fx:id="cancel" layoutX="1200.0" mnemonicParsing="false" onAction="#Hide" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
            <graphic>
-               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="50.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                    <image>
                        <Image url="@../images/cancel_icon.png" />
                    </image>
@@ -39,9 +38,7 @@
            </graphic>
        </Button>
 
-       <Label layoutX="756.0" layoutY="943.0" prefHeight="71.0" prefWidth="163.0" text="开播">
-
-
+       <Label layoutX="602.0" layoutY="484.0" prefHeight="71.0" prefWidth="78.0" text="开播">
          <font>
             <Font size="30.0" />
          </font>

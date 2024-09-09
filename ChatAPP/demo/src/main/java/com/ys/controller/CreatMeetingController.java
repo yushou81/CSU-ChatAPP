@@ -47,31 +47,20 @@ public class CreatMeetingController {
         showAlert("会议创建成功", "您的会议已成功创建！");
 
         try {
-            // 加载视频会议的FXML文件
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/videomeeting.fxml"));
-            Parent root = fxmlLoader.load();
-
-            // 创建一个新的Stage
-            Stage stage = new Stage();
-            stage.setTitle("视频会议");
-
-            // 设置场景并显示
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-            // 关闭当前的窗口（可选）
-            Stage currentStage = (Stage) meetingNameField.getScene().getWindow();
-            currentStage.close();
+            AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/videoMeeting.fxml"));
+            Stage newStage1 = new Stage();
+            // 设置新Stage的场景，将加载的FXML视图作为根节点
+            Scene newScene = new Scene(view,1264,840);
+            newStage1.setScene(newScene);
+            // 设置新Stage的标题（可选）
+            newStage1.setTitle("新窗口");
+            // 显示新Stage
+            newStage1.show();
+            //隐藏旧的Stage
+            creation.getScene().getWindow().hide();
         } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("错误", "无法加载视频会议界面！");
+            throw new RuntimeException(e);
         }
-
-        // 返回到主界面（可选）
-
-        //Backhome(actionEvent);
-
     }
 
     // 显示警告或提示框
@@ -104,4 +93,5 @@ public class CreatMeetingController {
             throw new RuntimeException(e);
         }
     }
+
 }

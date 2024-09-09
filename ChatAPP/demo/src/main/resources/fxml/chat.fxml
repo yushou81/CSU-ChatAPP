@@ -1,75 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.collections.*?>
+<?import javafx.scene.layout.*?>
 
 <!--主布局-->
-<AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="984.0"
-            style="-fx-background-color: rgba(255, 255, 255, 1);"
-            stylesheets="@/styles/chatpage.css"
-            xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.ys.controller.ChatController">
+
+<AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);" stylesheets="@/styles/chatpage.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ChatController">
+
 
     <children>
         <!--好友列表-->
-        <ListView fx:id="friendListView" prefHeight="776.0" prefWidth="216.0" />
+        <ListView fx:id="friendListView" prefHeight="795.0" prefWidth="216.0" />
 
         <!--右侧主区域-->
-        <AnchorPane layoutX="216.0" prefHeight="776.0" prefWidth="968.0"
-                    style="-fx-background-color: rgba(243, 244, 245, 1);">
+
+        <AnchorPane layoutX="216.0" prefHeight="790.0" prefWidth="984.0" style="-fx-background-color: rgba(243, 244, 245, 1);">
 
             <children>
                 <!--顶部标题-->
-                <StackPane fx:id="nameTitle" prefHeight="60.0" prefWidth="968.0"
-                           style="-fx-background-color: F3F4F5;" />
+                <StackPane fx:id="nameTitle" prefHeight="60.0" prefWidth="768.0" style="-fx-background-color: F3F4F5;" />
 
                 <!--输入框-->
-                <TextArea fx:id="inputArea" layoutX="35.0" layoutY="571.6"
-                          prefHeight="163.2" prefWidth="899.2"
-                          style="-fx-opacity: 0.3;" />
+                <TextArea fx:id="inputArea" layoutX="35.0" layoutY="572.0" prefHeight="177.0" prefWidth="895.0" style="-fx-opacity: 0.3;" />
 
                 <!--顶部分隔线-->
-                <Separator layoutY="60.0" opacity="0.26" prefWidth="968.0"
-                           style="-fx-background-color: rgba(204, 204, 204, 1); -fx-opacity: 1;" />
+                <Separator layoutY="60.0" opacity="0.26" prefWidth="768.0" style="-fx-background-color: rgba(204, 204, 204, 1); -fx-opacity: 1;" />
 
                 <!--底部分隔线-->
-                <Separator layoutY="532.0" prefHeight="0.0" prefWidth="968.0"
-                           style="-fx-background-color: rgba(204, 204, 204, 1);" />
+                <Separator layoutY="532.0" prefHeight="0.0" prefWidth="768.0" style="-fx-background-color: rgba(204, 204, 204, 1);" />
 
                 <!--发送按钮-->
-                <Button fx:id="sendButton" layoutX="836.0" layoutY="695.0"
-                        mnemonicParsing="false" onAction="#sendMessage"
-                        prefHeight="25.0" prefWidth="83.0"
-                        style="-fx-border-radius: 5; -fx-font-size: 15; -fx-font-weight: 400; -fx-opacity: 1; -fx-background-color: rgba(99, 167, 191, 1);"
-                        text="发送" textAlignment="CENTER" textFill="WHITE" />
+                <Button fx:id="sendButton" layoutX="842.0" layoutY="704.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="25.0" prefWidth="83.0" style="-fx-border-radius: 5; -fx-font-size: 15; -fx-font-weight: 400; -fx-opacity: 1; -fx-background-color: rgba(99, 167, 191, 1);" text="发送" textAlignment="CENTER" textFill="WHITE" />
 
                 <!--消息列表-->
-                <ListView fx:id="messageListView" layoutY="61.0"
-                          prefHeight="473.0" prefWidth="968.0" />
+                <ListView fx:id="messageListView" layoutY="61.0" prefHeight="474.0" prefWidth="925.0" />
 
                 <!--表情按钮-->
-                <Button fx:id="emojiButton" layoutX="36.0" layoutY="537.0"
-                        maxHeight="33.0" maxWidth="35.0" minHeight="33.0" minWidth="35.0"
-                        mnemonicParsing="false" onMouseClicked="#sendEmoji"
-                        prefHeight="33.0" prefWidth="35.0"
-                        style="-fx-background-color: transparent;">
+                <Button fx:id="emojiButton" layoutX="36.0" layoutY="537.0" maxHeight="33.0" maxWidth="35.0" minHeight="33.0" minWidth="35.0" mnemonicParsing="false" onMouseClicked="#sendEmoji" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: transparent;">
                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0"
-                                   pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../images/emoji_icon.png" />
                             </image>
@@ -78,14 +48,9 @@
                 </Button>
 
                 <!--文件发送按钮-->
-                <Button fx:id="fileButton" layoutX="80.0" layoutY="537.0"
-                        maxHeight="33.0" maxWidth="35.0" minHeight="33.0" minWidth="35.0"
-                        mnemonicParsing="false" onMouseClicked="#sendFile"
-                        prefHeight="33.0" prefWidth="35.0"
-                        style="-fx-background-color: transparent;">
+                <Button fx:id="fileButton" layoutX="80.0" layoutY="537.0" maxHeight="33.0" maxWidth="35.0" minHeight="33.0" minWidth="35.0" mnemonicParsing="false" onMouseClicked="#sendFile" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: transparent;">
                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0"
-                                   pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../images/filesend_icon.png" />
                             </image>

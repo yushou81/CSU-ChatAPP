@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="contractListPane" style="-fx-background-color: #a9d4e1;" prefHeight="776.0" prefWidth="984.0" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ContractListController">
+<AnchorPane fx:id="rootPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1;" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ContractListController">
    <children>
-      <BorderPane prefHeight="786.0" prefWidth="200.0" style="-fx-background-color: white;" />
-      <StackPane fx:id="mainStackPane" layoutX="218.0" layoutY="19.0" prefHeight="767.0" prefWidth="946.0" />
+      <StackPane fx:id="mainStackPane" layoutX="218.0" layoutY="19.0" prefHeight="776.0" prefWidth="746.0">
+         <children>
+         </children>
+      </StackPane>
+      <BorderPane prefHeight="795.0" prefWidth="200.0" style="-fx-background-color: white;" />
 
       <Button id="newfriends" fx:id="newfriends" layoutY="56.0" mnemonicParsing="false" onAction="#newfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="新的朋友">
          <font>
@@ -19,7 +19,13 @@
          </font>
       </Button>
 
-      <Button id="Createteambtn" fx:id="myfriends" layoutY="2.0" mnemonicParsing="false" onAction="#Myfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="我的好友">
+      <Button id="Createteambtn" fx:id="myfridends" layoutY="2.0" mnemonicParsing="false" onAction="#Myfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="我的好友">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+
+      <Button id="newfriends" fx:id="addfriends" layoutY="111.0" mnemonicParsing="false" onAction="#addfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="添加朋友">
          <font>
             <Font size="24.0" />
          </font>
@@ -30,12 +36,6 @@
             <Image url="@../images/Myfriends.png" />
          </image>
       </ImageView>
-
-      <Button id="newfriends" fx:id="addfriends" layoutY="111.0" mnemonicParsing="false" onAction="#addfriends" prefHeight="55.0" prefWidth="190.0" styleClass="button" text="添加朋友">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
 
       <ImageView id="addfriendsicon" fitHeight="42.0" fitWidth="42.0" layoutX="3.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true">
          <image>

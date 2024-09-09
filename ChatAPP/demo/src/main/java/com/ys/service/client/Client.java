@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.application.Platform;
+
+
+import com.ys.controller.AddfriendsController;
+import com.ys.controller.SettingController;
+import javafx.scene.control.Alert;
 import org.bytedeco.javacv.*;
 import org.bytedeco.opencv.opencv_core.*;
 
@@ -29,11 +35,13 @@ public class Client {
     private String serverIp;
     private MessageListener messageListener;
     private VideoStreamClient videoStreamClient;
+    private SettingController settingController;
+
+    private AddfriendsController addfriendsController;
 
     public Client() {
         this.videoStreamClient = VideoStreamClientManager.getClient();  // 创建视频流客户端实例
     }
-
 
     public interface MessageListener {
 
@@ -154,6 +162,13 @@ public class Client {
         return false;
     }
 
+
+    public void setSettingController(SettingController settingController){
+        this.settingController=settingController;
+    }
+    public void setAddFriendController(AddfriendsController addfriendsController){
+        this.addfriendsController=addfriendsController;
+    }
     //获取好友列表
     public void getFriendList() {
         sendMessage("GET_FRIENDS:" + this.userId);  // 发送获取好友列表的请求
@@ -231,7 +246,7 @@ public class Client {
     public void leaveMeeting(String meetingId) {
         sendMessage("LEAVE_MEETING:" + meetingId);
     }
-  
+
     //    开始接收
     public void startReceiveMessages() {
         new Thread(() -> {
@@ -270,6 +285,7 @@ public class Client {
                             String friendId = parts[0].replace("好友ID: ", "").trim();
                             String friendName = parts[1].trim();
                             friendList.put(friendName, friendId);
+
                         }
                     }else if (message.startsWith("团队ID:")) {
                         String[] parts = message.split(", 群聊名: ");
@@ -278,11 +294,14 @@ public class Client {
                             String teamName = parts[1].trim();
                             System.out.println("获取到的团队id"+teamId+"团队名称"+teamName);
                             teamList.put(teamName, teamId);
+
+
                         }
                     } else if (message.startsWith("私聊消息: 来自用户")) {
                         if (messageListener != null) {
                             messageListener.onMessageReceived(message);
                         }
+
 
                     }
                     else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
@@ -312,13 +331,51 @@ public class Client {
                     } else if(message.startsWith("JOIN_GROUP_SUCCESS:")){
                       //  这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
                         String[] parts = message.split("CREATE_GROUP_SUCCESS:");
-                        String teamName=parts[1].trim();
-                    }else if(message.startsWith("SUCCESS: 会议 ")){
-                        // 解析服务端返回的会议号
-                        String meetingId = message.split(":")[1].trim();
+                        String teamName = parts[1].trim();
+                        // 这里写加入群聊的函数
+                      //这行不知道要不要 
+                      // this.sendJoinTeamRequest(this.getUserId(), teamName);
+                    }
+
+                     else if (message.startsWith("FRIEND_LIST:")) {
+                        // 处理服务器返回的好友列表
+                        String friendsData = message.substring("FRIEND_LIST:".length()).trim();
+                        String[] friends = friendsData.split(";");
+                        for (String friend : friends) {
+                            if (!friend.trim().isEmpty()) {
+                                String[] friendInfo = friend.split(",");
+                                if (friendInfo.length == 2) {
+                                    String friendId = friendInfo[0].trim();
+                                    String friendName = friendInfo[1].trim();
+                                    friendList.put(friendName, friendId);
+                                }
+                            }
+                        }
+                        // 好友列表接收完毕，调用回调函数通知前端UI更新
+                        if (messageListener != null) {
+                            messageListener.onFriendListReceived(friendList);
+                        }
+                    } 
+
+  
+                         
+                     else if (message.startsWith("SUCCESS: 会议 ")) {
+                        String meetingId = message.split(":")[2].trim();
                         System.out.println("会议创建成功，会议号为: " + meetingId);
+                        videoStreamClient.startVideoStream(meetingId, serverIp, 5555);
+                    } else if (message.startsWith("SUCCESS: 已加入会议: ")) {
+                        String meetingId = message.split(":")[2].trim();
+                        System.out.println("会议加入成功，会议号为: " + meetingId);
                         // 连接视频流服务器并开始传输视频
-                        videoStreamClient.startVideoStream(meetingId, serverIp, 5555);  // 视频流端口是 5555
+                        videoStreamClient.joinMeeting(meetingId, serverIp, 5555);  // 视频流端口是 5555
+                    } else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {
+                        settingController.fail();
+                    }else if (message.startsWith("Failure: 用户信息修改失败: ")) {
+                        settingController.success();
+                        System.out.println("用户信息修改成功");
+                    }else if (message.startsWith("SUCCESS搜索到：")) {
+                        handleSearchFriendResponse(message);
+                        System.out.println("搜索用户成功");
                     }
 
                 }
@@ -327,6 +384,7 @@ public class Client {
             }
         }).start();
     }
+
 
     //关闭客户端连接
     public void close() {
@@ -344,6 +402,72 @@ public class Client {
             e.printStackTrace();
         }
     }
+    public boolean searchFriend(String friendId) {
+        // 发送搜索好友请求到服务器
+        if (sendMessage("SEARCH_FRIEND:" + friendId)) {
+            System.out.println("客户端发送搜索好友请求: " + friendId);
+            return true;
+        } else {
+            System.out.println("搜索好友请求发送失败");
+            return false;
+        }
+    }
+    private boolean handleSearchFriendResponse(String response) {
+        System.out.println(response);
+        String [] parts = response.split(":");
+        String userName = parts[1];
+        System.out.println("好友存在: " + userName);  // 输出好友ID
+
+        // 弹出成功的Alert
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("搜索成功");
+            alert.setHeaderText(null);
+            alert.setContentText("找到好友: " + userName);
+            alert.showAndWait();
+        });
+
+        addfriendsController.success("好友存在: " + userName);
+        return true;  // 好友存在
+    }
+
+
+    // 发送好友请求
+    public boolean sendFriendRequest(String friendId, String message) {
+        if (sendMessage("ADD_FRIEND:" + this.userId + ":" + friendId + ":" + message)) {
+            System.out.println("发送好友请求: " + friendId + " 消息: " + message);
+
+            // 弹出成功的Alert
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("请求已发送");
+                alert.setHeaderText(null);
+                alert.setContentText("好友请求已发送给: " + friendId);
+                alert.showAndWait();
+            });
+
+            return true;  // 请求发送成功
+        } else {
+            System.out.println("好友请求发送失败");
+            return false;  // 请求发送失败
+        }
+    }
+
+    // 发送同意好友请求到服务器
+    public boolean acceptFriendRequest(String requesterId) {
+        return sendMessage("ACCEPT_FRIEND:" + requesterId);
+    }
+
+    // 发送拒绝好友请求到服务器
+    public boolean rejectFriendRequest(String requesterId) {
+        return sendMessage("REJECT_FRIEND:" + requesterId);
+    }
+    // 发送请求从服务器获取好友列表
+    public boolean requestFriendList() {
+        return sendMessage("GET_FRIENDS:" + this.userId);
+    }
+
+
 
 
 }
