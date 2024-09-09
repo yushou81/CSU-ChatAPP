@@ -181,22 +181,23 @@ public class MultiClientServerWithThreadPool {
         // 接受好友请求
         private void handleacceptFriendRequest(String message, PrintWriter out) {
             String[] parts = message.split(":");
-            if (parts.length == 2) {
-                String requesterId = parts[1];  // 发起请求者ID
+            if (parts.length == 3) {
+                String requesterId = parts[1];
+                String currentUserId = parts[2];  // 解析用户ID
 
-                // 将好友关系插入到 user_friends 表中
+                // 数据库操作：将好友关系写入数据库
                 FriendsDao friendsDao = new FriendsDao();
-                boolean success1 = friendsDao.addFriendToUserFriends(userId, requesterId);
-                boolean success2 = friendsDao.addFriendToUserFriends(requesterId, userId);
+                boolean success1 = friendsDao.addFriendToUserFriends(currentUserId, requesterId);
+                boolean success2 = friendsDao.addFriendToUserFriends(requesterId, currentUserId);
 
                 if (success1 && success2) {
-                    friendsDao.deleteFriendRequest(requesterId, userId); // 删除好友请求记录
+                    friendsDao.deleteFriendRequest(requesterId, currentUserId);  // 删除好友请求
                     out.println("SUCCESS: 好友请求已接受");
-                    // 如果对方在线，通知对方好友请求被接受
+                    // 通知请求者好友请求已被接受
                     if (userSockets.containsKey(requesterId)) {
                         try {
                             PrintWriter friendOut = new PrintWriter(userSockets.get(requesterId).getOutputStream(), true);
-                            friendOut.println("好友请求已被接受: " + userId);
+                            friendOut.println("好友请求已被接受: " + currentUserId);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -206,6 +207,7 @@ public class MultiClientServerWithThreadPool {
                 }
             }
         }
+
 
         // 拒绝好友请求
         private void handlerejectFriendRequest(String message, PrintWriter out) {
