@@ -456,9 +456,10 @@ public class Client {
     }
 
     // 发送同意好友请求到服务器
-    public boolean acceptFriendRequest(String requesterId,String currentUserId) {
-        return sendMessage("ACCEPT_FRIEND:" + requesterId + currentUserId);
+    public boolean acceptFriendRequest(String requesterId, String currentUserId) {
+        return sendMessage("ACCEPT_FRIEND:" + requesterId + ":" + currentUserId);
     }
+
 
     // 发送拒绝好友请求到服务器
     public boolean rejectFriendRequest(String requesterId,String currentUserId) {
