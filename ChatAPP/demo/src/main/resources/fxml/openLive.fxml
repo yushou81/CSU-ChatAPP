@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="840.0" prefWidth="1264.0" style="-fx-background-color: #a9d4e1;-fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.OpenLiveController">
    <children>
-       <Label layoutX="525.0" layoutY="29.0" prefHeight="70.0" prefWidth="200.0" text="直播广场">
+       <Label layoutX="541.0" layoutY="29.0" prefHeight="70.0" prefWidth="200.0" text="直播广场">
            <font>
                <Font size="50.0" />
            </font>

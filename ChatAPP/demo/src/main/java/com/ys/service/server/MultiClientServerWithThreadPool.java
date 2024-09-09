@@ -135,6 +135,8 @@ public class MultiClientServerWithThreadPool {
                         handleJoinMeeting(message, out);
                     } else if (message.startsWith("LEAVE_MEETING")) {
                         handleLeaveMeeting(message, out);
+                    }else if (message.startsWith("Modify_UserInfo")) {
+                        handleModifyUserInfo(message, out);
                     }
                     else {
                         if (userId != null) {
@@ -391,6 +393,7 @@ public class MultiClientServerWithThreadPool {
                 out.println("FAILURE: 离开会议信息格式错误");
             }
         }
+
         // 发送好友请求
         private void handleAddFriend(String message, PrintWriter out) {
             String[] parts = message.split(":");
@@ -460,7 +463,6 @@ public class MultiClientServerWithThreadPool {
             // 向客户端发送好友列表
             out.println(friendListBuilder.toString());
         }
-
 
 
     }

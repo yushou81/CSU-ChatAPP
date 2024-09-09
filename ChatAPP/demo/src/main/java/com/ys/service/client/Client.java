@@ -308,7 +308,13 @@ public class Client {
                     } else if (message.startsWith("SUCCESS: 已加入会议: ")) {
                         String meetingId = message.split(":")[2].trim();
                         System.out.println("会议加入成功，会议号为: " + meetingId);
-                        videoStreamClient.joinMeeting(meetingId, serverIp, 5555);
+
+
+                        // 连接视频流服务器并开始传输视频
+                        videoStreamClient.joinMeeting(meetingId, serverIp, 5555);  // 视频流端口是 5555
+                    } else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {
+                        System.out.println("用户信息修改成功");
+
                     }
 
                 }

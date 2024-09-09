@@ -59,12 +59,6 @@ public class SettingController {
                 // 保存用户名和密码
                 //!!!!!!!!!!!!!!!!!!!!!pass!!!!!!!!!!!!!!!!!!!!!!
         }
-
-        // 取消按钮
-        @FXML
-        private void handleReturn() {
-
-        }
 }
 
 
