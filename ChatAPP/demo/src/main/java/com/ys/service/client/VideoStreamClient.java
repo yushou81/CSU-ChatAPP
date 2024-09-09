@@ -21,6 +21,7 @@ public class VideoStreamClient {
     private OpenCVFrameGrabber videoGrabber;
     private AudioFormat audioFormat;
     private TargetDataLine microphone;
+    private SourceDataLine speakers;
     private InetAddress serverAddress;
     private int serverPort;
     private boolean isCameraOn = false;//调试时关闭的
@@ -58,8 +59,7 @@ public class VideoStreamClient {
             if (isCameraOn) startCamera();
             if (isMicrophoneOn) {
                 startMicrophone();
-                // 在启动麦克风后保存音频
-//                saveAudioToFile();
+                openSpeaker();
             }
 
             while (isRunning) {
@@ -76,14 +76,12 @@ public class VideoStreamClient {
                 }
 
                 if (isMicrophoneOn) {
+
                     // 获取音频帧并发送
                     byte[] audioData = captureAudio();
-
-                    System.out.println("音频文见的长度"+audioData.length);
-
+                    playAudioFrame(audioData);
                     sendAudioFrame(meetingId, audioData, currentTime);
                 }
-
                 Thread.sleep(100);  // 控制帧率
             }
         } catch (Exception e) {
@@ -114,17 +112,12 @@ public class VideoStreamClient {
     private void startMicrophone() {
         try {
 
-            Mixer.Info[] mixerInfos = AudioSystem.getMixerInfo();
-            for (Mixer.Info mixerInfo : mixerInfos) {
-                System.out.println("Available mixer: " + mixerInfo.getName());
-            }
-
-
             audioFormat = new AudioFormat(44100, 16, 2, true, true);
 
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, audioFormat);
 
             microphone = (TargetDataLine) AudioSystem.getLine(info);
+
             if (microphone != null) {
                 microphone.open(audioFormat);
                 microphone.start();
@@ -149,9 +142,11 @@ public class VideoStreamClient {
 
     // 捕获音频数据
     private byte[] captureAudio() {
-        byte[] buffer = new byte[8192];  // 或者更大的值
+        byte[] buffer = new byte[40960];  // 或者更大的值
         try {
-            microphone.read(buffer, 0, buffer.length);
+            int bytesRead;
+            bytesRead = microphone.read(buffer, 0, buffer.length);
+
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("音频读取失败");
@@ -233,6 +228,7 @@ public class VideoStreamClient {
     // 发送音频帧，带有会议ID和时间戳
     private void sendAudioFrame(String meetingId, byte[] audioData, long timestamp) {
         try {
+
             // 拆分数据包
             int totalParts = (int) Math.ceil(audioData.length / (double) MAX_UDP_PACKET_SIZE);
 
@@ -240,15 +236,15 @@ public class VideoStreamClient {
 
                 int start = part * MAX_UDP_PACKET_SIZE;
                 int length = Math.min(audioData.length - start, MAX_UDP_PACKET_SIZE);  // 当前分片大小
+                System.out.println("length"+length);
 
 
-
-                ByteBuffer buffer = ByteBuffer.allocate(20 +4 + 4 + 4 + 8 + 4 + 4 + length);  // 20字节会议ID, 4字节标志位, 8字节时间戳, 4字节总分片数, 4字节当前分片号
+                ByteBuffer buffer = ByteBuffer.allocate(20 + 4 + 4 + 4 + 8 + 4 + 4 + length);  // 20字节会议ID, 4字节标志位, 8字节时间戳, 4字节总分片数, 4字节当前分片号
 
                 byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
                 buffer.put(idBytes);
                 buffer.putInt(1);
-                buffer.putInt(4 + 8 + 4 + 4 + length);
+                buffer.putInt( 4 + 8 + 4 + 4 + length);
                 buffer.putInt(2);  // 2 表示音频数据
                 buffer.putLong(timestamp);  // 写入时间戳
                 buffer.putInt(totalParts);  // 总分片数
@@ -274,7 +270,6 @@ public class VideoStreamClient {
         this.isMicrophoneOn = status;
     }
 
-    // 发送加入会议的请求并启动接收线程
     public void joinMeeting(String meetingId, String serverIp, int serverPort) {
         try {
             udpSocket = new DatagramSocket();
@@ -290,13 +285,17 @@ public class VideoStreamClient {
             udpSocket.send(packet);
             System.out.println("加入会议请求已发送: " + meetingId);
 
-// 启动接收视频和音频的线程
+            // 启动接收视频和音频的线程
             new Thread(() -> {
                 try {
-                    Map<Integer, byte[]> videoPartsMap = new HashMap<>();  // 存储分片
-                    int totalParts = -1;  // 分片总数
-                    int partsReceived = 0;  // 已接收到的分片数
-                    long currentTimestamp = 0;
+                    Map<Integer, byte[]> videoPartsMap = new HashMap<>();  // 存储视频分片
+                    Map<Integer, byte[]> audioPartsMap = new HashMap<>();  // 存储音频分片
+                    int videoTotalParts = -1;  // 视频分片总数
+                    int videoPartsReceived = 0;  // 已接收到的视频分片数
+                    int audioTotalParts = -1;  // 音频分片总数
+                    int audioPartsReceived = 0;  // 已接收到的音频分片数
+                    long currentVideoTimestamp = 0;
+                    long currentAudioTimestamp = 0;
 
                     while (isRunning) {
                         byte[] bufferReceive = new byte[65535];  // 接收视频和音频的数据包
@@ -311,28 +310,28 @@ public class VideoStreamClient {
 
                         // 视频数据
                         if (dataType == 1) {
-                            if (timestamp != currentTimestamp) {
-                                // 如果是新的帧，重置分片计数
+                            if (timestamp != currentVideoTimestamp) {
+                                // 如果是新的帧，重置视频分片计数
                                 videoPartsMap.clear();
-                                currentTimestamp = timestamp;
-                                partsReceived = 0;
-                                totalParts = -1;
+                                currentVideoTimestamp = timestamp;
+                                videoPartsReceived = 0;
+                                videoTotalParts = -1;
                             }
 
-                            totalParts = receivedBuffer.getInt();  // 总分片数
-                            int partNumber = receivedBuffer.getInt();  // 当前分片号
+                            videoTotalParts = receivedBuffer.getInt();  // 视频总分片数
+                            int partNumber = receivedBuffer.getInt();  // 当前视频分片号
 
                             byte[] partData = new byte[receivePacket.getLength() - 44];  // 计算当前分片数据长度（减去头部信息）
-                            receivedBuffer.get(partData);  // 获取分片数据
-                            videoPartsMap.put(partNumber, partData);  // 存储分片数据
+                            receivedBuffer.get(partData);  // 获取视频分片数据
+                            videoPartsMap.put(partNumber, partData);  // 存储视频分片数据
 
-                            partsReceived++;  // 记录收到的分片数
+                            videoPartsReceived++;  // 记录收到的视频分片数
 
-                            // 当所有分片都接收到后，重组完整帧
-                            if (partsReceived == totalParts) {
+                            // 当所有视频分片都接收到后，重组完整帧
+                            if (videoPartsReceived == videoTotalParts) {
                                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                                for (int i = 0; i < totalParts; i++) {
-                                    byteArrayOutputStream.write(videoPartsMap.get(i));  // 将所有分片合并
+                                for (int i = 0; i < videoTotalParts; i++) {
+                                    byteArrayOutputStream.write(videoPartsMap.get(i));  // 将所有视频分片合并
                                 }
 
                                 byte[] completeFrameData = byteArrayOutputStream.toByteArray();
@@ -344,16 +343,46 @@ public class VideoStreamClient {
                                     System.out.println("接收到的视频帧无法解析");
                                 }
 
-                                // 清空分片数据
+                                // 清空视频分片数据
                                 videoPartsMap.clear();
-                                partsReceived = 0;
-                                totalParts = -1;
+                                videoPartsReceived = 0;
+                                videoTotalParts = -1;
                             }
-                        } else if (dataType == 2) {
-                            // 处理音频数据...
-                            byte[] audioData = new byte[receivePacket.getLength() - 40];
-                            receivedBuffer.get(audioData);
-                            playAudioFrame(audioData);  // 播放音频
+                        }
+                        // 音频数据
+                        else if (dataType == 2) {
+                            if (timestamp != currentAudioTimestamp) {
+                                // 如果是新的音频帧，重置音频分片计数
+                                audioPartsMap.clear();
+                                currentAudioTimestamp = timestamp;
+                                audioPartsReceived = 0;
+                                audioTotalParts = -1;
+                            }
+
+                            audioTotalParts = receivedBuffer.getInt();  // 音频总分片数
+                            int partNumber = receivedBuffer.getInt();  // 当前音频分片号
+
+                            byte[] partData = new byte[receivePacket.getLength() - 44];  // 计算当前分片数据长度（减去头部信息）
+                            receivedBuffer.get(partData);  // 获取音频分片数据
+                            audioPartsMap.put(partNumber, partData);  // 存储音频分片数据
+
+                            audioPartsReceived++;  // 记录收到的音频分片数
+
+                            // 当所有音频分片都接收到后，重组完整帧
+                            if (audioPartsReceived == audioTotalParts) {
+                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                for (int i = 0; i < audioTotalParts; i++) {
+                                    byteArrayOutputStream.write(audioPartsMap.get(i));  // 将所有音频分片合并
+                                }
+
+                                byte[] completeAudioData = byteArrayOutputStream.toByteArray();
+                                playAudioFrame(completeAudioData);  // 播放音频
+
+                                // 清空音频分片数据
+                                audioPartsMap.clear();
+                                audioPartsReceived = 0;
+                                audioTotalParts = -1;
+                            }
                         }
 
                         // 控制音视频同步，基于时间戳
@@ -368,40 +397,34 @@ public class VideoStreamClient {
                 }
             }).start();
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void openSpeaker() throws LineUnavailableException {
+        System.out.println("打开扬声器");
+        if (audioFormat == null) {
+            audioFormat = new AudioFormat(44100, 16, 2, true, true);  // 初始化为立体声、16位、44100Hz
+        }
+        DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
+        // 检查音频线是否支持该格式
+        if (!AudioSystem.isLineSupported(info)) {
+            System.out.println("不支持的音频格式");
+            return;
+        }
+        speakers = (SourceDataLine) AudioSystem.getLine(info);
+        speakers.open(audioFormat);  // 打开音频线
+        speakers.start();
+    }
     // 播放音频帧
     private void playAudioFrame(byte[] audioData) {
         try {
-            // 如果 audioFormat 未初始化，则进行初始化
-            if (audioFormat == null) {
-                audioFormat = new AudioFormat(44100, 16, 2, true, true);  // 初始化为立体声、16位、44100Hz
-            }
-
-            SourceDataLine line;
-            DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
-
-            // 检查音频线是否支持该格式
-            if (!AudioSystem.isLineSupported(info)) {
-                System.out.println("不支持的音频格式");
-                return;
-            }
-
-            line = (SourceDataLine) AudioSystem.getLine(info);
-            line.open(audioFormat);  // 打开音频线
-            line.start();
-
             int frameSize = audioFormat.getFrameSize();  // 获取每帧的大小
             int lengthToWrite = (audioData.length / frameSize) * frameSize;  // 计算符合帧大小的字节数
-
             // 播放音频数据，确保写入的字节数是 frameSize 的整数倍
-            line.write(audioData, 0, lengthToWrite);
-            line.drain();  // 确保所有数据被播放
-            line.close();  // 关闭音频线
+//            speakers.write(audioData, 0, lengthToWrite);
+            speakers.write(audioData, 0, audioData.length);
         } catch (Exception e) {
             e.printStackTrace();
         }
