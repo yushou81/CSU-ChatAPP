@@ -49,7 +49,7 @@ public class MainApp extends Application {
         try {
             // 加载 FXML 文件
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
 
 
             Parent root = loader.load();
