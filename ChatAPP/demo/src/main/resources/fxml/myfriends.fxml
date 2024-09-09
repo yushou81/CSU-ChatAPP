@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MyfriendsController">
 
    <children>
       <Label layoutX="422.0" layoutY="36.0" prefHeight="70.0" prefWidth="270.0" text="我的好友">
@@ -33,98 +31,17 @@
          </font>
       </Button>
 
-      <Pane layoutX="42.0" layoutY="236.0" prefHeight="510.0" prefWidth="1010.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);" />
-      <VBox layoutX="73.0" layoutY="251.0" prefHeight="354.0" prefWidth="1017.0">
+      <Pane layoutX="42.0" layoutY="236.0" prefHeight="510.0" prefWidth="888.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="100.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/testAvatar.jpg" />
-                     </image>
-                  </ImageView>
-
-                  <Label prefHeight="90.0" prefWidth="444.0" text="  好友1">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Label>
-
-                  <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Button>
-
-                  <Pane prefHeight="0.0" prefWidth="10.0" style="-fx-background-color: white;" />
-
-                  <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="删除">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
-
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="100.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/testAvatar.jpg" />
-                     </image>
-                  </ImageView>
-
-                  <Label prefHeight="100.0" prefWidth="444.0" text="  好友2">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Label>
-
-                  <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Button>
-
-                  <Pane prefHeight="0.0" prefWidth="10.0" style="-fx-background-color: white;" />
-
-                  <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="删除">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="100.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/testAvatar.jpg" />
-                     </image>
-                  </ImageView>
-
-                  <Label prefHeight="100.0" prefWidth="444.0" text="  好友3">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Label>
-
-                  <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="详情">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Button>
-
-                  <Pane prefHeight="0.0" prefWidth="10.0" style="-fx-background-color: white;" />
-
-                  <Button mnemonicParsing="false" prefHeight="90.0" prefWidth="180.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="删除">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
+            <ListView fx:id="friendsListView" layoutY="1.0" prefHeight="504.0" prefWidth="888.0" />
          </children>
-      </VBox>
+      </Pane>
+
+      <Button fx:id="refreshbtn" layoutX="42.0" layoutY="144.0" mnemonicParsing="false" onAction="#refresh" prefHeight="60.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="刷新">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
+
    </children>
 </AnchorPane>

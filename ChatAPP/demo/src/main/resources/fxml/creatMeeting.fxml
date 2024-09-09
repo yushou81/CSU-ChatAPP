@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreatMeetingController">
+<AnchorPane prefHeight="840.0" prefWidth="1264.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreatMeetingController">
     <children>
-        <Label layoutX="522.0" layoutY="42.0" prefHeight="70.0" prefWidth="200.0" text="创建会议">
-
+        <Label layoutX="470.0" layoutY="25.0" prefHeight="70.0" prefWidth="200.0" text="创建会议">
             <font>
                 <Font size="50.0" />
             </font>
@@ -19,19 +18,29 @@
             </style>
         </Label>
 
-        <Label layoutX="260.0" layoutY="275.0" text="会议名：">
+        <Label layoutX="217.0" layoutY="275.0" text="会议名：">
             <font>
                 <Font size="40.0" />
             </font>
         </Label>
 
-        <Label layoutX="266.0" layoutY="407.0" prefHeight="51.0" prefWidth="121.0" text="密码：">
+        <Label layoutX="236.0" layoutY="407.0" prefHeight="51.0" prefWidth="121.0" text="密码：">
             <font>
                 <Font size="40.0" />
             </font>
         </Label>
 
-        <Label layoutX="103.0" layoutY="780.0">
+
+
+        <Label layoutX="103.0" layoutY="780.0" text="开启麦克风">
+
+
+            <font>
+                <Font size="30.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="683.0" layoutY="780.0" text="开启视频">
             <font>
                 <Font size="30.0" />
             </font>
@@ -42,17 +51,29 @@
                 <Font size="30.0" />
             </font>
         </Label>
-        <TextField fx:id="meetingNameField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0">
+
+
+
+        <Label layoutX="993.0" layoutY="780.0" text="创建">
             <font>
                 <Font size="30.0" />
             </font>
-        </TextField>
-        <TextField fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0">
+        </Label>
+
+        <TextField fx:id="meetingNameField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+
             <font>
                 <Font size="30.0" />
             </font>
         </TextField>
 
+
+        <TextField fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+
+            <font>
+                <Font size="30.0" />
+            </font>
+        </TextField>
         <Button fx:id="cancel" layoutX="1141.0" layoutY="15.0" mnemonicParsing="false" onAction="#Hide" prefHeight="50.0" prefWidth="50.0" />
           <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="577.0" layoutY="628.0" pickOnBounds="true" preserveRatio="true">
               <image>
@@ -67,7 +88,6 @@
 
         <Button fx:id="creation" layoutX="571.0" layoutY="623.0" mnemonicParsing="false" onAction="#createMeetingBtn" prefHeight="100.0" prefWidth="102.0" style="-fx-background-color: transparent;" />
 
+
     </children>
-
-
 </AnchorPane>
