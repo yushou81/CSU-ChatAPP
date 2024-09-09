@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.ys.controller.SettingController;
+import javafx.scene.control.Alert;
 import org.bytedeco.javacv.*;
 import org.bytedeco.opencv.opencv_core.*;
 
@@ -28,11 +31,11 @@ public class Client {
     private String serverIp;
     private MessageListener messageListener;
     private VideoStreamClient videoStreamClient;
+    private SettingController settingController;
 
     public Client() {
         this.videoStreamClient = VideoStreamClientManager.getClient();  // 创建视频流客户端实例
     }
-
 
     public interface MessageListener {
 
@@ -164,6 +167,10 @@ public class Client {
         return false;
     }
 
+
+    public void setSettingController(SettingController settingController){
+        this.settingController=settingController;
+    }
     //获取好友列表
     public void getFriendList() {
         sendMessage("GET_FRIENDS:" + this.userId);  // 发送获取好友列表的请求
@@ -312,9 +319,11 @@ public class Client {
 
                         // 连接视频流服务器并开始传输视频
                         videoStreamClient.joinMeeting(meetingId, serverIp, 5555);  // 视频流端口是 5555
-                    } else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {
+                    } else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {g
+                        settingController.fail();
+                    }else if (message.startsWith("Failure: 用户信息修改失败: ")) {
+                        settingController.success();
                         System.out.println("用户信息修改成功");
-
                     }
 
                 }

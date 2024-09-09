@@ -135,7 +135,7 @@ public class MultiClientServerWithThreadPool {
                         handleJoinMeeting(message, out);
                     } else if (message.startsWith("LEAVE_MEETING")) {
                         handleLeaveMeeting(message, out);
-                    }else if (message.startsWith("Modify_UserInfo")) {
+                    }else if (message.startsWith("UPDATE_USER:")) {
                         handleModifyUserInfo(message, out);
                     }
                     else {
@@ -444,6 +444,7 @@ public class MultiClientServerWithThreadPool {
                     out.println("SUCCESS: 好友请求已拒绝");
                 }
             }
+
         }
         // 处理获取好友列表的请求
         private void handleGetFriends(String userId,PrintWriter out) {
