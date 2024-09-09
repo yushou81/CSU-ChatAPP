@@ -24,9 +24,12 @@ public class VideoStreamClient {
     private SourceDataLine speakers;
     private InetAddress serverAddress;
     private int serverPort;
-    private boolean isCameraOn = false;//调试时关闭的
+    private boolean isCameraOn = true;//调试时关闭的
     private boolean isMicrophoneOn = true;
     private boolean isRunning = true;
+
+    private String meetingId;
+    private String serverIp;
 
     // 构造函数，传递 VideoMeetingController 实例
     public void setVideoMeetingController(VideoMeetingController controller) {
@@ -74,15 +77,12 @@ public class VideoStreamClient {
                         sendVideoFrame(meetingId, bufferedImage, currentTime);
                     }
                 }
-
                 if (isMicrophoneOn) {
-
                     // 获取音频帧并发送
                     byte[] audioData = captureAudio();
-                    playAudioFrame(audioData);
                     sendAudioFrame(meetingId, audioData, currentTime);
                 }
-                Thread.sleep(100);  // 控制帧率
+                Thread.sleep(10);  // 控制帧率
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,7 +142,7 @@ public class VideoStreamClient {
 
     // 捕获音频数据
     private byte[] captureAudio() {
-        byte[] buffer = new byte[40960];  // 或者更大的值
+        byte[] buffer = new byte[20480];  // 或者更大的值
         try {
             int bytesRead;
             bytesRead = microphone.read(buffer, 0, buffer.length);
@@ -272,6 +272,8 @@ public class VideoStreamClient {
 
     public void joinMeeting(String meetingId, String serverIp, int serverPort) {
         try {
+            this.meetingId = meetingId;
+            this.serverIp=serverIp;
             udpSocket = new DatagramSocket();
             serverAddress = InetAddress.getByName(serverIp);
             this.serverPort = serverPort;
@@ -432,7 +434,7 @@ public class VideoStreamClient {
 
 
     // 客户端退出会议的请求
-    public void leaveMeeting(String meetingId, String serverIp, int serverPort) {
+    public void leaveMeeting() {
         try {
             ByteBuffer buffer = ByteBuffer.allocate(24);  // 假设会议ID为20字节 + 4字节的“退出会议”标识
             buffer.put(meetingId.getBytes());  // 会议ID
@@ -446,6 +448,7 @@ public class VideoStreamClient {
             e.printStackTrace();
         }
     }
+
     public void connect(String meetingId, String serverIp, int serverPort) throws SocketException, UnknownHostException {
         udpSocket = new DatagramSocket();
         serverAddress = InetAddress.getByName(serverIp);

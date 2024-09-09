@@ -21,11 +21,11 @@ import javax.imageio.ImageIO;
 
 public class VideoMeetingController {
 
-    public Button endButton;
-    public Button voiceButtonNO;
-    public Button voiceButtonYes;
-    public Button cameraButton;
-    public Button cameraOffButton;
+    public Button closeMeetingBtn;
+    public Button micCloseBtn;
+    public Button micOpenBtn;
+    public Button cameraOpenBtn;
+    public Button cameraCloseBtn;
     @FXML
     private ImageView image;
     @FXML
@@ -45,15 +45,6 @@ public class VideoMeetingController {
         videoStreamClient.setVideoMeetingController(this);  // 创建 VideoClient 实例
     }
 
-    // 启动视频会议的按钮点击事件
-    @FXML
-    public void startVideoMeeting() {
-        String meetingId = "12345";  // 示例会议ID
-        String serverIp = "localhost";  // 服务器IP地址
-        int serverPort = 5555;  // 服务器端口
-        videoStreamClient.startVideoStream(meetingId, serverIp, serverPort);
-    }
-
     // 显示捕获到的视频帧
     public void updateVideoFrame(BufferedImage bufferedImage) {
         // 在 JavaFX 应用线程上更新 UI
@@ -62,66 +53,36 @@ public class VideoMeetingController {
             videoImageView.setImage(fxImage);  // 更新 ImageView
         });
     }
-    // 启动摄像头
-    @FXML
-    public void turnOnCamera(ActionEvent actionEvent) {
-        isCameraOn = true;
-        videoStreamClient.setCameraStatus(true);
-        cameraButton.setVisible(false);
-        cameraOffButton.setVisible(true);
+
+    public void closeMeeting(ActionEvent actionEvent) {
+        closeMeetingBtn.getScene().getWindow().hide(); // 关闭窗口
+        videoStreamClient.leaveMeeting();
     }
 
-    // 关闭摄像头
-    @FXML
-    public void turnOffCamera(ActionEvent actionEvent) {
-        isCameraOn = false;
-        videoStreamClient.setCameraStatus(false);
-        cameraButton.setVisible(true);
-        cameraOffButton.setVisible(false);
-    }
-
-    // 打开麦克风
-    @FXML
-    public void unmuteMic(ActionEvent actionEvent) {
-        isMicrophoneOn = true;
+    public void micOpenBtn(ActionEvent actionEvent) {
+        micOpenBtn.setVisible(false);
+        micCloseBtn.setVisible(true);
         videoStreamClient.setMicrophoneStatus(true);
-        voiceButtonNO.setVisible(false);
-        voiceButtonYes.setVisible(true);
     }
 
-    // 静音麦克风
-    @FXML
-    public void muteMic(ActionEvent actionEvent) {
-        isMicrophoneOn = false;
+    public void micCloseBtn(ActionEvent actionEvent) {
+        micCloseBtn.setVisible(false);
+        micOpenBtn.setVisible(true);
         videoStreamClient.setMicrophoneStatus(false);
-        voiceButtonNO.setVisible(true);
-        voiceButtonYes.setVisible(false);
     }
 
-    // 停止视频会议
-    @FXML
-    public void stopMeeting() {
-        isStreaming = false;
-        videoStreamClient.closeConnection();  // 停止视频流传输并关闭连接
+    public void cameraOpenBtn(ActionEvent actionEvent) {
+        System.out.println("这是关闭");
+        cameraOpenBtn.setVisible(false);
+        cameraCloseBtn.setVisible(true);
+        image.setVisible(false);
+        videoStreamClient.setCameraStatus(true);
     }
 
-    public void End(ActionEvent actionEvent) {
-        endButton.getScene().getWindow().hide(); // 关闭窗口
-    }
-
-    public void voiceclick(ActionEvent actionEvent) {
-        voiceButtonNO.setVisible(false);voiceButtonYes.setVisible(true);
-    }
-
-    public void voiceclick1(ActionEvent actionEvent) {
-        voiceButtonNO.setVisible(true);voiceButtonYes.setVisible(false);
-    }
-
-    public void Closeview(ActionEvent actionEvent) {
-        cameraButton.setVisible(false);cameraOffButton.setVisible(true);image.setVisible(false);
-    }
-
-    public void Openview(ActionEvent actionEvent) {
-        cameraOffButton.setVisible(false);cameraButton.setVisible(true);image.setVisible(true);
+    public void cameraCloseBtn(ActionEvent actionEvent) {
+        System.out.println("这是关闭");
+        cameraCloseBtn.setVisible(false);
+        cameraOpenBtn.setVisible(true);image.setVisible(true);
+        videoStreamClient.setCameraStatus(false);
     }
 }
