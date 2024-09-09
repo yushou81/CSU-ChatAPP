@@ -130,7 +130,7 @@ public class ChatController {
                 Platform.runLater(() -> {
                     loadFriendList(friendListCopy);
                 });
-            }
+
             @Override
             public void onTeamListReceived(Map<String,String> teamList){
                 Map<String,String> teamListCopy=new HashMap<>();
@@ -146,6 +146,7 @@ public class ChatController {
                     loadTeamList(teamListCopy);
                 });
             }
+
 
         });
 
