@@ -398,7 +398,7 @@ public class Client {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("请求已发送");
                 alert.setHeaderText(null);
-                alert.setContentText("好友请求已发送给: " + friendId);
+                alert.setContentText("好友请求已发送给client: " + friendId);
                 alert.showAndWait();
             });
 

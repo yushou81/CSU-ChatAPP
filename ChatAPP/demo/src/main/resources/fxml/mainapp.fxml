@@ -15,58 +15,59 @@
 
       <!-- 这个没啥用，只是装饰 -->
 
-      <ListView id="indexList" layoutY="63.0" maxHeight="1.7976931348623157E308" maxWidth="80.0" prefHeight="790.0" prefWidth="80.0" style="-fx-background-color: EBEBEB;">
+      <ListView id="indexList" layoutY="63.0"   prefHeight="790.0" prefWidth="80.0" style="-fx-background-color: EBEBEB;">
 
       </ListView>
 
       <!-- 定义 StackPane 和不同的内容,在对应stackpane完成格子对应开发 -->
       <StackPane fx:id="mainStackPane" layoutX="80.0" layoutY="59.0" prefHeight="788.0" prefWidth="1184.0">
-         <children>
-         </children>
       </StackPane>
 
-      <AnchorPane layoutX="-1.0" layoutY="-1.0" maxHeight="64.0"  minHeight="64.0" prefHeight="64.0" prefWidth="1280.0" style="-fx-background-color: #63A7BF;">
-         <children>
-            <Button id="closeButton" layoutX="1228.0" layoutY="10.0"  prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <!--把URL换为关闭图片资源-->
-                        <Image url="@../images/close_icon.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
+      <AnchorPane layoutX="-1.0" layoutY="-1.0" maxHeight="64.0" minHeight="64.0" prefHeight="64.0" prefWidth="1280.0"
+                  style="-fx-background-color: #63A7BF;">
 
-            <Button id="maximizeButton" layoutX="1171.0" layoutY="13.0"  prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/maximize_icon.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
+         <Button id="closeButton" layoutX="1228.0" layoutY="10.0" prefHeight="40.0" prefWidth="40.0"
+                 style="-fx-background-color: transparent;" styleClass="button">
+            <graphic>
+               <ImageView fitHeight="30.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/close_icon.png"/>
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
 
-            <Button id="minimizeButton" layoutX="1114.0" layoutY="13.0"  prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/minimize_icon.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
+         <Button id="maximizeButton" layoutX="1171.0" layoutY="13.0" prefHeight="40.0" prefWidth="40.0"
+                 style="-fx-background-color: transparent;" styleClass="button">
+            <graphic>
+               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/maximize_icon.png"/>
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
 
-            <ImageView id="userAvatar" fitHeight="38.0" fitWidth="38.0" layoutX="20.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/testAvatar.jpg" />
-               </image>
-               <clip>
-                  <Circle centerX="19" centerY="19" radius="19" />
-               </clip>
-            </ImageView>
-         </children>
+         <Button id="minimizeButton" layoutX="1114.0" layoutY="13.0" prefHeight="40.0" prefWidth="40.0"
+                 style="-fx-background-color: transparent;" styleClass="button">
+            <graphic>
+               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/minimize_icon.png"/>
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
+
+         <ImageView id="userAvatar" fitHeight="38.0" fitWidth="38.0" layoutX="20.0" layoutY="13.0" pickOnBounds="true"
+                    preserveRatio="true">
+            <image>
+               <Image url="@../images/testAvatar.jpg"/>
+            </image>
+            <clip>
+               <Circle centerX="19" centerY="19" radius="19"/>
+            </clip>
+         </ImageView>
       </AnchorPane>
 
       <!-- 按钮使用全局样式 -->
