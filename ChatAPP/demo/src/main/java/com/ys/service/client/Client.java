@@ -36,8 +36,8 @@ public class Client {
     private MessageListener messageListener;
     private VideoStreamClient videoStreamClient;
     private SettingController settingController;
-
     private AddfriendsController addfriendsController;
+    private FileClient fileClient;
 
     public Client() {
         this.videoStreamClient = VideoStreamClientManager.getClient();  // 创建视频流客户端实例

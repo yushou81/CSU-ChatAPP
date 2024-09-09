@@ -3,12 +3,14 @@ package com.ys.controller;
 import com.ys.service.client.Client;
 import com.ys.service.client.ClientManager;
 
+import com.ys.service.client.FileClient;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -17,6 +19,8 @@ import java.util.*;
 
 import javafx.scene.input.MouseEvent;
 import javafx.concurrent.Task;
+import javafx.stage.FileChooser;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
@@ -70,7 +74,6 @@ public class ChatController {
                             String senderId = partss[1].trim();
                             String privateMessage = parts[1].trim();
                             String senderName = getFriendNameById(senderId);
-                            System.out.println(senderId+"h"+privateMessage+"q"+senderName);
                             receiveMessage(senderName, privateMessage);
                         }
                     }
@@ -79,11 +82,33 @@ public class ChatController {
 
             @Override
             public void onHistoryReceived(List<String> history) {
+
                 System.out.println("接收历史消息完毕");
-                List<String> historyCopy = new ArrayList<>(history);
+
+                List<String> historyCopy = new ArrayList<>();
+                // 遍历每一个消息，检查消息类型
+                for (String message : history) {
+                    // 检查消息类型是否为 "text"
+                    if (message.contains("消息类型: text")) {
+                        // 找到 "消息类型: text" 在字符串中的位置
+                        int index = message.indexOf("消息类型: text");
+
+                        // 删除从 "消息类型: text" 开始之后的所有内容
+                        String modifiedMessage = message.substring(0, index).trim();
+                        historyCopy.add(modifiedMessage);  // 保存修改后的消息
+                    } else {
+                        // 如果不是 text 消息，直接保存
+                        historyCopy.add(message);
+                    }
+                }
                 // 历史消息处理
                 Platform.runLater(() -> {
+
+//                    System.out.println(historyCopy);
+
+
                     System.out.println("debug historyCopy"+historyCopy);
+
                     if (currentFriend != null) {
                         System.out.println("开始设置历史消息");
                         chatMessages.get(currentFriend).clear();
@@ -100,7 +125,6 @@ public class ChatController {
 
             @Override
             public void onFriendListReceived(Map<String, String> friendList) {
-
                 //在另一个线程进入到platform时，friendlist会被清空不知道为什么
                 Map<String, String> friendListCopy = new HashMap<>(friendList);
                 Platform.runLater(() -> {
@@ -259,21 +283,29 @@ public class ChatController {
         }
     }
 
-
-
     // 接收消息并显示，在on里面调用
     private void receiveMessage(String fromFriend, String message) {
-        chatMessages.get(fromFriend).add(fromFriend + ": " + message);
-        //currentFriend若为团队则为 团队:
-        //但是不要去除团队前缀
-           if (fromFriend.equals(currentFriend)) {
+
+        String [] parts = message.split("消息类型");
+        chatMessages.get(fromFriend).add(fromFriend + ": " + parts[0]);
+        if (fromFriend.equals(currentFriend)) {
             showMessagesForFriend(currentFriend);
         }
     }
 
-
+    // 在初始化时，绑定点击事件给消息列表
     private void showMessagesForFriend(String friend) {
-        messageListView.setItems(chatMessages.get(friend));
+        ObservableList<String> messages = chatMessages.get(friend);
+        messageListView.setItems(messages);
+
+        // 为每条消息绑定点击事件
+        messageListView.setOnMouseClicked(event -> {
+            String selectedMessage = messageListView.getSelectionModel().getSelectedItem();
+            System.out.println("点击消息"+selectedMessage);
+            if (selectedMessage != null) {
+                handleMessageClick(selectedMessage);
+            }
+        });
     }
 
     private String getFriendNameById(String friendId) {
@@ -282,12 +314,22 @@ public class ChatController {
         return friendName;
     }
 
-
-
     //发送文件，已经绑定文件按钮fx:id fileButton
     @FXML
-    private void sendFile(MouseEvent event){
+    private void sendFile(ActionEvent actionEvent) {
+        // 创建文件选择器
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose File to Send");
 
+        // 获取当前窗口上下文
+        java.io.File selectedFile = fileChooser.showOpenDialog(((Node) actionEvent.getSource()).getScene().getWindow());
+
+        if (selectedFile != null) {
+            // 假设有 ClientManager 管理客户端信息
+            String userId = client.getUserId();  // 获取用户ID
+            // 调用 FileClient 的 sendFile 函数发送文件
+            FileClient.sendFile(userId,currentFriendID, selectedFile);
+        }
     }
 
 
@@ -318,5 +360,32 @@ public class ChatController {
         // 在光标位置插入表情
         inputArea.insertText(caretPosition, emoji);
     }
+    // 触发 FileClient 的文件下载功能
+    private void downloadFile(String fileUrl) {
+        System.out.println("1123123123");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File");
 
+        // 设置保存文件的默认名称
+        fileChooser.setInitialFileName(fileUrl);
+
+        // 显示保存对话框
+        java.io.File saveFile = fileChooser.showSaveDialog(chatPane.getScene().getWindow());
+
+        if (saveFile != null) {
+            // 调用 FileClient 接收文件并保存
+            FileClient.receiveFileAsync(client.getUserId(), fileUrl, saveFile.getParent());
+        }
+    }
+    // 处理点击的消息内容，若消息类型为 "file"，则下载文件
+    private void handleMessageClick(String message) {
+        // 从点击的消息中解析出信息
+        if (message.contains("消息类型: file")) {
+            String[] parts = message.split("uploads/");
+            if (parts.length == 2) {
+                String fileUrl = parts[1];  // 获取文件URL
+                downloadFile(fileUrl);
+            }
+        }
+    }
 }
