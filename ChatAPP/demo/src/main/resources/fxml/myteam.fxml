@@ -2,14 +2,13 @@
 
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
 
    <children>
-      <Label layoutX="422.0" layoutY="36.0" prefHeight="70.0" prefWidth="270.0" text="我的团队">
+      <Label layoutX="370.0" layoutY="38.0" prefHeight="70.0" prefWidth="270.0" text="我的团队">
          <font>
             <Font size="50.0" />
          </font>
@@ -20,14 +19,14 @@
       </Label>
 
       <!--输入框-->
-      <TextField layoutX="333.0" layoutY="149.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入团队名或ID" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+      <TextField layoutX="274.0" layoutY="148.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入团队名或ID" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
          <font>
             <Font size="21.0" />
          </font>
       </TextField>
 
       <!--搜索按钮-->
-      <Button layoutX="679.0" layoutY="144.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="搜索">
+      <Button layoutX="631.0" layoutY="143.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="搜索">
          <font>
             <Font size="30.0" />
          </font>

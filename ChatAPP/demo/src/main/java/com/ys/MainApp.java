@@ -52,7 +52,7 @@ public class MainApp extends Application {
 
 
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
 
 
             Parent root = loader.load();

@@ -91,9 +91,9 @@
           </graphic>
       </Button>
 
-       <Button fx:id="cancel" layoutX="1187.0" layoutY="8.0" mnemonicParsing="false" onAction="#Hide" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
+       <Button fx:id="cancel" layoutX="1200.0" mnemonicParsing="false" onAction="#Hide" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
            <graphic>
-               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="50.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                    <image>
                        <Image url="@../images/cancel_icon.png" />
                    </image>
