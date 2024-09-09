@@ -81,7 +81,7 @@ public class FriendsDao {
 
     // 获取好友请求的消息
     public String getFriendRequestMessage(String userId) {
-        String query = "SELECT message FROM addfriends WHERE friend_id = ?";
+        String query = "SELECT message FROM addfriends WHERE user_id = ?";
         String message = null;
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -92,6 +92,8 @@ public class FriendsDao {
 
             if (rs.next()) {
                 message = rs.getString("message");
+            }else{
+                System.out.println("No friend request found for friend_id: " + userId);
             }
 
         } catch (SQLException e) {

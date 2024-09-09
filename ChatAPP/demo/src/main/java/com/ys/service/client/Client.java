@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ys.controller.AddfriendsController;
 import com.ys.controller.SettingController;
 import javafx.scene.control.Alert;
 import org.bytedeco.javacv.*;
@@ -32,6 +33,8 @@ public class Client {
     private MessageListener messageListener;
     private VideoStreamClient videoStreamClient;
     private SettingController settingController;
+
+    private AddfriendsController addfriendsController;
 
     public Client() {
         this.videoStreamClient = VideoStreamClientManager.getClient();  // 创建视频流客户端实例
@@ -170,6 +173,9 @@ public class Client {
 
     public void setSettingController(SettingController settingController){
         this.settingController=settingController;
+    }
+    public void setAddFriendController(AddfriendsController addfriendsController){
+        this.addfriendsController=addfriendsController;
     }
     //获取好友列表
     public void getFriendList() {
@@ -315,8 +321,6 @@ public class Client {
                     } else if (message.startsWith("SUCCESS: 已加入会议: ")) {
                         String meetingId = message.split(":")[2].trim();
                         System.out.println("会议加入成功，会议号为: " + meetingId);
-
-
                         // 连接视频流服务器并开始传输视频
                         videoStreamClient.joinMeeting(meetingId, serverIp, 5555);  // 视频流端口是 5555
                     } else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {
@@ -324,6 +328,9 @@ public class Client {
                     }else if (message.startsWith("Failure: 用户信息修改失败: ")) {
                         settingController.success();
                         System.out.println("用户信息修改成功");
+                    }else if (message.startsWith("SUCCESS搜索到：")) {
+                        handleSearchFriendResponse(message);
+                        System.out.println("搜索用户成功");
                     }
                 }
             } catch (IOException e) {
@@ -353,29 +360,21 @@ public class Client {
         // 发送搜索好友请求到服务器
         if (sendMessage("SEARCH_FRIEND:" + friendId)) {
             System.out.println("客户端发送搜索好友请求: " + friendId);
-            return handleSearchFriendResponse();  // 处理服务器的响应
+            return true;
         } else {
             System.out.println("搜索好友请求发送失败");
             return false;
         }
     }
-    private boolean handleSearchFriendResponse() {
-        try {
-            String response = in.readLine();  // 读取服务器的响应
-            System.out.println("收到好友搜索响应: " + response);
-
-            if (response.startsWith("SEARCH_FRIEND_SUCCESS:")) {
-                System.out.println("好友存在: " + response.split(":")[1]);  // 输出好友ID
-                return true;  // 好友存在
-            } else if (response.startsWith("SEARCH_FRIEND_FAILURE")) {
-                System.out.println("未找到该好友: " + response);
-                return false;  // 好友不存在
-            }
-        } catch (IOException e) {
-            System.err.println("处理好友搜索响应时出错: " + e.getMessage());
-        }
-        return false;  // 出现错误，返回失败
+    private boolean handleSearchFriendResponse(String response) {
+        System.out.println(response);
+        String [] parts = response.split(":");
+        String userName = parts[1];
+        System.out.println("好友存在: " + userName);  // 输出好友ID
+        addfriendsController.success("好友存在: " + userName);
+        return true;  // 好友存在
     }
+
     // 发送好友请求
     public boolean sendFriendRequest(String friendId, String message) {
         if (sendMessage("ADD_FRIEND:" + this.userId + ":" + friendId + ":" + message)) {

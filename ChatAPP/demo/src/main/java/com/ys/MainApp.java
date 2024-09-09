@@ -44,7 +44,7 @@ public class MainApp extends Application {
     //        100.64.83.48
     //        192.168.221.164
         //100.69.24.231
-
+//        172.20.10.2
         ClientManager.setClient(client);
 
 

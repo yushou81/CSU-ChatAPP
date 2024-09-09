@@ -87,7 +87,6 @@ public class SettingController {
                 Platform.runLater(() -> {
                         showAlert("更新失败", "用户名重复。", AlertType.INFORMATION);
                 });
-
         }
 }
 
