@@ -33,7 +33,7 @@
 
       <Pane layoutX="42.0" layoutY="236.0" prefHeight="510.0" prefWidth="888.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
          <children>
-            <ListView fx:id="friendsListView" layoutY="1.0" prefHeight="504.0" prefWidth="888.0" />
+            <ListView fx:id="friendsListView" layoutY="1.0" prefHeight="510.0" prefWidth="888.0" />
          </children>
       </Pane>
 

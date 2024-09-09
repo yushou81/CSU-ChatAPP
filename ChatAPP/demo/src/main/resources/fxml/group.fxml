@@ -14,12 +14,12 @@
 
 <AnchorPane fx:id="rootPane" style="-fx-background-color: #a9d4e1;" prefHeight="776.0" prefWidth="1184.0" stylesheets="@/styles/button_hover_gray.css"  xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.GroupController">
    <children>
-      <StackPane fx:id="mainStackPane" layoutX="218.0" layoutY="19.0" prefHeight="767.0" prefWidth="746.0">
+      <StackPane fx:id="mainStackPane" layoutX="218.0" layoutY="19.0" prefHeight="776.0" prefWidth="746.0">
          <children>
          </children>
       </StackPane>
 
-      <BorderPane prefHeight="787.0" prefWidth="200.0" style="-fx-background-color: white;" />
+      <BorderPane prefHeight="795.0" prefWidth="200.0" style="-fx-background-color: white;" />
 
       <Button id="Createteambtn" fx:id="Createteambtn" layoutY="108.0" mnemonicParsing="false" onAction="#Createteam" prefHeight="55.0" prefWidth="199.0" styleClass="button" text="创建团队">
          <font>

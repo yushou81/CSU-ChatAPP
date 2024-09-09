@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FileManagementController">
+<AnchorPane prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FileManagementController">
 
     <children>
         <Label layoutX="492.0" layoutY="24.0" prefHeight="70.0" prefWidth="270.0" text="文件管理">
@@ -35,10 +33,10 @@
 
         <Pane layoutX="42.0" layoutY="236.0" prefHeight="510.0" prefWidth="1103.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
             <children>
-                <ListView layoutY="1.0" prefHeight="504.0" prefWidth="222.0" />
-                <ListView layoutX="129.0" layoutY="1.0" prefHeight="504.0" prefWidth="448.0" />
-                <ListView layoutX="576.0" layoutY="1.0" prefHeight="504.0" prefWidth="255.0" />
-                <ListView layoutX="829.0" layoutY="1.0" prefHeight="504.0" prefWidth="270.0" />
+                <ListView layoutY="1.0" prefHeight="510.0" prefWidth="130.0" />
+                <ListView layoutX="129.0" layoutY="1.0" prefHeight="510.0" prefWidth="448.0" />
+                <ListView layoutX="576.0" layoutY="1.0" prefHeight="510.0" prefWidth="255.0" />
+                <ListView layoutX="829.0" layoutY="1.0" prefHeight="510.0" prefWidth="270.0" />
             </children>
         </Pane>
     </children>
