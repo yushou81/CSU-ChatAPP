@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <!--主布局-->
 
-<AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);" stylesheets="@/styles/chatpage.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ChatController">
+<AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);" stylesheets="@/styles/chatpage.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ChatController">
 
 
     <children>
@@ -48,9 +49,9 @@
                 </Button>
 
                 <!--文件发送按钮-->
-                <Button fx:id="fileButton" layoutX="80.0" layoutY="537.0" maxHeight="33.0" maxWidth="35.0" minHeight="33.0" minWidth="35.0" mnemonicParsing="false" onMouseClicked="#sendFile" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: transparent;">
+                <Button fx:id="fileButton" onAction="#sendFile" layoutX="80.0" layoutY="537.0" maxHeight="33.0" maxWidth="35.0" minHeight="33.0" minWidth="35.0" mnemonicParsing="false" onMouseClicked="#sendFile" prefHeight="33.0" prefWidth="35.0" style="-fx-background-color: transparent;">
                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="fileSendBtn" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../images/filesend_icon.png" />
                             </image>
