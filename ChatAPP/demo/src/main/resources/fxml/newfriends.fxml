@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.FavoritefriendsController">
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.NewfriendsController">
 
    <children>
       <Label layoutX="376.0" layoutY="50.0" prefHeight="70.0" prefWidth="270.0" text="新的朋友">
@@ -19,10 +20,9 @@
 
       <Pane layoutX="42.0" layoutY="236.0" prefHeight="510.0" prefWidth="888.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
          <children>
-            <ListView layoutY="1.0" prefHeight="504.0" prefWidth="222.0" />
-            <ListView layoutX="129.0" layoutY="1.0" prefHeight="504.0" prefWidth="448.0" />
-            <ListView layoutX="576.0" layoutY="1.0" prefHeight="504.0" prefWidth="152.0" />
-            <ListView layoutX="728.0" layoutY="1.0" prefHeight="504.0" prefWidth="160.0" />
+
+            <ListView fx:id="friendsRequestListView" layoutY="1.0" prefHeight="482.0" prefWidth="888.0" />
+
          </children>
       </Pane>
    </children>

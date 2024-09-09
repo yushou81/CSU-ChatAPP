@@ -31,7 +31,7 @@ public class FriendsDao {
     }
 
     // 查找好友
-    public User searchFriend(String friendId) {
+    public User searchUser(String friendId) {
         String query = "SELECT * FROM users WHERE user_id = ?";
         User friend = null;
 
@@ -54,4 +54,45 @@ public class FriendsDao {
 
         return friend;
     }
+    public String getFriendsRequestId(String userId) {
+        String query = "SELECT user_id FROM addfriends WHERE friend_id = ?";
+        String friendsRequestId = null;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                friendsRequestId = rs.getString("user_id");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return friendsRequestId;
+    }
+    public String getFriendRequestMessage(String userId) {
+        String query = "SELECT message FROM addfriends WHERE friend_id = ?";
+        String message = null;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                message = rs.getString("message");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return message;
+    }
+
 }

@@ -34,7 +34,7 @@ System.out.println("搜索");
         }
 
         // 搜索好友
-        User friend = friendsDao.searchFriend(friendId);
+        User friend = friendsDao.searchUser(friendId);
         if (friend != null) {
             showAlert("成功", "找到好友: " + friend.getUsername());
         } else {
@@ -62,9 +62,9 @@ System.out.println("搜索");
         if (client.sendFriendRequest(friendId, message)) {
             if(friendsDao.addFriend(client.getUserId(), friendId,message))
             {
-
+                showAlert("成功", "好友请求已发送！");
             }
-            showAlert("成功", "好友请求已发送！");
+
 
         } else {
             showAlert("错误", "发送好友请求失败！");
