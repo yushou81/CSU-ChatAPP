@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.application.Platform;
+
 
 import com.ys.controller.AddfriendsController;
 import com.ys.controller.SettingController;
@@ -254,7 +256,7 @@ public class Client {
     public void leaveMeeting(String meetingId) {
         sendMessage("LEAVE_MEETING:" + meetingId);
     }
-  
+
     //    开始接收
     public void startReceiveMessages() {
         new Thread(() -> {
@@ -371,20 +373,42 @@ public class Client {
         String [] parts = response.split(":");
         String userName = parts[1];
         System.out.println("好友存在: " + userName);  // 输出好友ID
+
+        // 弹出成功的Alert
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("搜索成功");
+            alert.setHeaderText(null);
+            alert.setContentText("找到好友: " + userName);
+            alert.showAndWait();
+        });
+
         addfriendsController.success("好友存在: " + userName);
         return true;  // 好友存在
     }
+
 
     // 发送好友请求
     public boolean sendFriendRequest(String friendId, String message) {
         if (sendMessage("ADD_FRIEND:" + this.userId + ":" + friendId + ":" + message)) {
             System.out.println("发送好友请求: " + friendId + " 消息: " + message);
+
+            // 弹出成功的Alert
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("请求已发送");
+                alert.setHeaderText(null);
+                alert.setContentText("好友请求已发送给: " + friendId);
+                alert.showAndWait();
+            });
+
             return true;  // 请求发送成功
         } else {
             System.out.println("好友请求发送失败");
             return false;  // 请求发送失败
         }
     }
+
     // 发送同意好友请求到服务器
     public boolean acceptFriendRequest(String requesterId) {
         return sendMessage("ACCEPT_FRIEND:" + requesterId);

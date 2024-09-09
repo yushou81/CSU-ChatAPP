@@ -7,6 +7,7 @@ import com.ys.service.client.ClientManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -160,5 +161,9 @@ public class NewfriendsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void refresh(ActionEvent actionEvent) {
+        initialize();
     }
 }
