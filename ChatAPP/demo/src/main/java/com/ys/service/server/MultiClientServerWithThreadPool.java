@@ -464,6 +464,20 @@ public class MultiClientServerWithThreadPool {
             // 向客户端发送好友列表
             out.println(friendListBuilder.toString());
         }
+        private void handleModifyUserInfo(String message, PrintWriter out){
+
+            String[] parts = message.split(":");
+            if(parts.length==4){
+                int userid= Integer.parseInt(parts[1]);
+                String newusername = parts[2];
+                String newPassword = parts[3];
+
+                userDao.updateUsernameAndPassword(userid,newusername,newPassword);
+            }
+
+
+
+        }
 
 
     }
