@@ -1,5 +1,6 @@
 package com.ys.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -13,7 +14,9 @@ public class GroupController {
 
     @FXML
     private AnchorPane rootPane; // 主 AnchorPane
-    public StackPane mainStackPane;
+
+    @FXML
+    private StackPane mainStackPane;
     @FXML
     private Button Myteambtn;
 
@@ -23,19 +26,22 @@ public class GroupController {
     @FXML
     private Button Createteambtn;
 
-    @FXML
-    private ImageView Myteamicon;
-
-    @FXML
-    private ImageView Jointeamicon;
-
-    @FXML
-    private ImageView Createteamicon;
+//    @FXML
+//    private ImageView Myteamicon;
+//
+//    @FXML
+//    private ImageView Jointeamicon;
+//
+//    @FXML
+//    private ImageView Createteamicon;
 
     // 定义三个 BorderPane，用于展示不同的画面内容
-    private AnchorPane myTeamPane = new AnchorPane();
-    private AnchorPane joinTeamPane = new AnchorPane();
-    private AnchorPane createTeamPane = new AnchorPane();
+    @FXML
+    private AnchorPane myTeamPane ;
+    @FXML
+    private AnchorPane joinTeamPane ;
+    @FXML
+    private AnchorPane createTeamPane ;
 
     // 初始化方法
     @FXML
@@ -43,22 +49,36 @@ public class GroupController {
         try {
             // 加载每个 AnchorPane 对应的 FXML 文件
 
-            myTeamPane = FXMLLoader.load(getClass().getResource("/fxml/myteam.fxml"));
+
 
             if (myTeamPane == null) {
+                myTeamPane = FXMLLoader.load(getClass().getResource("/fxml/myteam.fxml"));
                 System.out.println("Failed to load chatPane.fxml");
-            } else {
-                System.out.println("chatPane loaded successfully");
             }
 
-            joinTeamPane = FXMLLoader.load(getClass().getResource("/fxml/jointeam.fxml"));
+            if(joinTeamPane==null){
+                joinTeamPane = FXMLLoader.load(getClass().getResource("/fxml/jointeam.fxml"));
+            }
+
 //            createTeamPane = FXMLLoader.load(getClass().getResource("/fxml/createteam.fxml"));
 
 
-            System.out.println("groupmainStackPane: " + mainStackPane);
+            if(createTeamPane==null){
+                createTeamPane = FXMLLoader.load(getClass().getResource("/fxml/createteam.fxml"));
+            }
+
+            //System.out.println("groupmainStackPane: " + mainStackPane);
 
 
             // 可能的 NullPointerException 源
+
+
+
+            if (mainStackPane == null) {
+                System.out.println("mainStackPane 尚未初始化！");
+                return;
+            }
+
 
             // 将所有 AnchorPane 添加到 StackPane 中
             mainStackPane.getChildren().addAll(myTeamPane,joinTeamPane,createTeamPane);
@@ -73,21 +93,21 @@ public class GroupController {
 
     // 点击“我的团队”按钮时显示对应的画面
     @FXML
-    private void Myteam() {
+    private void Myteam(ActionEvent event) {
         hideAllPanes();
         myTeamPane.setVisible(true);
     }
 
     // 点击“加入团队”按钮时显示对应的画面
     @FXML
-    private void Jointeam() {
+    private void Jointeam(ActionEvent event) {
         hideAllPanes();
         joinTeamPane.setVisible(true);
     }
 
     // 点击“创建团队”按钮时显示对应的画面
     @FXML
-    private void Createteam() {
+    private void Createteam(ActionEvent event) {
         hideAllPanes();
         createTeamPane.setVisible(true);
     }
