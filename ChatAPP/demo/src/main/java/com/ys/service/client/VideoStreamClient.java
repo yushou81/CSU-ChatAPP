@@ -2,7 +2,6 @@ package com.ys.service.client;
 
 import com.ys.controller.VideoMeetingController;
 import org.bytedeco.javacv.*;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -13,6 +12,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 
 public class VideoStreamClient {
     private VideoMeetingController videoMeetingController;
@@ -22,7 +23,7 @@ public class VideoStreamClient {
     private TargetDataLine microphone;
     private InetAddress serverAddress;
     private int serverPort;
-    private boolean isCameraOn = true;
+    private boolean isCameraOn = false;//调试时关闭的
     private boolean isMicrophoneOn = true;
     private boolean isRunning = true;
 
@@ -55,7 +56,11 @@ public class VideoStreamClient {
     private void startCaptureAndSendFrames(String meetingId) throws FrameGrabber.Exception {
         try {
             if (isCameraOn) startCamera();
-            if (isMicrophoneOn) startMicrophone();
+            if (isMicrophoneOn) {
+                startMicrophone();
+                // 在启动麦克风后保存音频
+//                saveAudioToFile();
+            }
 
             while (isRunning) {
                 long currentTime = System.currentTimeMillis();  // 当前时间戳
@@ -73,6 +78,9 @@ public class VideoStreamClient {
                 if (isMicrophoneOn) {
                     // 获取音频帧并发送
                     byte[] audioData = captureAudio();
+
+                    System.out.println("音频文见的长度"+audioData.length);
+
                     sendAudioFrame(meetingId, audioData, currentTime);
                 }
 
@@ -105,12 +113,26 @@ public class VideoStreamClient {
     // 启动麦克风
     private void startMicrophone() {
         try {
+
+            Mixer.Info[] mixerInfos = AudioSystem.getMixerInfo();
+            for (Mixer.Info mixerInfo : mixerInfos) {
+                System.out.println("Available mixer: " + mixerInfo.getName());
+            }
+
+
             audioFormat = new AudioFormat(44100, 16, 2, true, true);
+
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, audioFormat);
+
             microphone = (TargetDataLine) AudioSystem.getLine(info);
-            microphone.open(audioFormat);
-            microphone.start();
-            System.out.println("麦克风启动成功");
+            if (microphone != null) {
+                microphone.open(audioFormat);
+                microphone.start();
+                System.out.println("麦克风启动成功: " + microphone.getLineInfo());
+            } else {
+                System.out.println("麦克风获取失败");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,9 +149,46 @@ public class VideoStreamClient {
 
     // 捕获音频数据
     private byte[] captureAudio() {
-        byte[] buffer = new byte[4096];
-        microphone.read(buffer, 0, buffer.length);
+        byte[] buffer = new byte[8192];  // 或者更大的值
+        try {
+            microphone.read(buffer, 0, buffer.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("音频读取失败");
+        }
         return buffer;
+    }
+
+    // 保存音频数据到文件
+    private void saveAudioToFile() {
+        try {
+            System.out.println("开始录制");
+            File audioFile = new File("recorded_audio.wav");
+            AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
+
+            // 使用 AudioInputStream 包装 TargetDataLine
+            AudioInputStream audioStream = new AudioInputStream(microphone);
+
+            // 录制 10 秒后保存文件
+            long recordDuration = 10 * 1000; // 10秒
+            long startTime = System.currentTimeMillis();
+            new Thread(() -> {
+                try {
+                    System.out.println("开始录音...");
+                    AudioSystem.write(audioStream, fileType, audioFile);
+                    while (System.currentTimeMillis() - startTime < recordDuration) {
+                        // 持续录音直到到达设定的时长
+                    }
+                    System.out.println("录音完成，保存到文件: " + audioFile.getAbsolutePath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    stopMicrophone(); // 录音结束后停止麦克风
+                }
+            }).start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static final int MAX_UDP_PACKET_SIZE = 60000;  // 定义每个数据包的最大大小，略小于65535以保证UDP传输稳定性
@@ -147,7 +206,9 @@ public class VideoStreamClient {
             for (int part = 0; part < totalParts; part++) {
                 int start = part * MAX_UDP_PACKET_SIZE;
                 int length = Math.min(imageBytes.length - start, MAX_UDP_PACKET_SIZE);  // 当前分片大小
+
                 System.out.println("videooparts"+part+"length"+length);
+
                 ByteBuffer buffer = ByteBuffer.allocate(20 +4 + 4 + 4 + 8 + 4 + 4 + length);  // 20字节会议ID, 4字节标志位, 8字节时间戳, 4字节总分片数, 4字节当前分片号
 
                 byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
@@ -179,12 +240,15 @@ public class VideoStreamClient {
 
                 int start = part * MAX_UDP_PACKET_SIZE;
                 int length = Math.min(audioData.length - start, MAX_UDP_PACKET_SIZE);  // 当前分片大小
-                System.out.println("audiooparts"+part+"length"+length);
-                ByteBuffer buffer = ByteBuffer.allocate(20 +  4 + 4 + 8 + 4 + 4 + length);  // 20字节会议ID, 4字节标志位, 8字节时间戳, 4字节总分片数, 4字节当前分片号
+
+
+
+                ByteBuffer buffer = ByteBuffer.allocate(20 +4 + 4 + 4 + 8 + 4 + 4 + length);  // 20字节会议ID, 4字节标志位, 8字节时间戳, 4字节总分片数, 4字节当前分片号
 
                 byte[] idBytes = Arrays.copyOf(meetingId.getBytes(), 20);  // 确保会议ID是20字节
                 buffer.put(idBytes);
                 buffer.putInt(1);
+                buffer.putInt(4 + 8 + 4 + 4 + length);
                 buffer.putInt(2);  // 2 表示音频数据
                 buffer.putLong(timestamp);  // 写入时间戳
                 buffer.putInt(totalParts);  // 总分片数
@@ -241,8 +305,6 @@ public class VideoStreamClient {
                         ByteBuffer receivedBuffer = ByteBuffer.wrap(receivePacket.getData());
 
                         // 解析数据包
-                        byte[] idBytes = new byte[20+4];
-                        receivedBuffer.get(idBytes);  // 读取会议ID和发送的类型
                         int dataType = receivedBuffer.getInt();  // 获取数据类型，1为视频，2为音频
 
                         long timestamp = receivedBuffer.getLong();  // 获取时间戳
