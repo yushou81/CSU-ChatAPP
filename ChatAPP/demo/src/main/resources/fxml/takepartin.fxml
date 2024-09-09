@@ -6,15 +6,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+
 <AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-border-color: #000; -fx-border-width: 2px; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.TakepartinController">
    <children>
 
-      <Label layoutX="572.0" layoutY="73.0" text="加入会议">
-          <font>
-              <Font size="48.0" />
-          </font>
-      </Label>
-      <Label layoutX="260.0" layoutY="275.0" text="会议名">
+       <Label layoutX="493.0" layoutY="24.0" prefHeight="70.0" prefWidth="200.0" text="加入会议">
+           <font>
+               <Font size="50.0" />
+           </font>
+           <style>
+               -fx-text-fill: #35889a;
+               -fx-font-weight: bold;
+           </style>
+       </Label>
+      <Label layoutX="264.0" layoutY="229.0" text="会议名:">
 
           <font>
               <Font size="40.0" />
@@ -27,37 +32,37 @@
           </font>
       </Label>
 
-      <Label layoutX="88.0" layoutY="780.0" text="开启麦克风">
+      <Label layoutX="238.0" layoutY="780.0" text="开启麦克风">
           <font>
               <Font size="40.0" />
           </font>
       </Label>
 
-      <Label layoutX="869.0" layoutY="780.0" text="开启视频">
+      <Label layoutX="843.0" layoutY="780.0" text="开启视频">
           <font>
               <Font size="40.0" />
           </font>
       </Label>
 
-      <Label layoutX="457.0" layoutY="780.0" text="开启扬声器">
+      <Label layoutX="539.0" layoutY="780.0" text="开启扬声器">
           <font>
               <Font size="40.0" />
           </font>
       </Label>
 
-      <TextField fx:id="meetingIdField" layoutX="489.0" layoutY="219.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+      <TextField fx:id="meetingIdField" layoutX="489.0" layoutY="219.0" prefHeight="71.0" prefWidth="469.0" promptText="请输入会议名称" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
           <font>
               <Font size="30.0" />
           </font>
       </TextField>
 
-      <TextField fx:id="passwordField" layoutX="489.0" layoutY="354.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+      <TextField fx:id="passwordField" layoutX="489.0" layoutY="354.0" prefHeight="71.0" prefWidth="469.0" promptText="请输入您的名称" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
           <font>
               <Font size="30.0" />
           </font>
       </TextField>
 
-      <Button fx:id="mac" layoutX="137.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
+      <Button fx:id="mac" layoutX="287.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
           <graphic>
               <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -67,7 +72,7 @@
           </graphic>
       </Button>
 
-      <Button fx:id="sound" layoutX="506.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
+      <Button fx:id="sound" layoutX="569.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
           <graphic>
               <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -76,6 +81,7 @@
               </ImageView>
           </graphic>
       </Button>
+
 
       <Button id="aasd"  fx:id="Oview" layoutX="898.0" layoutY="645.0" mnemonicParsing="false" onAction="#joinMeeting" prefHeight="100.0" prefWidth="102.0">
 
@@ -88,9 +94,11 @@
           </graphic>
       </Button>
 
+
        <Button fx:id="cancel" layoutX="1190.0" layoutY="0.0" mnemonicParsing="false" onAction="#Hide" prefHeight="50.0" prefWidth="50.0">
+
            <graphic>
-               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="50.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                    <image>
                        <Image url="@../images/cancel_icon.png" />
                    </image>

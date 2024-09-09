@@ -24,7 +24,7 @@ public class MeetingController {
             Stage newStage1 = new Stage();
 
             // 设置新Stage的场景，将加载的FXML视图作为根节点
-            Scene newScene = new Scene(view);
+            Scene newScene = new Scene(view,1264,840);
             newStage1.setScene(newScene);
 
             // 设置新Stage的标题（可选）
