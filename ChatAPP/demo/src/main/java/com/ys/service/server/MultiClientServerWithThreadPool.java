@@ -31,6 +31,7 @@ public class MultiClientServerWithThreadPool {
             MeetingDao meetingDao = new MeetingDao();
             MeetingService meetingService = new MeetingService(meetingDao);
 
+
             while (true) {
                 // 接受客户端连接
                 Socket clientSocket = serverSocket.accept();
@@ -84,6 +85,7 @@ public class MultiClientServerWithThreadPool {
         private TeamDao teamDao;
         private String userId;
         private MeetingService meetingService;
+        FriendsDao friendsDao = new FriendsDao();
 
         public ClientHandler(Socket clientSocket, UserDao userDao,MeetingService meetingService) {
             this.clientSocket = clientSocket;
@@ -137,8 +139,9 @@ public class MultiClientServerWithThreadPool {
                         handleLeaveMeeting(message, out);
                     }else if (message.startsWith("UPDATE_USER:")) {
                         handleModifyUserInfo(message, out);
-                    }
-                    else {
+                    }else if (message.startsWith("客户端发送搜索好友请求:")) {
+                        handleSearchUser(message, out);
+                    } else {
                         if (userId != null) {
                             broadcastMessage("用户 " + userId + " 说: " + message, clientSocket);
                         } else {
@@ -261,7 +264,7 @@ public class MultiClientServerWithThreadPool {
             }
         }
 
-        // 新增 handleGetMessageHistory 用于获取聊天记录
+        //用于获取聊天记录
         private void handleGetMessageHistory(String message, PrintWriter out) {
             String[] parts = message.split(":");
             if (parts.length == 2) {
@@ -465,35 +468,23 @@ public class MultiClientServerWithThreadPool {
             out.println(friendListBuilder.toString());
         }
         private void handleModifyUserInfo(String message, PrintWriter out){
-
-
             String[] parts = message.split(":");
             if(parts.length==4){
                 int userid= Integer.parseInt(parts[1]);
                 String newusername = parts[2];
                 String newPassword = parts[3];
-
                 userDao.updateUsernameAndPassword(userid,newusername,newPassword);
             }
-
-
-
         }
-
-
+        private void handleSearchUser(String message, PrintWriter out){
             String[] parts = message.split(":");
-            if(parts.length==4){
-                int userid= Integer.parseInt(parts[1]);
-                String newusername = parts[2];
-                String newPassword = parts[3];
-                
-                userDao.updateUsernameAndPassword(userid,newusername,newPassword);
+            String userId = parts[1];
+            // 搜索好友
+            User friend = friendsDao.searchUser(userId);
+            if (friend != null) {
+                out.println("SUCCESS搜索到："+friend.getUsername());
             }
-            
-            
-            
         }
-
     }
 }
 

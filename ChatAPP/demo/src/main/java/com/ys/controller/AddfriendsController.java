@@ -4,6 +4,7 @@ import com.ys.dao.FriendsDao;
 import com.ys.model.User;
 import com.ys.service.client.Client;
 import com.ys.service.client.ClientManager;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,6 +22,7 @@ public class AddfriendsController {
 
     public AddfriendsController() {
         this.client = ClientManager.getClient();
+        client.setAddFriendController(this);
     }
 
     // 搜索好友按钮点击处理
@@ -32,14 +34,7 @@ public class AddfriendsController {
             showAlert("错误", "请输入好友ID！");
             return;
         }
-
-        // 搜索好友
-        User friend = friendsDao.searchUser(friendId);
-        if (friend != null) {
-            showAlert("成功", "找到好友: " + friend.getUsername());
-        } else {
-            showAlert("错误", "未找到该好友！");
-        }
+        client.searchFriend(friendId);
     }
 
     // 添加好友按钮点击处理
@@ -78,5 +73,10 @@ public class AddfriendsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    public void success(String message){
+        Platform.runLater(() -> {
+            showAlert("搜索成功", message);
+        });
     }
 }
