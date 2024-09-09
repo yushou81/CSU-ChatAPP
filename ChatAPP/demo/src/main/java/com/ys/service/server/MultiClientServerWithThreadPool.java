@@ -466,6 +466,21 @@ public class MultiClientServerWithThreadPool {
         }
         private void handleModifyUserInfo(String message, PrintWriter out){
 
+
+            String[] parts = message.split(":");
+            if(parts.length==4){
+                int userid= Integer.parseInt(parts[1]);
+                String newusername = parts[2];
+                String newPassword = parts[3];
+
+                userDao.updateUsernameAndPassword(userid,newusername,newPassword);
+            }
+
+
+
+        }
+
+
             String[] parts = message.split(":");
             if(parts.length==4){
                 int userid= Integer.parseInt(parts[1]);
