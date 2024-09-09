@@ -142,10 +142,17 @@ public class MultiClientServerWithThreadPool {
                     }else if (message.startsWith("客户端发送搜索好友请求:")) {
                         handleSearchUser(message, out);
                     }
+                    else if (message.startsWith("SEARCH_FRIEND")) {
+                        handleSearchUser(message, out);
+                    }
                     else if (message.startsWith("同意好友请求:")) {
                         handleFriendRequestResponse(message,out);
                     }else if (message.startsWith("拉取好友列表请求:")) {
                         handleGetFriends(message,out);
+                    }else if (message.startsWith("ACCEPT_FRIEND:")) {
+                        handleacceptFriendRequest(message, out);
+                    }else if (message.startsWith("REJECT_FRIEND:")) {
+                        handlerejectFriendRequest(message, out);
                     }
 
                     else {
@@ -170,6 +177,54 @@ public class MultiClientServerWithThreadPool {
                 }
             }
         }
+
+        // 接受好友请求
+        private void handleacceptFriendRequest(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                String requesterId = parts[1];  // 发起请求者ID
+
+                // 将好友关系插入到 user_friends 表中
+                FriendsDao friendsDao = new FriendsDao();
+                boolean success1 = friendsDao.addFriendToUserFriends(userId, requesterId);
+                boolean success2 = friendsDao.addFriendToUserFriends(requesterId, userId);
+
+                if (success1 && success2) {
+                    friendsDao.deleteFriendRequest(requesterId, userId); // 删除好友请求记录
+                    out.println("SUCCESS: 好友请求已接受");
+                    // 如果对方在线，通知对方好友请求被接受
+                    if (userSockets.containsKey(requesterId)) {
+                        try {
+                            PrintWriter friendOut = new PrintWriter(userSockets.get(requesterId).getOutputStream(), true);
+                            friendOut.println("好友请求已被接受: " + userId);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    out.println("FAILURE: 接受好友请求失败");
+                }
+            }
+        }
+
+        // 拒绝好友请求
+        private void handlerejectFriendRequest(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                String requesterId = parts[1];  // 发起请求者ID
+
+                // 删除好友请求记录
+                FriendsDao friendsDao = new FriendsDao();
+                boolean success = friendsDao.deleteFriendRequest(requesterId, userId);
+
+                if (success) {
+                    out.println("SUCCESS: 好友请求已拒绝");
+                } else {
+                    out.println("FAILURE: 拒绝好友请求失败");
+                }
+            }
+        }
+
 
         // 处理注册
         private void handleRegister(String message, PrintWriter out) {
