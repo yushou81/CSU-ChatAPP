@@ -41,7 +41,6 @@
             <Font size="30.0" />
          </font>
       </TextField>
-
       <Button fx:id="createTeamButton" layoutX="598.0" layoutY="600.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
          <font>
             <Font size="24.0" />

@@ -1,10 +1,6 @@
 package com.ys.service.server;
 
-import com.ys.dao.MeetingDao;
-import com.ys.dao.MessageDao;
-import com.ys.dao.UserDao;
-
-import com.ys.dao.TeamDao;
+import com.ys.dao.*;
 
 import com.ys.model.MeetingRoom;
 
@@ -312,21 +308,7 @@ public class MultiClientServerWithThreadPool {
         }
 
         // 处理添加好友
-        private void handleAddFriend(String message, PrintWriter out) {
-            String[] parts = message.split(":");
-            if (parts.length == 3) {
-                int friendId = Integer.parseInt(parts[2]);
-                boolean success = userDao.addFriend(Integer.parseInt(userId), friendId);
 
-                if (success) {
-                    out.println("SUCCESS");
-                } else {
-                    out.println("FAILURE: 添加好友失败");
-                }
-            } else {
-                out.println("FAILURE: 添加好友信息格式错误");
-            }
-        }
 
       
         private void handleCreateTeam(String message,PrintWriter out){
@@ -412,19 +394,77 @@ public class MultiClientServerWithThreadPool {
             }
         }
 
-        private void handleModifyUserInfo(String message, PrintWriter out){
+        // 发送好友请求
+        private void handleAddFriend(String message, PrintWriter out) {
             String[] parts = message.split(":");
-            int userId = Integer.parseInt(parts[1]);
-            String newUserName = parts[2];
-            String newPassword = parts[3];
-            if(userDao.updateUsernameAndPassword(userId,newUserName,newPassword)){
-                System.out.println("修改成功");
-                out.println("SUCCESS: 用户信息修改成功: " + message);
-            }else {
-                out.println("Failure: 用户信息修改失败: " + message);
+            if (parts.length == 4) {
+                String requesterId = parts[1];
+                String friendId = parts[2];
+                String requestMessage = parts[3];
+
+                // 使用 FriendsDao 添加好友请求
+                FriendsDao friendsDao = new FriendsDao();
+                boolean success = friendsDao.addFriend(requesterId, friendId, requestMessage);
+
+                if (success) {
+                    out.println("SUCCESS"); // 给请求发送者确认请求已发送
+                    // 如果目标用户在线，通知其有新的好友请求
+                    if (userSockets.containsKey(friendId)) {
+                        PrintWriter friendOut = null;
+                        try {
+                            friendOut = new PrintWriter(userSockets.get(friendId).getOutputStream(), true);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        friendOut.println("FRIEND_REQUEST:" + requesterId + ":" + requestMessage); // 通知好友
+                    }
+                } else {
+                    out.println("FAILURE: 添加好友请求失败");
+                }
+            } else {
+                out.println("FAILURE: 请求格式错误");
+            }
+        }
+        // 处理好友请求的响应
+        private void handleFriendRequestResponse(String message,PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                String requesterId = parts[1];
+
+                FriendsDao friendsDao = new FriendsDao();
+                if (message.startsWith("ACCEPT_FRIEND:")) {
+                    // 接受好友请求
+                    friendsDao.addFriendToUserFriends(userId, requesterId);
+                    friendsDao.addFriendToUserFriends(requesterId, userId);
+                    friendsDao.deleteFriendRequest(requesterId, userId); // 删除好友请求记录
+                    out.println("SUCCESS: 好友请求已接受");
+                } else if (message.startsWith("REJECT_FRIEND:")) {
+                    // 拒绝好友请求
+                    friendsDao.deleteFriendRequest(requesterId, userId); // 删除好友请求记录
+                    out.println("SUCCESS: 好友请求已拒绝");
+                }
             }
 
         }
+        // 处理获取好友列表的请求
+        private void handleGetFriends(String userId,PrintWriter out) {
+            List<String> friendIds = FriendsDao.getAllFriendsIds(userId);
+            List<User> friendsDetails = FriendsDao.getFriendDetails(friendIds);
+
+            StringBuilder friendListBuilder = new StringBuilder("FRIEND_LIST:");
+            for (User friend : friendsDetails) {
+                friendListBuilder.append(friend.getUsername())
+                        .append(",")
+                        .append(friend.getUser_id())
+                        .append(",")
+                        .append(friend.getEmail())
+                        .append(";");
+            }
+
+            // 向客户端发送好友列表
+            out.println(friendListBuilder.toString());
+        }
+
 
     }
 }
