@@ -244,6 +244,7 @@ public class ChatController {
                     inputArea.clear();
                     System.out.println("发送群聊" +message);
                     client.sendMessage("TEAM:"+currentFriendID+":"+message);
+                    client.sendMessage("GET_TEAM_MESSAGE_HISTORY:" + currentFriendID);
                 }
                 else {
                     chatMessages.get(currentFriend).add("我: " + message);

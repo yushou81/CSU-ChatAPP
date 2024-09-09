@@ -82,9 +82,11 @@ public class MultiClientServerWithThreadPool {
         }
     }
     //群聊信息
-    public static void sendTeamMessage(String targetTeamId,String message){
-
-    }
+    //直接刷新就能实现,requestTeamMessageHistory(int targetTeamId){sendMessage("GET_TEAM_MESSAGE_HISTORY:" + targetTeamId)
+//    private static void sendTeamMessage(String targetTeamId,String message){
+//
+//
+//    }
 
     // 处理客户端的线程
     static class ClientHandler implements Runnable {
@@ -133,7 +135,7 @@ public class MultiClientServerWithThreadPool {
                     if (message.startsWith("PRIVATE")) {
                         handlePrivateMessage(message);
                     }else if(message.startsWith("TEAM")){
-                        handleTeamMessage(message);
+                        handleTeamMessage(message,out);
                     } else if (message.startsWith("FIND_USER")) {
                         handleFindUser(message, out);
                     } else if (message.startsWith("GET_FRIENDS")) {
@@ -267,14 +269,17 @@ public class MultiClientServerWithThreadPool {
                 System.out.println("私聊消息格式错误！");
             }
         }
-        private void handleTeamMessage(String message){
+        private void handleTeamMessage(String message,PrintWriter out){
             String[] parts = message.split(":");
             if (parts.length == 3) {
                 String targetTeamId = parts[1];
                 String teamMessage = parts[2];
 
-                // 发送私聊消息
-                sendTeamMessage(targetTeamId, "来自用户 " + userId + " 的团队消息: " + teamMessage);
+                // 发送团队消息
+//
+//                sendTeamMessage(targetTeamId, );
+                System.out.println("即将进入刷新调试281行");
+                handleGetTeamMessageHistory("GET_TEAM_MESSAGE_HISTORY:" + targetTeamId,out);
                 // 存储消息到数据库
                 MessageDao messageDao = new MessageDao();
                 Message msg = new Message();
@@ -332,19 +337,22 @@ public class MultiClientServerWithThreadPool {
             }
         }
         private void handleGetTeamMessageHistory(String message,PrintWriter out){
+            System.out.println("刷新成功吗"+message);
             String[] parts = message.split(":");
             if (parts.length == 2) {
                 String targetTeamId = parts[1];
+                System.out.println("刷新信息teamId"+targetTeamId);
                 // 获取团队聊天记录
                 MessageDao messageDao = new MessageDao();
                 List<Message> messages = messageDao.getTeamMessages(Integer.parseInt(userId), Integer.parseInt(targetTeamId));
 
                 if (messages.isEmpty()) {
                     out.println("没有找到聊天记录");
+                    System.out.println("messageDao.getTeamMessages未找到聊天记录");
                 } else {
                     for (Message msg : messages) {
                         out.println("时间: " + msg.getSentAt() + " 群聊ID: " + msg.getTeamId() + " 内容: " + msg.getMessageContent());
-                        System.out.println("发送消息: " + msg.getMessageContent());  // 日志，确保每条消息被发送
+                        System.out.println("发送团队消息: " + msg.getMessageContent());  // 日志，确保每条消息被发送
                     }
                 }
                 out.println("END_OF_MESSAGE_HISTORY");  // 结束符，标识聊天记录发送完毕
