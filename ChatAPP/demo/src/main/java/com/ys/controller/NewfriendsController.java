@@ -107,25 +107,19 @@ public class NewfriendsController {
     }
 
     // 处理同意按钮逻辑
-    // 处理同意按钮逻辑
     private void handleAcceptFriend(String currentUserId, String friendRequestId) {
-        // 发送同意请求到服务器
+
         if (client.acceptFriendRequest(friendRequestId)) {
-            // 从 addfriends 表中删除好友请求记录
+
             friendsDao.deleteFriendRequest(friendRequestId, currentUserId);
 
-            // 获取好友的详细信息
-            User friend = friendsDao.searchUser(friendRequestId);
-            if (friend != null) {
-                // 将好友关系插入到 user_friends 表中
-                friendsDao.addFriendToUserFriends(currentUserId, friendRequestId);
-                showAlert("成功", "你和 " + friend.getUsername() + " 成为了好友！");
 
-                // 刷新 MyfriendsController 中的好友列表
-                if (myfriendsController != null) {
-                    // 确保在 JavaFX 应用线程上刷新 UI
-                    Platform.runLater(() -> myfriendsController.refreshFriendsList());
-                }
+            showAlert("成功", "好友请求已接受！");
+
+            // 刷新 MyfriendsController 中的好友列表
+            if (myfriendsController != null) {
+                // 确保在 JavaFX 应用线程上刷新 UI
+                Platform.runLater(() -> myfriendsController.refreshFriendsList());
             }
 
             // 刷新好友请求列表
@@ -134,6 +128,7 @@ public class NewfriendsController {
             showAlert("错误", "无法接受好友请求，请稍后再试。");
         }
     }
+
 
     // 处理拒绝按钮逻辑
     private void handleRejectFriend(String currentUserId, String friendRequestId) {

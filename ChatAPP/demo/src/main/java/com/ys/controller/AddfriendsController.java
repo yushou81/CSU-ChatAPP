@@ -60,16 +60,12 @@ public class AddfriendsController {
 
         // 通过Client发送好友请求
         if (client.sendFriendRequest(friendId, message)) {
-            if(friendsDao.addFriend(client.getUserId(), friendId,message))
-            {
-                showAlert("成功", "好友请求已发送！");
-            }
-
-
+            showAlert("成功", "好友请求已发送！");
         } else {
             showAlert("错误", "发送好友请求失败！");
         }
     }
+
 
     // 返回按钮点击处理
     @FXML
