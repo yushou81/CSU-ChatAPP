@@ -30,9 +30,6 @@ public class SettingController {
         private Label passwordLabel;
 
         @FXML
-        private Button changeIcon;
-
-        @FXML
         private Button confirmButton;
 
         @FXML
@@ -48,23 +45,6 @@ public class SettingController {
 
         private void modify() {
 
-        }
-
-        // 更换头像按钮
-        @FXML
-        private void handleChangeIcon() {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.setTitle("选择头像");
-                fileChooser.getExtensionFilters().addAll(
-                        new FileChooser.ExtensionFilter("图像文件", "*.png", "*.jpg", "*.jpeg", "*.gif")
-                );
-                File selectedFile = fileChooser.showOpenDialog(new Stage());
-                if (selectedFile != null) {
-                        System.out.println("选择的头像文件: " + selectedFile.getAbsolutePath());
-
-                        //保存到数据库
-                        //!!!!!!!!!!!!!!!!!!!!!!!!!!pass!!!!!!!!!!!!!!!!!!!!!!!!
-                }
         }
 
         // 确定按钮

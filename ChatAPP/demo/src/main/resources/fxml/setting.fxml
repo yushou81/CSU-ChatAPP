@@ -16,7 +16,7 @@
          </style>
       </Label>
 
-      <VBox layoutX="469.0" layoutY="133.0" spacing="20">
+      <VBox layoutX="457.0" layoutY="161.0" spacing="20">
          <Label fx:id="usernameLabel" prefHeight="36.0" prefWidth="158.0" text="用户名更改：">
             <font>
                <Font size="24.0" />
@@ -47,8 +47,29 @@
                -fx-font-weight: bold;
             </style>
          </Label>
-
+   
          <TextField fx:id="passwordField" prefHeight="58.0" prefWidth="246.0" promptText="请输入新的密码" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+            <font>
+               <Font size="20.0" />
+            </font>
+            <style>
+               -fx-background-color: white;
+               -fx-border-color: #35889a;
+               -fx-border-radius: 5;
+            </style>
+         </TextField>
+
+         <Label prefHeight="36.0" prefWidth="158.0" text="确认密码：">
+            <font>
+               <Font size="24.0" />
+            </font>
+            <style>
+               -fx-text-fill: #35889a;
+               -fx-font-weight: bold;
+            </style>
+         </Label>
+
+         <TextField prefHeight="58.0" prefWidth="246.0" promptText="请再次输入密码" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
             <font>
                <Font size="20.0" />
             </font>
@@ -60,7 +81,7 @@
          </TextField>
       </VBox>
 
-      <Button fx:id="confirmButton" layoutX="428.0" layoutY="507.0" onAction="#handleConfirm" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
+      <Button fx:id="confirmButton" layoutX="520.0" layoutY="623.0" onAction="#handleConfirm" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
          <font>
             <Font size="24.0" />
          </font>
@@ -68,25 +89,6 @@
             -fx-border-radius: 5;
          </style>
       </Button>
-
-      <Button fx:id="returnButton" layoutX="635.0" layoutY="507.0" onAction="#handleReturn" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="返回">
-         <font>
-            <Font size="24.0" />
-         </font>
-         <style>
-            -fx-border-radius: 5;
-         </style>
-      </Button>
-
-      <Button fx:id="changeIcon" layoutX="525.0" layoutY="407.0" onAction="#handleChangeIcon" prefHeight="58.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" styleClass="button" text="更换头像">
-         <font>
-            <Font size="24.0" />
-         </font>
-         <style>
-            -fx-background-color: #35889a;
-            -fx-text-fill: white;
-            -fx-border-radius: 5;
-         </style>
-      </Button>
+      
    </children>
 </AnchorPane>
