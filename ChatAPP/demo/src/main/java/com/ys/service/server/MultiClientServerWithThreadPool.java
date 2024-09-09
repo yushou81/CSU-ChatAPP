@@ -139,6 +139,8 @@ public class MultiClientServerWithThreadPool {
                         handleJoinMeeting(message, out);
                     } else if (message.startsWith("LEAVE_MEETING")) {
                         handleLeaveMeeting(message, out);
+                    }else if (message.startsWith("Modify_UserInfo")) {
+                        handleModifyUserInfo(message, out);
                     }
                     else {
                         if (userId != null) {
@@ -409,6 +411,18 @@ public class MultiClientServerWithThreadPool {
                 out.println("FAILURE: 离开会议信息格式错误");
             }
         }
+
+        private void handleModifyUserInfo(String message, PrintWriter out){
+            String[] parts = message.split(":");
+            int userId = Integer.parseInt(parts[1]);
+            String newUserName = parts[2];
+            String newPassword = parts[3];
+            if(userDao.updateUsernameAndPassword(userId,newUserName,newPassword)){
+                System.out.println("修改成功");
+            }
+            out.println("SUCCESS: 用户信息修改成: " + message);
+        }
+
     }
 }
 
