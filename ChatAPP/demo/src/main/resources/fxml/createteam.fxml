@@ -41,13 +41,7 @@
          </font>
       </TextField>
 
-      <Button layoutX="598.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
-
-      <Button layoutX="298.0" layoutY="600.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="取消">
+      <Button layoutX="450.0" layoutY="602.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
          <font>
             <Font size="24.0" />
          </font>
