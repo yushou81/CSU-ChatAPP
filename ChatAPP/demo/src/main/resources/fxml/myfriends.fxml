@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MyfriendsController">
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MyfriendsController">
 
    <children>
       <Label layoutX="422.0" layoutY="36.0" prefHeight="70.0" prefWidth="270.0" text="我的好友">
@@ -16,20 +17,6 @@
             -fx-font-weight: bold;
          </style>
       </Label>
-
-      <!--输入框-->
-      <TextField layoutX="333.0" layoutY="149.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入好友名或ID" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
-         <font>
-            <Font size="21.0" />
-         </font>
-      </TextField>
-
-      <!--搜索按钮-->
-      <Button layoutX="679.0" layoutY="144.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="搜索">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Button>
 
       <Pane layoutX="42.0" layoutY="236.0" prefHeight="510.0" prefWidth="888.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
          <children>

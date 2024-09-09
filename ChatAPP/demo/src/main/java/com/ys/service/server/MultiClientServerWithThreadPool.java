@@ -141,7 +141,14 @@ public class MultiClientServerWithThreadPool {
                         handleModifyUserInfo(message, out);
                     }else if (message.startsWith("客户端发送搜索好友请求:")) {
                         handleSearchUser(message, out);
-                    } else {
+                    }
+                    else if (message.startsWith("同意好友请求:")) {
+                        handleFriendRequestResponse(message,out);
+                    }else if (message.startsWith("拉取好友列表请求:")) {
+                        handleGetFriends(message,out);
+                    }
+
+                    else {
                         if (userId != null) {
                             broadcastMessage("用户 " + userId + " 说: " + message, clientSocket);
                         } else {
