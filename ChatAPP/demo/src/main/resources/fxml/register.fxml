@@ -9,7 +9,7 @@
 <?import javafx.scene.text.*?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="586.0" prefWidth="453.0" style="-fx-background-color: #a9d4e1;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.RegisterController">
+<Pane maxHeight="-Infinity"  minHeight="-Infinity"  prefHeight="586.0" prefWidth="453.0" style="-fx-background-color: #a9d4e1;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.RegisterController">
 <children>
     <Circle fill="#35889a" layoutX="228.0" layoutY="100.0" radius="69.0" stroke="#35889a" strokeType="INSIDE" />
     <TextField fx:id="usernameField" layoutX="75.0" layoutY="200.0" prefHeight="50.0" prefWidth="309.0" promptText="昵称">
