@@ -139,7 +139,7 @@ public class MultiClientServerWithThreadPool {
                         handleJoinMeeting(message, out);
                     } else if (message.startsWith("LEAVE_MEETING")) {
                         handleLeaveMeeting(message, out);
-                    }else if (message.startsWith("Modify_UserInfo")) {
+                    }else if (message.startsWith("UPDATE_USER:")) {
                         handleModifyUserInfo(message, out);
                     }
                     else {
@@ -419,8 +419,11 @@ public class MultiClientServerWithThreadPool {
             String newPassword = parts[3];
             if(userDao.updateUsernameAndPassword(userId,newUserName,newPassword)){
                 System.out.println("修改成功");
+                out.println("SUCCESS: 用户信息修改成功: " + message);
+            }else {
+                out.println("Failure: 用户信息修改失败: " + message);
             }
-            out.println("SUCCESS: 用户信息修改成: " + message);
+
         }
 
     }

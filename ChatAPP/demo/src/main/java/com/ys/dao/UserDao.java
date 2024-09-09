@@ -151,8 +151,6 @@ public class UserDao {
                 user.setUser_id(rs.getInt("user_id"));
                 user.setUsername(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
-//                user.setPhoneNumber(rs.getString("phone_number"));
-//                user.setRole(rs.getString("role"));
 //                user.setProfilePicture(rs.getString("profile_picture"));
                 friends.add(user);
             }
@@ -165,6 +163,8 @@ public class UserDao {
 
     // 更新用户名和密码
     public boolean updateUsernameAndPassword(int userId, String newUsername, String newPassword) {
+
+
         String query = "UPDATE users SET username = ?, password = ? WHERE user_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
