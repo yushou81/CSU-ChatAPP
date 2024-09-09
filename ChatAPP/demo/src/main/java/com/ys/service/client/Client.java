@@ -215,7 +215,7 @@ public class Client {
     public void requestMessageHistory(int targetUserId) {
         sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);
     }
-
+    public void requestTeamMessageHistory(int targetTeamId){sendMessage("GET_TEAM_MESSAGE_HISTORY:" + targetTeamId);}
     // 创建会议，服务器返回 meeting_id
     public void createMeeting(String meetingName, String password) {
         sendMessage("CREATE_MEETING:" + meetingName + ":" + password);
@@ -261,6 +261,7 @@ public class Client {
                             messageListener.onTeamListReceived(teamList);
                             System.out.println("群聊列表接收完毕");
                         }
+                        teamList.clear();
                     } else if (message.startsWith("时间:")) {
                         history.add(message);
                     } else if (message.startsWith("好友ID:")) {
@@ -269,8 +270,14 @@ public class Client {
                             String friendId = parts[0].replace("好友ID: ", "").trim();
                             String friendName = parts[1].trim();
                             friendList.put(friendName, friendId);
-
-
+                        }
+                    }else if (message.startsWith("团队ID:")) {
+                        String[] parts = message.split(", 群聊名: ");
+                        if (parts.length == 2) {
+                            String teamId = parts[0].replace("团队ID: ", "").trim();
+                            String teamName = parts[1].trim();
+                            System.out.println("获取到的团队id"+teamId+"团队名称"+teamName);
+                            teamList.put(teamName, teamId);
                         }
                     } else if (message.startsWith("私聊消息: 来自用户")) {
                         if (messageListener != null) {

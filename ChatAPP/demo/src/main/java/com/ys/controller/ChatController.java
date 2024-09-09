@@ -106,9 +106,16 @@ public class ChatController {
             }
             @Override
             public void onTeamListReceived(Map<String,String> teamList){
-                Map<String,String> teamListCopy=new HashMap<>(teamList);
+                Map<String,String> teamListCopy=new HashMap<>();
+                // 给每个团队名称加上 "团队:" 前缀
+                for (Map.Entry<String, String> entry : teamList.entrySet()) {
+                    String teamId = entry.getKey();
+                    String teamName = entry.getValue();
+                    //到这里能正常传入
+                    teamListCopy.put(teamId, "团队:" + teamName);  // 加前缀
+                }
                 Platform.runLater(() -> {
-                    loadFriendList(teamListCopy);
+                    loadTeamList(teamListCopy);
                 });
             }
 
@@ -146,10 +153,6 @@ public class ChatController {
         ObservableList<String> friends = FXCollections.observableArrayList(userNames);
         System.out.println("客户端加载好友列表");
         friendListView.setItems(friends);
-
-
-
-
         // 初始化每个好友的聊天记录
         for (String friend : friends) {
             chatMessages.put(friend, FXCollections.observableArrayList());
@@ -157,16 +160,56 @@ public class ChatController {
 
         // 设置好友列表点击事件
         friendListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue!=null){
             currentFriend = (String) newValue;
             currentFriendID = friendMap.get(currentFriend);
 
             // 如果聊天记录为空，则从服务器加载历史记录
-            if (chatMessages.get(currentFriend).isEmpty()) {
+            if (chatMessages.get(currentFriend).isEmpty()||chatMessages.get(currentFriend) == null) {
                 client.requestMessageHistory(Integer.parseInt(currentFriendID));
             } else {
                 showMessagesForFriend(currentFriend);
             }
+            }
         });
+    }
+    private void loadTeamList(Map<String, String> teamMap) {
+
+        Map<String, String> updatedFriendMap = new HashMap<>(friendMap);
+        for (Map.Entry<String, String> entry : teamMap.entrySet()) {
+            updatedFriendMap.put("团队: " + entry.getKey(), entry.getValue());
+        }
+
+        // 更新 ListView 内容，保留现有好友列表并添加团队
+        ObservableList<String> currentItems = friendListView.getItems();
+        String[] teamNames = getUserNames(teamMap);
+
+        ObservableList<String> teams = FXCollections.observableArrayList(teamNames);
+
+        currentItems.addAll(teams);
+        //到这里能用
+        System.out.println("客户端加载团队列表");
+
+        // 初始化每个团队的聊天记录
+        for (String team : teams) {
+            chatMessages.put(team, FXCollections.observableArrayList());
+        }
+
+        // 保留原来的点击事件处理，并在选择团队时也处理点击事件
+        friendListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                currentFriend = (String) newValue;
+                currentFriendID = updatedFriendMap.get(currentFriend);
+
+                // 如果聊天记录为空，则从服务器加载历史记录
+                if (chatMessages.get(currentFriend) == null || chatMessages.get(currentFriend).isEmpty()) {
+                    client.requestMessageHistory(Integer.parseInt(currentFriendID));
+                } else {
+                    showMessagesForFriend(currentFriend);
+                }
+            }
+        });
+
     }
   
     // 发送私人消息
