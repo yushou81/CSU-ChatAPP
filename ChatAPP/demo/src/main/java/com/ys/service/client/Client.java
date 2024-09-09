@@ -406,6 +406,15 @@ public class Client {
         // 发送搜索好友请求到服务器
         if (sendMessage("SEARCH_FRIEND:" + friendId)) {
             System.out.println("客户端发送搜索好友请求: " + friendId);
+            if (this.searchFriend(friendId)){
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("搜索成功");
+                    alert.setHeaderText(null);
+                    alert.setContentText("找到好友: " + friendId);
+                    alert.showAndWait();
+                });
+        }
             return true;
         } else {
             System.out.println("搜索好友请求发送失败");
@@ -418,14 +427,7 @@ public class Client {
         String userName = parts[1];
         System.out.println("好友存在: " + userName);  // 输出好友ID
 
-        // 弹出成功的Alert
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("搜索成功");
-            alert.setHeaderText(null);
-            alert.setContentText("找到好友: " + userName);
-            alert.showAndWait();
-        });
+        // 弹出成功的Aler
 
         addfriendsController.success("好友存在: " + userName);
         return true;  // 好友存在
@@ -442,7 +444,7 @@ public class Client {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("请求已发送");
                 alert.setHeaderText(null);
-                alert.setContentText("好友请求已发送给: " + friendId);
+                alert.setContentText("好友请求已发送给client: " + friendId);
                 alert.showAndWait();
             });
 
@@ -454,13 +456,13 @@ public class Client {
     }
 
     // 发送同意好友请求到服务器
-    public boolean acceptFriendRequest(String requesterId) {
-        return sendMessage("ACCEPT_FRIEND:" + requesterId);
+    public boolean acceptFriendRequest(String requesterId,String currentUserId) {
+        return sendMessage("ACCEPT_FRIEND:" + requesterId + currentUserId);
     }
 
     // 发送拒绝好友请求到服务器
-    public boolean rejectFriendRequest(String requesterId) {
-        return sendMessage("REJECT_FRIEND:" + requesterId);
+    public boolean rejectFriendRequest(String requesterId,String currentUserId) {
+        return sendMessage("REJECT_FRIEND:" + requesterId + currentUserId);
     }
     // 发送请求从服务器获取好友列表
     public boolean requestFriendList() {
