@@ -4,6 +4,7 @@ import com.ys.service.client.VideoStreamClient;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 
 import com.ys.service.client.VideoStreamClientManager;
@@ -20,11 +21,11 @@ import javax.imageio.ImageIO;
 
 public class VideoMeetingController {
 
-    public Button endButton;
-    public Button voiceButtonNO;
-    public Button voiceButtonYes;
-    public Button cameraButton;
-    public Button cameraoOButton;
+    public Button closeMeetingBtn;
+    public Button micCloseBtn;
+    public Button micOpenBtn;
+    public Button cameraOpenBtn;
+    public Button cameraCloseBtn;
     @FXML
     private ImageView image;
     @FXML
@@ -32,20 +33,16 @@ public class VideoMeetingController {
 
     private VideoStreamClient videoStreamClient;
     private boolean isStreaming = false;
+    private boolean isCameraOn = true;
+    private boolean isMicrophoneOn = true;
+
+
     public VideoMeetingController(){
         this.videoStreamClient = VideoStreamClientManager.getClient();
     }
     // 初始化控制器
     public void initialize() {
         videoStreamClient.setVideoMeetingController(this);  // 创建 VideoClient 实例
-    }
-    // 启动视频会议的按钮点击事件
-    @FXML
-    public void startVideoMeeting() {
-        String meetingId = "12345";  // 示例会议ID
-        String serverIp = "localhost";  // 服务器IP地址
-        int serverPort = 5555;  // 服务器端口
-        videoStreamClient.startVideoStream(meetingId, serverIp, serverPort);
     }
 
     // 显示捕获到的视频帧
@@ -57,30 +54,35 @@ public class VideoMeetingController {
         });
     }
 
-    // 停止视频会议
-    @FXML
-    public void stopMeeting() {
-        isStreaming = false;
-        videoStreamClient.closeConnection();  // 停止视频流传输并关闭连接
+    public void closeMeeting(ActionEvent actionEvent) {
+        closeMeetingBtn.getScene().getWindow().hide(); // 关闭窗口
+        videoStreamClient.leaveMeeting();
     }
 
-    public void End(ActionEvent actionEvent) {
-        endButton.getScene().getWindow().hide();//endButton.getGraphic().setVisible();
+    public void micOpenBtn(ActionEvent actionEvent) {
+        micOpenBtn.setVisible(false);
+        micCloseBtn.setVisible(true);
+        videoStreamClient.setMicrophoneStatus(true);
     }
 
-    public void voiceclick(ActionEvent actionEvent) {
-        voiceButtonNO.setVisible(false);voiceButtonYes.setVisible(true);
+    public void micCloseBtn(ActionEvent actionEvent) {
+        micCloseBtn.setVisible(false);
+        micOpenBtn.setVisible(true);
+        videoStreamClient.setMicrophoneStatus(false);
     }
 
-    public void voiceclick1(ActionEvent actionEvent) {
-        voiceButtonNO.setVisible(true);voiceButtonYes.setVisible(false);
+    public void cameraOpenBtn(ActionEvent actionEvent) {
+        System.out.println("这是关闭");
+        cameraOpenBtn.setVisible(false);
+        cameraCloseBtn.setVisible(true);
+        image.setVisible(false);
+        videoStreamClient.setCameraStatus(true);
     }
 
-    public void Closeview(ActionEvent actionEvent) {
-        cameraButton.setVisible(false);cameraoOButton.setVisible(true);image.setVisible(false);
-    }
-
-    public void Openview(ActionEvent actionEvent) {
-        cameraoOButton.setVisible(false);cameraButton.setVisible(true);image.setVisible(true);
+    public void cameraCloseBtn(ActionEvent actionEvent) {
+        System.out.println("这是关闭");
+        cameraCloseBtn.setVisible(false);
+        cameraOpenBtn.setVisible(true);image.setVisible(true);
+        videoStreamClient.setCameraStatus(false);
     }
 }

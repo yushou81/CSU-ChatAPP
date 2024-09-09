@@ -7,13 +7,16 @@
 
 <!--主布局-->
 
+
 <AnchorPane fx:id="chatPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: rgba(255, 255, 255, 1);" stylesheets="@/styles/chatpage.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.ChatController">
+
 
     <children>
         <!--好友列表-->
-        <ListView fx:id="friendListView" prefHeight="776.0" prefWidth="216.0" />
+        <ListView fx:id="friendListView" layoutX="6.0" prefHeight="776.0" prefWidth="216.0" />
 
         <!--右侧主区域-->
+
         <AnchorPane layoutX="216.0" prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: rgba(243, 244, 245, 1);">
 
             <children>

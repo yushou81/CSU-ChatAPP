@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -30,6 +31,7 @@
         </Label>
 
 
+
         <Label layoutX="103.0" layoutY="780.0" text="开启麦克风">
 
 
@@ -39,18 +41,17 @@
         </Label>
 
         <Label layoutX="683.0" layoutY="780.0" text="开启视频">
-
             <font>
                 <Font size="30.0" />
             </font>
         </Label>
 
-        <Label layoutX="392.0" layoutY="780.0" text="开启扬声器">
-
+        <Label layoutX="592.0" layoutY="734.0" text="创建">
             <font>
                 <Font size="30.0" />
             </font>
         </Label>
+
 
 
         <Label layoutX="993.0" layoutY="780.0" text="创建">
@@ -60,68 +61,33 @@
         </Label>
 
         <TextField fx:id="meetingNameField" layoutX="489.0" layoutY="265.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+
             <font>
                 <Font size="30.0" />
             </font>
         </TextField>
+
 
         <TextField fx:id="passwordField" layoutX="489.0" layoutY="397.0" prefHeight="71.0" prefWidth="469.0" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+
             <font>
                 <Font size="30.0" />
             </font>
         </TextField>
+        <Button fx:id="cancel" layoutX="1141.0" layoutY="15.0" mnemonicParsing="false" onAction="#Hide" prefHeight="50.0" prefWidth="50.0" />
+          <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="577.0" layoutY="628.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                  <Image url="@../images/meeting_creation.png" />
+              </image>
+          </ImageView>
+          <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1141.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                  <Image url="@../images/cancel_icon.png" />
+              </image>
+          </ImageView>
 
-        <Button fx:id="mac" layoutX="130.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
-            <graphic>
-                <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/mac_icon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-
-        <Button fx:id="sound" layoutX="406.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
-
-            <graphic>
-                <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/sound_icon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-
-        <Button fx:id="view" layoutX="698.0" layoutY="645.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
-            <graphic>
-                <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/view_icon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        
+        <Button fx:id="creation" layoutX="571.0" layoutY="623.0" mnemonicParsing="false" onAction="#createMeetingBtn" prefHeight="100.0" prefWidth="102.0" style="-fx-background-color: transparent;" />
 
 
-        <Button fx:id="creation" layoutX="970.0" layoutY="645.0" mnemonicParsing="false" onAction="#Creat1" prefHeight="100.0" prefWidth="102.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
-            <graphic>
-                <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/meeting_creation.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-
-        <Button fx:id="cancel" layoutX="1200.0" mnemonicParsing="false" onAction="#Hide" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
-            <graphic>
-                <ImageView fitHeight="50.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/cancel_icon.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
     </children>
 </AnchorPane>

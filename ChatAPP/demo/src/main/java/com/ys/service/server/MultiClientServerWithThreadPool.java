@@ -115,7 +115,6 @@ public class MultiClientServerWithThreadPool {
                     } else if (message.startsWith("LOGIN")) {
                         isLoggedIn = handleLogin(message, out);
                     }
-
                 }
 
                 String message;
@@ -389,7 +388,7 @@ public class MultiClientServerWithThreadPool {
 
                 boolean success = meetingService.joinMeeting(meetingId, userId, password);
                 if (success) {
-                    out.println("SUCCESS: 已加入会议 " + meetingId);
+                    out.println("SUCCESS: 已加入会议: " + meetingId);
                 } else {
                     out.println("FAILURE: 密码错误或会议已满");
                 }
