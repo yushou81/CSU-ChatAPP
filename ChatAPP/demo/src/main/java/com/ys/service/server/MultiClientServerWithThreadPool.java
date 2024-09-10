@@ -335,9 +335,9 @@ public class MultiClientServerWithThreadPool {
         }
         private void handleTeamMessage(String message,PrintWriter out){
             String[] parts = message.split(":");
-            if (parts.length == 3) {
-                String targetTeamId = parts[1];
-                String teamMessage = parts[2];
+            if (parts.length == 4) {
+                String targetTeamId = parts[2];
+                String teamMessage = parts[3];
 
                 // 发送团队消息
 //

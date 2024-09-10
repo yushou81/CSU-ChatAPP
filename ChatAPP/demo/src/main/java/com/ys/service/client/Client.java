@@ -236,7 +236,7 @@ public class Client {
     public void requestMessageHistory(int targetUserId) {
         sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);
     }
-    public void requestTeamMessageHistory(int targetTeamId){sendMessage("GET_TEAM_MESSAGE_HISTORY:" + targetTeamId);}
+    public void requestTeamMessageHistory(String targetTeamName){sendMessage("GET_TEAM_MESSAGE_HISTORY:" + targetTeamName);}
     // 创建会议，服务器返回 meeting_id
     public void createMeeting(String meetingName, String password) {
         sendMessage("CREATE_MEETING:" + meetingName + ":" + password);

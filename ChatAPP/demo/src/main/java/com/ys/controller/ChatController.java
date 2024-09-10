@@ -214,25 +214,27 @@ public class ChatController {
                 System.out.println("debug203: " + currentFriend);
                 currentFriendID = updatedFriendMap.get(currentFriend);
 
+                if (currentFriend.startsWith("团队: ")) {
+
+                    //这个参数为3或者4试试
+                    String bufferCurrentFriend=currentFriend.substring(4);
+
+                    //处理团队信息
+                    client.requestTeamMessageHistory((bufferCurrentFriend));
+                }
+
+                else {
+
                 // 确保 currentFriendID 不为 null
                 if (currentFriendID != null) {
                     try {
-                        // 根据前缀判断请求聊天记录
-                        if (currentFriend.startsWith("团队: ")) {
-
-                            currentFriendID = (currentFriendID.substring(3));
-                            System.out.println("现在的friendid"+currentFriendID);
-                            //处理团队信息
-                            client.requestTeamMessageHistory(Integer.parseInt(currentFriendID));
-                        } else {
                             client.requestMessageHistory(Integer.parseInt(currentFriendID));
-                        }
                     } catch (NumberFormatException e) {
                         System.err.println("Invalid ID format for selected item: " + currentFriendID);
                         e.printStackTrace();
                     }
                 }
-            }
+            }}
         });
     }
 
