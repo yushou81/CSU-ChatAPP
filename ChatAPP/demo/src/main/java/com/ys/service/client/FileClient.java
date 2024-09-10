@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.Socket;
 
 public class FileClient {
-    private static final String SERVER_ADDRESS = "localhost";
+    private static final String SERVER_ADDRESS = "172.20.10.2";
     private static final int FILE_PORT = 6666;  // 文件传输端口
 
     // 获取文件类型的方法

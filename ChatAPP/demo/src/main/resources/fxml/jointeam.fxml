@@ -19,14 +19,14 @@
       </Label>
 
       <!--输入框-->
-      <TextField fx:id="teamName" layoutX="245.0" layoutY="149.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入团队名" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+      <TextField fx:id="teamName" layoutX="325.0" layoutY="322.0" prefHeight="50.0" prefWidth="300.0" promptText="请输入团队名" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
          <font>
             <Font size="21.0" />
          </font>
       </TextField>
 
       <!--添加按钮-->
-      <Button fx:id="joinTeamButton" layoutX="444.0" layoutY="598.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="加入">
+      <Button fx:id="joinTeamButton" layoutX="695.0" layoutY="317.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="加入">
          <font>
             <Font size="30.0" />
          </font>

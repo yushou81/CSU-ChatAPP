@@ -56,7 +56,6 @@ public class ChatController {
         // 使用ClientManager来获取共享的Client实例
         this.client = ClientManager.getClient();
     }
-
     public void initialize() {
         // 注册消息监听器
         client.setMessageListener(new Client.MessageListener() {
@@ -276,7 +275,7 @@ public class ChatController {
                     String bufferCurrentFriend=(currentFriend.substring(4));
                     System.out.println("发送群聊" +message);
                     client.sendMessage("TEAM:"+currentFriendID+":"+message);
-                    client.sendMessage("GET_TEAM_MESSAGE_HISTORY:" + bufferCurrentFriend);
+                 //   client.sendMessage("GET_TEAM_MESSAGE_HISTORY:" + bufferCurrentFriend);
                 }
                 else {
                     chatMessages.get(currentFriend).add("我: " + message);

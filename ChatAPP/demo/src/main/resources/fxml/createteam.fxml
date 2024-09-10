@@ -18,19 +18,19 @@
          </style>
       </Label>
 
-      <Label layoutX="261.0" layoutY="268.0" prefHeight="30.0" prefWidth="150.0" text="团队名称:">
+      <Label layoutX="163.0" layoutY="268.0" prefHeight="30.0" prefWidth="150.0" text="团队名称:">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
 
-      <TextField fx:id="teamNameField" layoutX="467.0" layoutY="256.0" prefHeight="64.0" prefWidth="298.0" promptText="请输入团队名称" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+      <TextField fx:id="teamNameField" layoutX="353.0" layoutY="261.0" prefHeight="64.0" prefWidth="298.0" promptText="请输入团队名称" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
          <font>
             <Font size="30.0" />
          </font>
       </TextField>
 
-      <Button fx:id="createTeamButton" layoutX="598.0" layoutY="600.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
+      <Button fx:id="createTeamButton" layoutX="758.0" layoutY="268.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
 
          <font>
             <Font size="24.0" />

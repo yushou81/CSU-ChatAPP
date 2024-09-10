@@ -153,7 +153,6 @@ public class MultiClientServerWithThreadPool {
                 while ((message = in.readLine()) != null) {
                     System.out.println("收到信息:"+message);
 
-
                     if (message.startsWith("PRIVATE")) {
                         handlePrivateMessage(message);
                     }else if(message.startsWith("TEAM")){
@@ -355,6 +354,9 @@ public class MultiClientServerWithThreadPool {
                 msg.setMessageContent(privateMessage);
                 msg.setMessageType("text");  // 假设这里为文本类型
                 messageDao.saveMessage(msg);
+
+
+
             } else {
                 System.out.println("私聊消息格式错误！");
             }
@@ -368,7 +370,7 @@ public class MultiClientServerWithThreadPool {
                 // 发送团队消息
 //
 //                sendTeamMessage(targetTeamId, );
-                System.out.println("即将进入刷新调试345行");
+                System.out.println("即将进入刷新调试（345行）");
                 //写一个id转name的查询
                 TeamDao teamDao1=new TeamDao();
 
@@ -383,6 +385,11 @@ public class MultiClientServerWithThreadPool {
                 msg.setMessageContent(teamMessage);
                 msg.setMessageType("text");  // 假设这里为文本类型
                 messageDao.saveMessage(msg);
+
+
+
+
+
             } else {
                 System.out.println("群聊消息格式错误！");
             }
@@ -432,7 +439,7 @@ public class MultiClientServerWithThreadPool {
             }
         }
         private void handleGetTeamMessageHistory(String message,PrintWriter out){
-            System.out.println("刷新成功吗"+message);
+            System.out.println("刷新信息"+message);
             String[] parts = message.split(":");
             if (parts.length == 2) {
 
