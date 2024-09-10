@@ -154,7 +154,7 @@ public class MultiClientServerWithThreadPool {
                     System.out.println("收到信息:"+message);
 
                     if (message.startsWith("PRIVATE")) {
-                        handlePrivateMessage(message);
+                        handlePrivateMessage(message, out);
                     }else if(message.startsWith("TEAM")){
                         handleTeamMessage(message,out);
                     } else if (message.startsWith("FIND_USER")) {
@@ -337,7 +337,7 @@ public class MultiClientServerWithThreadPool {
         }
 
         // 修改 handlePrivateMessage 函数，加入消息存储功能
-        private void handlePrivateMessage(String message) {
+        private void handlePrivateMessage(String message,PrintWriter out) {
             String[] parts = message.split(":");
             if (parts.length == 3) {
                 String targetUserId = parts[1];
@@ -356,6 +356,8 @@ public class MultiClientServerWithThreadPool {
                 messageDao.saveMessage(msg);
 
 
+                handleGetMessageHistory("GET_MESSAGE_HISTORY:"+targetUserId, out);
+//handleGetMessageHistory("",out);
 
             } else {
                 System.out.println("私聊消息格式错误！");
@@ -385,7 +387,6 @@ public class MultiClientServerWithThreadPool {
                 msg.setMessageContent(teamMessage);
                 msg.setMessageType("text");  // 假设这里为文本类型
                 messageDao.saveMessage(msg);
-
 
 
 

@@ -274,7 +274,7 @@ public class ChatController {
                     inputArea.clear();
                     String bufferCurrentFriend=(currentFriend.substring(4));
                     System.out.println("发送群聊" +message);
-                    client.sendMessage("TEAM:"+currentFriendID+":"+message);
+                    client.sendMessage("TEAM:"+currentFriendID+":"+currentFriend+":"+message);
                  //   client.sendMessage("GET_TEAM_MESSAGE_HISTORY:" + bufferCurrentFriend);
                 }
                 else {
