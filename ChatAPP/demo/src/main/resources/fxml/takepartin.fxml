@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="840.0" prefWidth="1264.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.TakepartinController">
+<AnchorPane prefHeight="840.0" prefWidth="1264.0" style="-fx-background-color: #a9d4e1; -fx-shadow-radius: 10; -fx-shadow-color: #888888;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.TakepartinController">
    <children>
 
        <Label layoutX="539.0" layoutY="23.0" prefHeight="70.0" prefWidth="200.0" text="加入会议">
@@ -17,7 +18,7 @@
                -fx-font-weight: bold;
            </style>
        </Label>
-      <Label layoutX="264.0" layoutY="229.0" text="会议名:">
+      <Label layoutX="264.0" layoutY="229.0" text="会议ID:">
 
           <font>
               <Font size="40.0" />

@@ -50,7 +50,7 @@ public class VideoMeetingController {
     public void initialize() {
         videoAudioClient.setVideoMeetingController(this);  // 创建 VideoClient 实例
         meetingId= videoAudioClient.getMeetingId();
-        meetingIdLabel.setLabelFor();
+        meetingIdLabel.setText("会议ID:"+meetingId);
     }
     public void updateLocalVideoFrame(BufferedImage bufferedImage) {
         // 在 JavaFX 应用线程上更新 UI
