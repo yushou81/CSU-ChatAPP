@@ -10,6 +10,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class AddfriendsController {
 
     private Client client;
@@ -25,6 +30,7 @@ public class AddfriendsController {
         client.setAddFriendController(this);
     }
 
+
     // 搜索好友按钮点击处理
     @FXML
     public void handleSearchFriend(ActionEvent actionEvent) {
@@ -34,11 +40,11 @@ public class AddfriendsController {
             showAlert("错误", "请输入好友ID！");
             return;
         }
-        client.searchFriend(friendId);
+
         if (client.searchFriend(friendId)) {
-            showAlert("成功", "好友请求已发送！");
+            showAlert("搜索成功", "对方的id为"+friendId);
         } else {
-            showAlert("错误", "发送好友请求失败！");
+            showAlert("搜索失败", "没有这个人！");
         }
     }
 

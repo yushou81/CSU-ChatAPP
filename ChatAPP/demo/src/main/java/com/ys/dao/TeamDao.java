@@ -130,6 +130,29 @@ public class TeamDao {
         return members;
     }
 
+    public String getTeamNameById(int teamId) {
+        String query = "SELECT team_name FROM teams WHERE team_id = ?";
+        String teamName = null;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, teamId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                teamName = rs.getString("team_name");
+            }
+        } catch (SQLException e) {
+            System.err.println("SQLState: " + e.getSQLState());
+            System.err.println("Error Code: " + e.getErrorCode());
+            System.err.println("Message: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return teamName;
+    }
+
     // 获取团队信息
     public Team getTeamInfo(String teamName) {
         String query = "SELECT * FROM teams WHERE team_name = ?";
