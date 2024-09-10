@@ -10,7 +10,7 @@ import com.ys.model.FileEntity;
 import javafx.scene.control.ListView;
 
 public class FileClient {
-    private static final String SERVER_ADDRESS = "localhost";
+    private static final String SERVER_ADDRESS = "100.64.83.48";
     private static final int FILE_PORT = 6666;  // 文件传输端口
 
     // 获取文件类型的方法
@@ -55,7 +55,6 @@ public class FileClient {
             e.printStackTrace();
         }
     }
-
     // 从服务器下载文件
     public static void receiveFileAsync(String userId, String fileName, String saveDir) {
         // 创建一个新线程来处理文件接收

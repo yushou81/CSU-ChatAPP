@@ -271,7 +271,7 @@ public class VideoAudioClient {
 
     private void playAudioFrame(byte[] audioData) {
         try {
-             AudioFormat audioFormat = new AudioFormat(44100, 16, 2, true, true);  // 初始化为立体声、16位、44100Hz
+            AudioFormat audioFormat = new AudioFormat(44100, 16, 2, true, true);  // 初始化为立体声、16位、44100Hz
 
             int frameSize = audioFormat.getFrameSize();  // 获取每帧的大小
             int lengthToWrite = (audioData.length / frameSize) * frameSize;  // 计算符合帧大小的字节数

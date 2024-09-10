@@ -65,9 +65,6 @@ public class TakepartinController {
         // 调用client的createMeeting方法创建会议
         client.joinMeeting(meetingId, password);
 
-        // 显示提示
-        showAlert("会议创建成功", "您的会议已成功创建！");
-
         try {
             AnchorPane view = FXMLLoader.load(getClass().getResource("/fxml/videoMeeting.fxml"));
             Stage newStage1 = new Stage();

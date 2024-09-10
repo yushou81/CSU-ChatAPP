@@ -1,7 +1,6 @@
 package com.ys.service.client;
 
 import com.mysql.cj.protocol.MessageListener;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -10,45 +9,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.ys.controller.MyfriendsController;
 import com.ys.controller.NewfriendsController;
 import com.ys.dao.UserDao;
 import javafx.application.Platform;
-
-
 import com.ys.controller.AddfriendsController;
 import com.ys.controller.SettingController;
 import javafx.scene.control.Alert;
 import org.bytedeco.javacv.*;
 import org.bytedeco.opencv.opencv_core.*;
-
 public class Client {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
-    private BufferedReader userInput;
-
     public String getUserId() {
         return userId;
     }
-
     private String userId;
-
     private String serverIp;
     private MessageListener messageListener;
-//    private VideoStreamClient videoStreamClient;
     private SettingController settingController;
-
     private AddfriendsController addfriendsController;
+    private FileClient fileClient;
     private NewfriendsController newfriendsController;
     private MyfriendsController myfriendsController;
-
     private VideoAudioClient videoAudioClient;
 
     public Client() throws Exception {
-//        this.videoStreamClient = VideoStreamClientManager.getClient();  // 创建视频流客户端实例
-        this.videoAudioClient = new VideoAudioClient(serverIp,5555,1234);
+       this.videoAudioClient = new VideoAudioClient("100.64.83.48",5555,1234);
         VideoAudioClientManager.setClient(videoAudioClient);
     }
 
@@ -104,7 +92,7 @@ public class Client {
         return handleLoginOrRegisterResponse();
     }
 
-    public boolean sendCreateTeamRequest(String userId,String teamName) {
+    public void sendCreateTeamRequest(String userId,String teamName) {
         // 发送创建团队请求到服务器
         if (sendMessage("CREATE_TEAM:"+userId +":"+ teamName)) {
             System.out.println("客户端发送"+"CREATE_TEAM:"+userId +":"+ teamName);
@@ -113,10 +101,10 @@ public class Client {
         }
 
         // 处理服务器的响应
-        return handleCreateTeamResponse();
+        return ;
     }
     // 发送加入团队请求
-    public boolean sendJoinTeamRequest(String userId, String teamName) {
+    public void sendJoinTeamRequest(String userId, String teamName) {
         // 发送加入团队请求到服务器
         if (sendMessage("JOIN_TEAM:"+userId +":"+ teamName)) {
             System.out.println("客户端发送"+"JOIN_TEAM:"+userId +":"+ teamName);
@@ -125,49 +113,7 @@ public class Client {
         }
 
         // 处理服务器的响应
-        return handleJoinTeamResponse();
-    }
-
-
-
-    private boolean handleCreateTeamResponse() {
-        try {
-            String response = in.readLine();  // 读取服务器的响应
-            //debug信息
-            System.out.println(response);
-            if (response.startsWith("CREATE_GROUP_SUCCESS:")) {
-                this.userId = response.split(":")[1];
-                System.out.println("创建群聊成功");
-                return true;
-            } else if (response.startsWith("CREATE_GROUP_FAILURE")) {
-                System.out.println("创建群聊失败: " + response);
-                return false;
-            }
-        } catch (IOException e) {
-            System.err.println("Error while handling server response: " + e.getMessage());
-        }
-        return false;
-    }
-
-
-
-    // 处理服务器返回的加入团队响应
-    private boolean handleJoinTeamResponse() {
-        try {
-            String response = in.readLine();  // 读取服务器的响应
-            //debug信息
-            System.out.println(response);
-            if (response.startsWith("JOIN_GROUP_SUCCESS:")) {
-                System.out.println("加入团队成功: " + response.split(":")[1]);
-                return true;
-            } else if (response.startsWith("JOIN_GROUP_FAILURE")) {
-                System.out.println("加入团队失败: " + response);
-                return false;
-            }
-        } catch (IOException e) {
-            System.err.println("Error while handling server response: " + e.getMessage());
-        }
-        return false;
+        return ;
     }
 
     // 处理服务器返回的登录或注册响应
@@ -189,8 +135,6 @@ public class Client {
         }
         return false;
     }
-
-
     public void setSettingController(SettingController settingController){
         this.settingController=settingController;
     }
@@ -200,11 +144,6 @@ public class Client {
     public void setNewfriendsController(NewfriendsController newfriendsController){
         this.newfriendsController=newfriendsController;
     }
-    public void setMyfriendsController(MyfriendsController myfriendsController){
-        this.myfriendsController=myfriendsController;
-    }
-
-
     //获取好友列表
     public void getFriendList() {
         sendMessage("GET_FRIENDS:" + this.userId);  // 发送获取好友列表的请求
@@ -232,7 +171,10 @@ public class Client {
         }
         return false;
     }
-
+    public void requestMessageHistory(int targetUserId) {
+        sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);
+    }
+    public void requestTeamMessageHistory(String targetTeamName){sendMessage("GET_TEAM_MESSAGE_HISTORY:" + targetTeamName);}
     public List<String> getMessageHistory(int targetUserId) {
         sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);  // 发送获取聊天记录请求
         List<String> messageHistory = new ArrayList<>();
@@ -265,11 +207,6 @@ public class Client {
         return null;
     }
 
-    // 处理历史记录请求
-    public void requestMessageHistory(int targetUserId) {
-        sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);
-    }
-
     // 创建会议，服务器返回 meeting_id
     public void createMeeting(String meetingName, String password) {
         sendMessage("CREATE_MEETING:" + meetingName + ":" + password);
@@ -280,164 +217,7 @@ public class Client {
         sendMessage("JOIN_MEETING:" + meetingId + ":" + password);
     }
 
-    //    开始接收
-    public void startReceiveMessages() {
-        new Thread(() -> {
-            try {
-                String message;
-                List<String> history = new ArrayList<>();
-                Map<String, String> friendList = new HashMap<>();
-                Map<String,String>teamList=new HashMap<>();
-                while ((message = in.readLine()) != null) {
-                    if (message.equals("END_OF_MESSAGE_HISTORY")) {
-                        if (messageListener != null) {
-                            messageListener.onHistoryReceived(history);
-                        }
-                        history.clear();
-                    } else if (message.equals("END_OF_FRIEND_LIST")) {
-                        if (messageListener != null) {
 
-                            messageListener.onFriendListReceived(friendList);
-                        }
-                        friendList.clear();
-                    } else if (message.startsWith("团队消息:")) {
-                        messageListener.onMessageReceived(message);
-                    } else if (message.equals("END_OF_TEAM_LIST")) {
-                        if(messageListener!=null){
-                            messageListener.onTeamListReceived(teamList);
-                        }
-                        teamList.clear();
-                    } else if (message.startsWith("时间:")) {
-                        history.add(message);
-                    } else if (message.startsWith("好友ID:")) {
-                        String[] parts = message.split(", 好友名: ");
-                        if (parts.length == 2) {
-                            String friendId = parts[0].replace("好友ID: ", "").trim();
-                            String friendName = parts[1].trim();
-                            friendList.put(friendName, friendId);
-                        }
-                    }else if (message.startsWith("团队ID:")) {
-                        String[] parts = message.split(", 群聊名: ");
-                        if (parts.length == 2) {
-                            String teamId = parts[0].replace("团队ID: ", "").trim();
-                            String teamName = parts[1].trim();
-                            System.out.println("获取到的团队id"+teamId+"团队名称"+teamName);
-                            teamList.put(teamName, teamId);
-                        }
-                    }else if (message.startsWith("私聊消息: 来自用户")) {
-                        if (messageListener != null) {
-                            messageListener.onMessageReceived(message);
-                        }
-                    }else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
-                        String[] parts = message.split(":",2);
-                        if(parts.length==2){
-                        String teamName=parts[1].trim();
-                        //这里写加入群聊的函数
-                        this.sendJoinTeamRequest(this.getUserId(),teamName);
-                            if (messageListener != null) {
-                                messageListener.onCreateGroup(teamName,true);  // 调用监听器回调方法
-                            }
-                        }
-                        else{
-                            System.err.println("CREATE_GROUP_SUCCESS 消息格式不正确: " + message);
-                        }
-                    }else if (message.startsWith("FAILURE:")) {
-                        String[] parts = message.split(":",2);
-
-                        if(parts.length==2){
-                            String wrongMessage=parts[1].trim();
-                            if(messageListener!=null){
-                                messageListener.onCreateGroup(wrongMessage,false);
-                            }
-                        }
-                    } else if(message.startsWith("JOIN_GROUP_SUCCESS:")){
-                      //  这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
-                        String[] parts = message.split("JOIN_GROUP_SUCCESS:");
-                        String teamName = parts[1].trim();
-//                        // 这里写加入群聊的函数
-
-                      // this.sendJoinTeamRequest(this.getUserId(), teamName);
-                        sendMessage("GET_FRIENDS:"+userId);
-                            sendMessage("GET_TEAM_MESSAGE_HISTORY:" + teamName);
-                    }else if (message.startsWith("FRIEND_LIST:")) {
-                        // 处理服务器返回的好友列表
-                        String friendsData = message.substring("FRIEND_LIST:".length()).trim();
-                        String[] friends = friendsData.split(";");
-                        for (String friend : friends) {
-                            if (!friend.trim().isEmpty()) {
-                                String[] friendInfo = friend.split(",");
-                                if (friendInfo.length == 2) {
-                                    String friendId = friendInfo[0].trim();
-                                    String friendName = friendInfo[1].trim();
-                                    friendList.put(friendName, friendId);
-                                }
-                            }
-                        }
-                        // 好友列表接收完毕，调用回调函数通知前端UI更新
-                        if (messageListener != null) {
-                            messageListener.onFriendListReceived(friendList);
-                        }
-                    } else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
-                        String[] parts = message.split("CREATE_GROUP_SUCCESS:");
-                        String teamName = parts[1].trim();
-                        // 这里写加入群聊的函数
-                        this.sendJoinTeamRequest(this.getUserId(), teamName);
-                    } else if (message.startsWith("JOIN_GROUP_SUCCESS:")) {
-                        String[] parts = message.split("JOIN_GROUP_SUCCESS:");
-                        String teamName = parts[1].trim();
-                    } else if (message.startsWith("SUCCESS: 会议 ")) {
-
-                        String meetingId = message.split(":")[2].trim();
-                        System.out.println("会议创建成功，会议号为: " + meetingId);
-                        videoAudioClient.start(meetingId);
-                     }else if (message.startsWith("SUCCESS: 已加入会议: ")) {
-                        String meetingId = message.split(":")[2].trim();
-                        System.out.println("会议加入成功，会议号为: " + meetingId);
-                        // 连接视频流服务器并开始传输视频
-                        videoAudioClient.start(meetingId);
-                     }else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {
-                        settingController.fail();
-                    } else if (message.startsWith("Failure: 用户信息修改失败: ")) {
-                        settingController.success();
-                        System.out.println("用户信息修改成功");
-                    } else if (message.startsWith("SUCCESS搜索到：")) {
-                        handleSearchFriendResponse(message);
-                        System.out.println("搜索用户成功");
-                    } else if (message.startsWith("FRIEND_REQUEST_LIST:")) {
-                        System.out.println("clien也接收到了FRIEND_REQUEST_LIST:" +
-                                "");
-                        newfriendsController.receiveNewFriend(message);
-
-                    } else if (message.startsWith("SHOW_FRIEND_LIST:")) {
-                        System.out.println("clien也接收到了SHOW_FRIEND_LIST:" +
-                                "");
-                        String friendsData = message.substring("SHOW_FRIEND_LIST:".length()).trim();
-                        String[] friends = friendsData.split(";");
-                        for (String friend : friends) {
-                            if (!friend.trim().isEmpty()) {
-                                String[] friendInfo = friend.split(",");
-                                if (friendInfo.length == 3) {
-                                    String friendId = friendInfo[1].trim();
-                                    String friendName = friendInfo[0].trim();
-                                    String friendEmail = friendInfo[2].trim();
-                                    friendList.put(friendName, friendId + "," + friendEmail);
-                                }
-                            }
-                        }
-                        // 调用回调函数通知UI更新
-                        if (messageListener != null) {
-                            messageListener.onFriendListReceived(friendList);
-                        }
-
-
-                    }
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
 
     //关闭客户端连接
     public void close() {
@@ -516,7 +296,180 @@ public class Client {
     }
     // 发送请求从服务器获取好友列表
 // 读取服务器发送的消息
+    //    开始接收
+    public void startReceiveMessages() {
+        new Thread(() -> {
+            try {
+                String message;
+                List<String> history = new ArrayList<>();
+                Map<String, String> friendList = new HashMap<>();
+                Map<String,String>teamList=new HashMap<>();
+                while ((message = in.readLine()) != null) {
+                    if (message.equals("END_OF_MESSAGE_HISTORY")) {
+                        if (messageListener != null) {
+                            messageListener.onHistoryReceived(history);
+                        }
+                        history.clear();
+                    }else if (message.equals("END_OF_FRIEND_LIST")) {
+                        if (messageListener != null) {
+                            messageListener.onFriendListReceived(friendList);
+                        }
+                        friendList.clear();
+                    }else if (message.startsWith("团队消息:")) {
+                        messageListener.onMessageReceived(message);
+                    }else if (message.equals("END_OF_TEAM_LIST")) {
+                        if(messageListener!=null){
+                            messageListener.onTeamListReceived(teamList);
+                        }
+                        teamList.clear();
+                    } else if (message.startsWith("时间:")) {
+                        history.add(message);
+                    } else if (message.startsWith("好友ID:")) {
+                        String[] parts = message.split(", 好友名: ");
+                        if (parts.length == 2) {
+                            String friendId = parts[0].replace("好友ID: ", "").trim();
+                            String friendName = parts[1].trim();
+                            friendList.put(friendName, friendId);
+                        }
+                    }else if (message.startsWith("团队ID:")) {
+                        String[] parts = message.split(", 群聊名: ");
+                        if (parts.length == 2) {
+                            String teamId = parts[0].replace("团队ID: ", "").trim();
+                            String teamName = parts[1].trim();
+                            System.out.println("获取到的团队id"+teamId+"团队名称"+teamName);
+                            teamList.put(teamName, teamId);
+                        }
+                    }else if (message.startsWith("私聊消息: 来自用户")) {
+                        if (messageListener != null) {
+                            messageListener.onMessageReceived(message);
+                        }
+                    }else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
+                        String[] parts = message.split(":",2);
+                        if(parts.length==2){
+                            String teamName=parts[1].trim();
+                            //这里写加入群聊的函数
+                            this.sendJoinTeamRequest(this.getUserId(),teamName);
+                            if (messageListener != null) {
+                                messageListener.onCreateGroup(teamName,true);  // 调用监听器回调方法
+                            }
+                        }
+                        else{
+                            System.err.println("CREATE_GROUP_SUCCESS 消息格式不正确: " + message);
+                        }
+                    }else if (message.startsWith("FAILURE:")) {
+                        String[] parts = message.split(":",2);
 
+                        if(parts.length==2){
+                            String wrongMessage=parts[1].trim();
+                            if(messageListener!=null){
+                                messageListener.onCreateGroup(wrongMessage,false);
+                            }
+                        }
+                    } else if(message.startsWith("JOIN_GROUP_SUCCESS:")){
+                        //  这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
+                        String[] parts = message.split("JOIN_GROUP_SUCCESS:");
+                        String teamName = parts[1].trim();
+//                        // 这里写加入群聊的函数
+
+                        // this.sendJoinTeamRequest(this.getUserId(), teamName);
+                        sendMessage("GET_FRIENDS:"+userId);
+                        sendMessage("GET_TEAM_MESSAGE_HISTORY:" + teamName);
+                    }else if (message.startsWith("FRIEND_LIST:")) {
+                        // 处理服务器返回的好友列表
+                        String friendsData = message.substring("FRIEND_LIST:".length()).trim();
+                        String[] friends = friendsData.split(";");
+                        for (String friend : friends) {
+                            if (!friend.trim().isEmpty()) {
+                                String[] friendInfo = friend.split(",");
+                                if (friendInfo.length == 2) {
+                                    String friendId = friendInfo[0].trim();
+                                    String friendName = friendInfo[1].trim();
+                                    friendList.put(friendName, friendId);
+                                }
+                            }
+                        }
+                        // 好友列表接收完毕，调用回调函数通知前端UI更新
+                        if (messageListener != null) {
+                            messageListener.onFriendListReceived(friendList);
+                        }
+                    }else if (message.startsWith("JOIN_GROUP_SUCCESS:")) {
+                        //  这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
+                        String[] parts = message.split("JOIN_GROUP_SUCCESS:");
+                        String teamName = parts[1].trim();
+//                      // 这里写加入群聊的函数
+                        // this.sendJoinTeamRequest(this.getUserId(), teamName);
+                        sendMessage("GET_FRIENDS:"+userId);
+                        sendMessage("GET_TEAM_MESSAGE_HISTORY:" + teamName);
+                    }else if (message.startsWith("FRIEND_LIST:")) {
+                        // 处理服务器返回的好友列表
+                        String friendsData = message.substring("FRIEND_LIST:".length()).trim();
+                        String[] friends = friendsData.split(";");
+                        for (String friend : friends) {
+                            if (!friend.trim().isEmpty()) {
+                                String[] friendInfo = friend.split(",");
+                                if (friendInfo.length == 2) {
+                                    String friendId = friendInfo[0].trim();
+                                    String friendName = friendInfo[1].trim();
+                                    friendList.put(friendName, friendId);
+                                }
+                            }
+                        }
+                        // 好友列表接收完毕，调用回调函数通知前端UI更新
+                        if (messageListener != null) {
+                            messageListener.onFriendListReceived(friendList);
+                        }
+                    }else if (message.startsWith("SUCCESS: 会议 ")) {
+                        String meetingId = message.split(":")[2].trim();
+                        System.out.println("会议创建成功，会议号为: " + meetingId);
+                        videoAudioClient.start(meetingId);
+                    }else if (message.startsWith("SUCCESS: 已加入会议: ")) {
+                        String meetingId = message.split(":")[2].trim();
+                        System.out.println("会议加入成功，会议号为: " + meetingId);
+                        // 连接视频流服务器并开始传输视频
+                        videoAudioClient.start(meetingId);
+                    }else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {
+                        settingController.fail();
+                    } else if (message.startsWith("Failure: 用户信息修改失败: ")) {
+                        settingController.success();
+                        System.out.println("用户信息修改成功");
+                    } else if (message.startsWith("SUCCESS搜索到：")) {
+                        handleSearchFriendResponse(message);
+                        System.out.println("搜索用户成功");
+                    } else if (message.startsWith("FRIEND_REQUEST_LIST:")) {
+                        System.out.println("clien也接收到了FRIEND_REQUEST_LIST:" +
+                                "");
+                        newfriendsController.receiveNewFriend(message);
+
+                    } else if (message.startsWith("SHOW_FRIEND_LIST:")) {
+                        System.out.println("clien也接收到了SHOW_FRIEND_LIST:" +
+                                "");
+                        String friendsData = message.substring("SHOW_FRIEND_LIST:".length()).trim();
+                        String[] friends = friendsData.split(";");
+                        for (String friend : friends) {
+                            if (!friend.trim().isEmpty()) {
+                                String[] friendInfo = friend.split(",");
+                                if (friendInfo.length == 3) {
+                                    String friendId = friendInfo[1].trim();
+                                    String friendName = friendInfo[0].trim();
+                                    String friendEmail = friendInfo[2].trim();
+                                    friendList.put(friendName, friendId + "," + friendEmail);
+                                }
+                            }
+                        }
+                        // 调用回调函数通知UI更新
+                        if (messageListener != null) {
+                            messageListener.onFriendListReceived(friendList);
+                        }
+
+
+                    }
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
 
 
