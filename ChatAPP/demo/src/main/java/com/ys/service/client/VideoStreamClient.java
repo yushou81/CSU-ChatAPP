@@ -92,21 +92,6 @@ public class VideoStreamClient {
         }
     }
 
-    // 启动摄像头
-    private void startCamera() throws FrameGrabber.Exception {
-        videoGrabber = new OpenCVFrameGrabber(0);
-        videoGrabber.start();
-        System.out.println("摄像头启动成功");
-    }
-
-    // 停止摄像头
-    private void stopCamera() throws FrameGrabber.Exception {
-        if (videoGrabber != null) {
-            videoGrabber.stop();
-            videoGrabber.release();
-            System.out.println("摄像头已停止");
-        }
-    }
 
     // 启动麦克风
     private void startMicrophone() {
@@ -259,15 +244,7 @@ public class VideoStreamClient {
         }
     }
 
-    // 设置摄像头状态
-    public void setCameraStatus(boolean status) {
-        this.isCameraOn = status;
-    }
 
-    // 设置麦克风状态
-    public void setMicrophoneStatus(boolean status) {
-        this.isMicrophoneOn = status;
-    }
 
     public void joinMeeting(String meetingId, String serverIp, int serverPort) {
         try {
@@ -445,7 +422,30 @@ public class VideoStreamClient {
             e.printStackTrace();
         }
     }
+    // 启动摄像头
+    private void startCamera() throws FrameGrabber.Exception {
+        videoGrabber = new OpenCVFrameGrabber(0);
+        videoGrabber.start();
+        System.out.println("摄像头启动成功");
+    }
 
+    // 停止摄像头
+    private void stopCamera() throws FrameGrabber.Exception {
+        if (videoGrabber != null) {
+            videoGrabber.stop();
+            videoGrabber.release();
+            System.out.println("摄像头已停止");
+        }
+    }
+    // 设置摄像头状态
+    public void setCameraStatus(boolean status) {
+        this.isCameraOn = status;
+    }
+
+    // 设置麦克风状态
+    public void setMicrophoneStatus(boolean status) {
+        this.isMicrophoneOn = status;
+    }
 
     // 客户端退出会议的请求
     public void leaveMeeting() {
