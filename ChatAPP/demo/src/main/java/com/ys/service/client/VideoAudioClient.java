@@ -9,6 +9,7 @@ import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.*;
 import java.nio.ByteBuffer;
 
@@ -39,7 +40,9 @@ public class VideoAudioClient {
         audioSocket = new DatagramSocket();
     }
 
-    public void start(String meetingId) {
+    public void start(String meetingId) throws IOException {
+        joinMeeting(videoSocket, meetingId, videoPort);
+        joinMeeting(audioSocket, meetingId, audioPort);
         new Thread(() -> sendVideo(meetingId)).start();
         new Thread(() -> sendAudio(meetingId)).start();
         new Thread(() -> receiveVideo(meetingId)).start();
@@ -103,12 +106,17 @@ public class VideoAudioClient {
                 videoSocket.receive(packet);
 
                 ByteBuffer receivedBuffer = ByteBuffer.wrap(packet.getData());
-                long timestamp = receivedBuffer.getLong(24);  // 读取时间戳
+                long timestamp = receivedBuffer.getLong();  // 读取时间戳
+                System.out.println("ssss"+timestamp);
                 byte[] videoData = new byte[packet.getLength() - 32];  // 视频数据
                 receivedBuffer.get(videoData);
 
                 long currentTime = System.currentTimeMillis();
+                System.out.println("current"+currentTime);
                 long delay = timestamp - currentTime;  // 计算当前时间与时间戳的差异
+
+                System.out.println("delay"+delay);
+                System.out.println(isRunning);
 
                 if (delay > 0) {
                     Thread.sleep(delay);  // 延时播放，使得音视频同步
@@ -131,7 +139,7 @@ public class VideoAudioClient {
                 audioSocket.receive(packet);
 
                 ByteBuffer receivedBuffer = ByteBuffer.wrap(packet.getData());
-                long timestamp = receivedBuffer.getLong(24);  // 读取时间戳
+                long timestamp = receivedBuffer.getLong();  // 读取时间戳
                 byte[] audioData = new byte[packet.getLength() - 32];  // 音频数据
                 receivedBuffer.get(audioData);
 
@@ -151,10 +159,32 @@ public class VideoAudioClient {
 
     private void sendPacket(DatagramSocket socket, byte[] data, String meetingId, int port, int type) throws Exception {
         ByteBuffer buffer = ByteBuffer.allocate(32 + data.length);  // 32字节包含会议ID、数据类型和时间戳
-        buffer.put(meetingId.getBytes());
+//        buffer.put(meetingId.getBytes());
+        byte[] idBytes = new byte[20]; // 创建一个固定长度为20字节的数组
+        byte[] meetingIdBytes = meetingId.getBytes(); // 获取会议ID的字节表示
+// 如果字节数组长度小于20，则填充到20字节
+        System.arraycopy(meetingIdBytes, 0, idBytes, 0, Math.min(meetingIdBytes.length, idBytes.length));
+// 将20字节的数组放入buffer
+        buffer.put(idBytes);
+
         buffer.putInt(type);
         buffer.putLong(System.currentTimeMillis());  // 将当前时间戳添加到数据包
         buffer.put(data);
+
+        DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, port);
+        socket.send(packet);
+    }
+
+    private void joinMeeting(DatagramSocket socket,String meetingId,int port ) throws IOException {
+        ByteBuffer buffer = ByteBuffer.allocate(32);  // 32字节包含会议ID、数据类型和时间戳
+        //        buffer.put(meetingId.getBytes());
+        byte[] idBytes = new byte[20]; // 创建一个固定长度为20字节的数组
+        byte[] meetingIdBytes = meetingId.getBytes(); // 获取会议ID的字节表示
+        // 如果字节数组长度小于20，则填充到20字节
+        System.arraycopy(meetingIdBytes, 0, idBytes, 0, Math.min(meetingIdBytes.length, idBytes.length));
+        // 将20字节的数组放入buffer
+        buffer.put(idBytes);
+        buffer.putInt(0);
 
         DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, port);
         socket.send(packet);

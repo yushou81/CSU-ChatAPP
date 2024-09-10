@@ -358,7 +358,6 @@ public class Client {
                         System.out.println("会议创建成功，会议号为: " + meetingId);
 //                        videoStreamClient.startVideoStream(meetingId, serverIp, 5555);
                         videoAudioClient.start(meetingId);
-
                      }else if (message.startsWith("SUCCESS: 已加入会议: ")) {
                         String meetingId = message.split(":")[2].trim();
                         System.out.println("会议加入成功，会议号为: " + meetingId);

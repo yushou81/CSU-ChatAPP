@@ -37,10 +37,11 @@ public class AudioStreamServer {
 
         // 读取会议ID
         String meetingId = readMeetingId(buffer);
-        // 读取包类型 (0=加入会议, 1=音频数据)
+        // 读取包类型 (0=加入会议, 2=音频数据)
         int packetType = buffer.getInt();
 
         if (packetType == 0) {
+            System.out.println("有人加入一个会议");
             handleJoinMeeting(meetingId, clientAddress, clientPort);
         } else if (packetType == 2) {
             byte[] audioData = new byte[packet.getLength() - 24];
@@ -58,7 +59,17 @@ public class AudioStreamServer {
     }
 
     private void handleJoinMeeting(String meetingId, InetAddress clientAddress, int clientPort) {
-        meetingsMap.computeIfAbsent(meetingId, k -> new ArrayList<>()).add(new ClientInfo(clientAddress, clientPort));
+        if (meetingsMap.containsKey(meetingId)) {
+            System.out.println("会议存在");
+            // 会议存在，处理逻辑
+            meetingsMap.get(meetingId).add(new AudioStreamServer.ClientInfo(clientAddress, clientPort));
+        } else {
+            System.out.println("会议不存在");
+            // 会议不存在，创建新的会议
+            meetingsMap.put(meetingId, new ArrayList<>());
+            meetingsMap.get(meetingId).add(new AudioStreamServer.ClientInfo(clientAddress, clientPort));
+            System.out.println("创建新会议: " + meetingId);
+        }
         System.out.println("客户端加入会议: " + meetingId);
     }
 
@@ -70,12 +81,15 @@ public class AudioStreamServer {
         }
     }
 
+
+
     private void broadcastToMeeting(String meetingId, byte[] audioData, InetAddress senderAddress, int senderPort) throws IOException {
         List<ClientInfo> clients = meetingsMap.get(meetingId);
         if (clients == null) return;
 
         for (ClientInfo client : clients) {
             if (!client.getAddress().equals(senderAddress) || client.getPort() != senderPort) {
+                System.out.println("发送给客户端");
                 DatagramPacket packet = new DatagramPacket(audioData, audioData.length, client.getAddress(), client.getPort());
                 udpSocket.send(packet);
             }

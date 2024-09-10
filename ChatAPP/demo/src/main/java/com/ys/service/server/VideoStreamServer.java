@@ -32,6 +32,7 @@ public class VideoStreamServer {
 
     private void handlePacket(DatagramPacket packet) throws IOException {
         ByteBuffer buffer = ByteBuffer.wrap(packet.getData());
+
         InetAddress clientAddress = packet.getAddress();
         int clientPort = packet.getPort();
 
@@ -39,7 +40,6 @@ public class VideoStreamServer {
         String meetingId = readMeetingId(buffer);
         // 读取包类型 (0=加入会议, 1=视频数据)
         int packetType = buffer.getInt();
-
         if (packetType == 0) {
             handleJoinMeeting(meetingId, clientAddress, clientPort);
         } else if (packetType == 1) {
@@ -50,7 +50,7 @@ public class VideoStreamServer {
             handleLeaveMeeting(meetingId, clientAddress, clientPort);
         }
     }
-
+    // 创建会议
     private String readMeetingId(ByteBuffer buffer) {
         byte[] idBytes = new byte[20];
         buffer.get(idBytes);
@@ -58,7 +58,17 @@ public class VideoStreamServer {
     }
 
     private void handleJoinMeeting(String meetingId, InetAddress clientAddress, int clientPort) {
-        meetingsMap.computeIfAbsent(meetingId, k -> new ArrayList<>()).add(new ClientInfo(clientAddress, clientPort));
+        if (meetingsMap.containsKey(meetingId)) {
+            System.out.println("会议存在");
+            // 会议存在，处理逻辑
+            meetingsMap.get(meetingId).add(new ClientInfo(clientAddress, clientPort));
+        } else {
+            System.out.println("会议不存在");
+            // 会议不存在，创建新的会议
+            meetingsMap.put(meetingId, new ArrayList<>());
+            meetingsMap.get(meetingId).add(new ClientInfo(clientAddress, clientPort));
+            System.out.println("创建新会议: " + meetingId);
+        }
         System.out.println("客户端加入会议: " + meetingId);
     }
 
