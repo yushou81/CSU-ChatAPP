@@ -49,8 +49,8 @@ public class MultiClientServerWithThreadPool {
             server.startServer();  // 调用实例方法启动服务器
 
             // 启动处理视频流的服务器
-//            VideoStreamServer videoServer = new VideoStreamServer(5555); // 处理视频流的端口
-//            videoServer.start();
+            VideoStreamServer videoServer = new VideoStreamServer(5555); // 处理视频流的端口
+            videoServer.start();
 
             MeetingDao meetingDao = new MeetingDao();
             MeetingService meetingService = new MeetingService(meetingDao);
