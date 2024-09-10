@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
+
+<AnchorPane fx:id="rootPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1;" stylesheets="@/styles/button_hover_gray.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.GroupController">
+   <children>
+      <StackPane fx:id="mainStackPane" layoutX="218.0" layoutY="19.0" prefHeight="776.0" prefWidth="746.0">
+         <children>
+         </children>
+      </StackPane>
+
+      <BorderPane prefHeight="795.0" prefWidth="200.0" style="-fx-background-color: white;" />
+
+      <Button id="Createteambtn" fx:id="Createteambtn" layoutY="54.0" mnemonicParsing="false" onAction="#Createteam" prefHeight="55.0" prefWidth="199.0" styleClass="button" text="创建团队">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+
+      <Button id="Jointeambtn" fx:id="Jointeambtn" mnemonicParsing="false" onAction="#Jointeam" prefHeight="55.0" prefWidth="199.0" styleClass="button" text="加入团队">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+
+      <ImageView id="Createteamicon" fitHeight="40.0" fitWidth="40.0" layoutX="6.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Createteam.png" />
+         </image>
+      </ImageView>
+
+      <ImageView id="Jointeamicon" fitHeight="40.0" fitWidth="40.0" layoutX="6.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Jointeam.png" />
+         </image>
+      </ImageView>
+
+   </children>
+</AnchorPane>

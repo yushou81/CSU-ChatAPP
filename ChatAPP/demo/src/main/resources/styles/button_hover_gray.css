@@ -1,0 +1,10 @@
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-border-color: transparent;
+    -fx-padding: 10px;
+}
+
+.button:hover {
+    -fx-background-color: EBEBEB;
+}

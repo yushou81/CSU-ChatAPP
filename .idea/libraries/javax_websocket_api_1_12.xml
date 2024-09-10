@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="javax.websocket-api-1.12">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../Maven/apache-maven-3.9.9-bin/MAVEN—local repository/javax/websocket/javax.websocket-api/1.1/javax.websocket-api-1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
