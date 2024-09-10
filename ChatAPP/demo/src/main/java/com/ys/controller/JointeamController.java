@@ -21,7 +21,7 @@ public class JointeamController {
     private Button joinTeamButton;
     private Client client;
     @FXML
-    private void initialize() {
+    private void initialize() throws Exception {
 
         this.client= ClientManager.getClient();
         joinTeamButton.setOnAction(event -> joinTeam());

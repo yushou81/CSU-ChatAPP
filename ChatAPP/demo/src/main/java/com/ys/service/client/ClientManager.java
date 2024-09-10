@@ -9,7 +9,7 @@ public class ClientManager {
     }
 
     // 提供一个全局访问点来获取Client实例
-    public static Client getClient() {
+    public static Client getClient() throws Exception {
         if (client == null) {
             //     /.mnbnxcxxxxxxxcvxcxxxxxxxxxxxxxxx如果Client还没有初始化，进行初始化
             client = new Client();

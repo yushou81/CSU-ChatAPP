@@ -16,28 +16,26 @@ import com.ys.service.MeetingService;
 import com.ys.service.server.VideoStreamServer;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import sun.audio.AudioStream;
 
 
 public class MultiClientServerWithThreadPool {
     // 使用一个线程安全的集合来存储客户端的Socket
     private static Map<String, Socket> userSockets = new ConcurrentHashMap<>();
-
     // 创建一个固定大小的线程池
     private static ExecutorService threadPool = Executors.newFixedThreadPool(10); // 线程池大小设为10
+    //文件服务器的启动
+    public void startFileServer() {
+        // 创建文件传输服务器的实例
+        FileTransferServer fileTransferServer = new FileTransferServer();
 
+        // 启动文件传输服务器线程
+        Thread fileTransferThread = new Thread(fileTransferServer);
+        fileTransferThread.start();
 
-        public void startServer() {
-            // 创建文件传输服务器的实例
-            FileTransferServer fileTransferServer = new FileTransferServer();
-
-            // 启动文件传输服务器线程
-            Thread fileTransferThread = new Thread(fileTransferServer);
-            fileTransferThread.start();
-
-            // 将当前类的引用传递给文件传输服务器
-            fileTransferServer.setMultiClientServerWithThreadPool(this);
-        }
-
+        // 将当前类的引用传递给文件传输服务器
+        fileTransferServer.setMultiClientServerWithThreadPool(this);
+    }
 
     public static void main(String[] args) {
         try {
@@ -46,11 +44,14 @@ public class MultiClientServerWithThreadPool {
 
             // 创建当前类的实例
             MultiClientServerWithThreadPool server = new MultiClientServerWithThreadPool();
-            server.startServer();  // 调用实例方法启动服务器
+            server.startFileServer();  // 调用实例方法启动服务器
 
             // 启动处理视频流的服务器
             VideoStreamServer videoServer = new VideoStreamServer(5555); // 处理视频流的端口
             videoServer.start();
+
+            AudioStreamServer audioStreamServer = new  AudioStreamServer(1234);
+            audioStreamServer.start();
 
             MeetingDao meetingDao = new MeetingDao();
             MeetingService meetingService = new MeetingService(meetingDao);
@@ -164,16 +165,12 @@ public class MultiClientServerWithThreadPool {
                 String message;
                 // 登录成功后，处理私聊、消息广播和新功能
                 while ((message = in.readLine()) != null) {
-                    System.out.println("收到信息:"+message);
-
+                    System.out.println("消息服务端收到信息:"+message);
 
                     if (message.startsWith("PRIVATE")) {
                         handlePrivateMessage(message);
                     }else if(message.startsWith("TEAM:团队")){
-
-                        System.out.println("发送团队消息"+message);
                         handleTeamMessage(message,out);
-
                     } else if (message.startsWith("FIND_USER")) {
                         handleFindUser(message, out);
                     } else if (message.startsWith("GET_FRIENDS")) {
@@ -187,17 +184,15 @@ public class MultiClientServerWithThreadPool {
                     } else if (message.startsWith("CREATE_TEAM")){
                         System.out.println("进入创建群聊");
                       handleCreateTeam(message,out);
-
                     }else if(message.startsWith("JOIN_TEAM")){
                         System.out.println("进入加入群聊");
                         handleJoinTeam(message,out);
-                    }
-                    else if (message.startsWith("CREATE_MEETING")) {
+                    }else if (message.startsWith("CREATE_MEETING")) {
                         System.out.println("接收到创建会议");
                         handleCreateMeeting(message, out);
-                    } else if (message.startsWith("JOIN_MEETING")) {
+                    }else if (message.startsWith("JOIN_MEETING")) {
                         handleJoinMeeting(message, out);
-                    } else if (message.startsWith("LEAVE_MEETING")) {
+                    }else if (message.startsWith("LEAVE_MEETING")) {
                         handleLeaveMeeting(message, out);
                     }else if (message.startsWith("UPDATE_USER:")) {
                         handleModifyUserInfo(message, out);
@@ -271,8 +266,6 @@ public class MultiClientServerWithThreadPool {
                 }
             }
         }
-
-
         // 拒绝好友请求
         private void handlerejectFriendRequest(String message, PrintWriter out) {
             String[] parts = message.split(":");
@@ -290,8 +283,6 @@ public class MultiClientServerWithThreadPool {
                 }
             }
         }
-
-
         // 处理注册
         private void handleRegister(String message, PrintWriter out) {
             String[] parts = message.split(":");
@@ -324,7 +315,6 @@ public class MultiClientServerWithThreadPool {
                 out.println("FAILURE: 注册信息格式错误");
             }
         }
-
         // 处理登录
         private boolean handleLogin(String message, PrintWriter out) {
             String[] parts = message.split(":");
@@ -352,7 +342,6 @@ public class MultiClientServerWithThreadPool {
                 return false;
             }
         }
-
         // 修改 handlePrivateMessage 函数，加入消息存储功能
         private void handlePrivateMessage(String message) {
             String[] parts = message.split(":");
@@ -415,7 +404,6 @@ public class MultiClientServerWithThreadPool {
                 System.out.println("群聊消息格式错误！");
             }
         }
-
         // 处理查找用户
         private void handleFindUser(String message, PrintWriter out) {
             String[] parts = message.split(":");
@@ -432,7 +420,6 @@ public class MultiClientServerWithThreadPool {
                 out.println("查找用户信息格式错误！");
             }
         }
-
         //用于获取聊天记录
         private void handleGetMessageHistory(String message, PrintWriter out) {
             String[] parts = message.split(":");
@@ -544,6 +531,7 @@ public class MultiClientServerWithThreadPool {
                 System.out.println("发送给客户端"+"FAILURE: 创建群聊格式错误");
             }
         }
+        //加入群聊
         private void handleJoinTeam(String message,PrintWriter out){
             String[] parts = message.split(":");
             if (parts.length == 3) {
@@ -562,14 +550,12 @@ public class MultiClientServerWithThreadPool {
                 out.println("FAILURE: 加入群聊信息格式错误");
             }
         }
-
         // 处理创建会议，服务器生成 meeting_id
         private void handleCreateMeeting(String message, PrintWriter out) {
             String[] parts = message.split(":");
             if (parts.length == 3) {
                 String meetingName = parts[1];
                 String password = parts[2];
-
 
                 String meetingId = meetingService.createMeeting(meetingName, password, Integer.parseInt(userId));
                 if (meetingId != null) {
@@ -581,7 +567,6 @@ public class MultiClientServerWithThreadPool {
                 out.println("FAILURE: 创建会议信息格式错误");
             }
         }
-
         // 处理加入会议，验证密码和人数限制
         private void handleJoinMeeting(String message, PrintWriter out) {
             String[] parts = message.split(":");
@@ -599,7 +584,6 @@ public class MultiClientServerWithThreadPool {
                 out.println("FAILURE: 加入会议信息格式错误");
             }
         }
-
         // 处理离开会议
         private void handleLeaveMeeting(String message, PrintWriter out) {
             String[] parts = message.split(":");
@@ -612,7 +596,6 @@ public class MultiClientServerWithThreadPool {
                 out.println("FAILURE: 离开会议信息格式错误");
             }
         }
-
         // 发送好友请求
         private void handleAddFriend(String message, PrintWriter out) {
             String[] parts = message.split(":");

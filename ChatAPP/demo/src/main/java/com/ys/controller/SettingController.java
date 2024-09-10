@@ -30,10 +30,9 @@ public class SettingController {
         @FXML
         private Button confirmButton;
         private Client client;
-        public SettingController() {
+        public SettingController() throws Exception {
                 // 使用ClientManager来获取共享的Client实例
                 this.client = ClientManager.getClient();
-
         }
         public void initialize(){
                 client.setSettingController(this);

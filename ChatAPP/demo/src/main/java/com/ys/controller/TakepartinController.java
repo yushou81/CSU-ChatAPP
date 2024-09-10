@@ -20,7 +20,7 @@ public class TakepartinController {
     public TextField passwordField;
     public Button cancel;
     private Client client;
-    public TakepartinController() {
+    public TakepartinController() throws Exception {
         // 使用ClientManager来获取共享的Client实例
         this.client = ClientManager.getClient();
     }

@@ -22,7 +22,7 @@ public class CreatMeetingController {
     public Button cancel;
     public Button creation;
     private Client client;
-    public CreatMeetingController() {
+    public CreatMeetingController() throws Exception {
         // 使用ClientManager来获取共享的Client实例
         this.client = ClientManager.getClient();
     }

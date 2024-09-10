@@ -53,7 +53,7 @@ public class ChatController {
     Map<String, String> updatedFriendMap;
 
     private Map<String, ObservableList<String>> chatMessages = new HashMap<>();  // 用于存储每个好友的聊天记录
-    public ChatController() {
+    public ChatController() throws Exception {
         // 使用ClientManager来获取共享的Client实例
         this.client = ClientManager.getClient();
     }

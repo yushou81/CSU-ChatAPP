@@ -28,7 +28,7 @@ public class CreateTeamController implements Client.MessageListener{
 
 
     @FXML
-    public void initialize(){
+    public void initialize() throws Exception {
 
         this.client=ClientManager.getClient();
     }
