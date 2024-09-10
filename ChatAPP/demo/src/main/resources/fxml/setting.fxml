@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="settingPane" prefHeight="776.0" prefWidth="1184.0" style="-fx-background-color: #a9d4e1;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.SettingController">
+   <children>
+      <Label layoutX="534.0" layoutY="23.0" prefHeight="70.0" prefWidth="139.0" text="设置">
+         <font>
+            <Font size="50.0" />
+         </font>
+         <style>
+            -fx-text-fill: #35889a;
+            -fx-font-weight: bold;
+         </style>
+      </Label>
+
+      <VBox layoutX="457.0" layoutY="161.0" spacing="20">
+   <children>
+            <Label fx:id="usernameLabel" prefHeight="36.0" prefWidth="158.0" text="用户名更改：">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <style>
+               -fx-text-fill: #35889a;
+               -fx-font-weight: bold;
+            </style>
+            </Label>
+   
+            <TextField fx:id="usernameField" prefHeight="57.0" prefWidth="246.0" promptText="请输入新的用户名" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <style>
+               -fx-background-color: white;
+               -fx-border-color: #35889a;
+               -fx-border-radius: 5;
+            </style>
+            </TextField>
+   
+            <Label fx:id="passwordLabel" prefHeight="36.0" prefWidth="158.0" text="密码更改：">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <style>
+               -fx-text-fill: #35889a;
+               -fx-font-weight: bold;
+            </style>
+            </Label>
+      
+            <TextField fx:id="passwordField" prefHeight="58.0" prefWidth="246.0" promptText="请输入新的密码" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <style>
+               -fx-background-color: white;
+               -fx-border-color: #35889a;
+               -fx-border-radius: 5;
+            </style>
+            </TextField>
+   
+            <Label prefHeight="36.0" prefWidth="158.0" text="确认密码：">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <style>
+               -fx-text-fill: #35889a;
+               -fx-font-weight: bold;
+            </style>
+            </Label>
+   
+            <TextField fx:id="identifyPasswordField" prefHeight="58.0" prefWidth="246.0" promptText="请再次输入密码" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <style>
+               -fx-background-color: white;
+               -fx-border-color: #35889a;
+               -fx-border-radius: 5;
+            </style>
+            </TextField>
+   </children>
+      </VBox>
+      <Button fx:id="confirmButton"  layoutX="520.0" layoutY="623.0" onAction="#handleConfirm" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
+
+      </Button>
+      
+   </children>
+</AnchorPane>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.*?>
+
+<AnchorPane fx:id="rootPane" prefHeight="840.0" prefWidth="1264.0" style="-fx-background-color: #a9d4e1; -fx-background-radius: 20; -fx-border-radius: 20;" stylesheets="@/styles/button_hover_white.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.MainAppController">
+   <children>
+
+      <!-- 这个没啥用，只是装饰 -->
+
+      <ListView id="indexList" layoutY="63.0" maxHeight="1.7976931348623157E308" maxWidth="80.0" prefHeight="790.0" prefWidth="80.0" style="-fx-background-color: EBEBEB;">
+
+      </ListView>
+
+      <!-- 定义 StackPane 和不同的内容,在对应stackpane完成格子对应开发 -->
+      <StackPane fx:id="mainStackPane" layoutX="80.0" layoutY="59.0" prefHeight="788.0" prefWidth="1184.0">
+         <children>
+         </children>
+      </StackPane>
+
+      <AnchorPane layoutX="-1.0" layoutY="-1.0" maxHeight="64.0"  minHeight="64.0" prefHeight="64.0" prefWidth="1280.0" style="-fx-background-color: #63A7BF;">
+         <children>
+            <Button id="closeButton" layoutX="1228.0" layoutY="10.0"  prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <!--把URL换为关闭图片资源-->
+                        <Image url="@../images/close_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+
+            <Button id="maximizeButton" layoutX="1171.0" layoutY="13.0"  prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/maximize_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+
+            <Button id="minimizeButton" layoutX="1114.0" layoutY="13.0"  prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="button">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/minimize_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+
+            <ImageView id="userAvatar" fitHeight="38.0" fitWidth="38.0" layoutX="20.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/testAvatar.jpg" />
+               </image>
+               <clip>
+                  <Circle centerX="19" centerY="19" radius="19" />
+               </clip>
+            </ImageView>
+         </children>
+      </AnchorPane>
+
+      <!-- 按钮使用全局样式 -->
+      <Button id="messageButton" fx:id="messageButton" layoutX="-1.0" layoutY="61.0" mnemonicParsing="false" onAction="#handleMessageButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/chat_icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+
+      <Button id="contractListButton" fx:id="contractListButton" layoutX="-1.0" layoutY="116.0" mnemonicParsing="false" onAction="#handleContractListButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/contractlist_icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+
+      <Button id="groupButton" fx:id="groupButton" layoutX="-1.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleGrouButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/group_icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+
+      <Button id="meetingButton" fx:id="meetingButton" layoutX="-1.0" layoutY="221.0" mnemonicParsing="false" onAction="#handleMeetingButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/meeting_icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+
+      <Button id="fileManagementButton" fx:id="fileManagementButton" layoutX="-1.0" layoutY="276.0" mnemonicParsing="false" onAction="#handleFileManagementButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/file_management_icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+
+      <Button id="workbenchButton" fx:id="workbenchButton" layoutX="-1.0" layoutY="331.0" mnemonicParsing="false" onAction="#handleWorkbenchButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/workbench_icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+
+      <Button id="collectionButton" fx:id="collectionButton" layoutX="-1.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleCollectionButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/collection_icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+
+      <Button id="settingButton" fx:id="settingButton" layoutX="-1.0" layoutY="439.0" mnemonicParsing="false" onAction="#handleSettingButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/setting_icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>
