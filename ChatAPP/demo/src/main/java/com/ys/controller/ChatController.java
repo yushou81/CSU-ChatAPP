@@ -130,7 +130,7 @@ public class ChatController {
                 Platform.runLater(() -> {
                     loadFriendList(friendListCopy);
                 });
-
+            }
             @Override
             public void onTeamListReceived(Map<String,String> teamList){
                 Map<String,String> teamListCopy=new HashMap<>();
@@ -271,19 +271,34 @@ public class ChatController {
         if (!message.isEmpty() && currentFriend != null) {
 
 
-                if (currentFriend.startsWith("团队: ")) {
-                    inputArea.clear();
-                    String bufferCurrentFriend=(currentFriend.substring(4));
-                    System.out.println("发送群聊" +message);
-                    client.sendMessage("TEAM:"+currentFriendID+":"+message);
-                    client.sendMessage("GET_TEAM_MESSAGE_HISTORY:" + bufferCurrentFriend);
-                }
-                else {
-                    chatMessages.get(currentFriend).add("我: " + message);
-                    inputArea.clear();
-                    System.out.println("发送私聊" + message);
-                    client.sendMessage("PRIVATE:" + currentFriendID + ":" + message);
-                }
+
+            if (currentFriend.startsWith("团队: ")) {
+                inputArea.clear();
+                System.out.println("发送群聊" +message);
+                client.sendMessage("TEAM:"+currentFriendID+":"+message);
+                client.sendMessage("GET_TEAM_MESSAGE_HISTORY:" + currentFriendID);
+            }
+            else {
+                chatMessages.get(currentFriend).add("我: " + message);
+                inputArea.clear();
+                System.out.println("发送私聊" + message);
+                client.sendMessage("PRIVATE:" + currentFriendID + ":" + message);
+            }
+
+//                if (currentFriend.startsWith("团队: ")) {
+//                    inputArea.clear();
+//                    String bufferCurrentFriend=(currentFriend.substring(4));
+//                    System.out.println("发送群聊" +message);
+//                    client.sendMessage("TEAM:"+currentFriendID+":"+message);
+//                    client.sendMessage("GET_TEAM_MESSAGE_HISTORY:" + bufferCurrentFriend);
+//                }
+//                else {
+//                    chatMessages.get(currentFriend).add("我: " + message);
+//                    inputArea.clear();
+//                    System.out.println("发送私聊" + message);
+//                    client.sendMessage("PRIVATE:" + currentFriendID + ":" + message);
+//                }
+
         }
     }
 

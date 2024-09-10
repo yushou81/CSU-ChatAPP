@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -24,8 +25,13 @@ public class MeetingController {
             Stage newStage1 = new Stage();
 
             // 设置新Stage的场景，将加载的FXML视图作为根节点
-            Scene newScene = new Scene(view,1264,840);
+            Scene newScene = new Scene(view,1280,854);
             newStage1.setScene(newScene);
+
+            // 设置窗口为透明
+            newStage1.initStyle(StageStyle.TRANSPARENT);
+            // 设置 Stage 的样式为无边框
+            newStage1.initStyle(StageStyle.UNDECORATED);
 
             // 设置新Stage的标题（可选）
             newStage1.setTitle("新窗口");
@@ -46,8 +52,13 @@ public class MeetingController {
             Stage newStage1 = new Stage();
 
             // 设置新Stage的场景，将加载的FXML视图作为根节点
-            Scene newScene = new Scene(view,1264,840);
+            Scene newScene = new Scene(view,1280,854);
             newStage1.setScene(newScene);
+
+            // 设置窗口为透明
+            newStage1.initStyle(StageStyle.TRANSPARENT);
+            // 设置 Stage 的样式为无边框
+            newStage1.initStyle(StageStyle.UNDECORATED);
 
             // 设置新Stage的标题（可选）
             newStage1.setTitle("新窗口");
@@ -67,8 +78,13 @@ public class MeetingController {
             Stage newStage1 = new Stage();
 
             // 设置新Stage的场景，将加载的FXML视图作为根节点
-            Scene newScene = new Scene(view,1264,840);
+            Scene newScene = new Scene(view,1280,854);
             newStage1.setScene(newScene);
+
+            // 设置窗口为透明
+            newStage1.initStyle(StageStyle.TRANSPARENT);
+            // 设置 Stage 的样式为无边框
+            newStage1.initStyle(StageStyle.UNDECORATED);
 
             // 设置新Stage的标题（可选）
             newStage1.setTitle("新窗口");

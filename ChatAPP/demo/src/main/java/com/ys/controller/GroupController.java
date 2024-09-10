@@ -51,10 +51,10 @@ public class GroupController {
 
 
 
-            if (myTeamPane == null) {
-                myTeamPane = FXMLLoader.load(getClass().getResource("/fxml/myteam.fxml"));
-                System.out.println("Failed to load chatPane.fxml");
-            }
+//            if (myTeamPane == null) {
+//                myTeamPane = FXMLLoader.load(getClass().getResource("/fxml/myteam.fxml"));
+//                System.out.println("Failed to load chatPane.fxml");
+//            }
 
             if(joinTeamPane==null){
                 joinTeamPane = FXMLLoader.load(getClass().getResource("/fxml/jointeam.fxml"));
@@ -81,7 +81,10 @@ public class GroupController {
 
 
             // 将所有 AnchorPane 添加到 StackPane 中
-            mainStackPane.getChildren().addAll(myTeamPane,joinTeamPane,createTeamPane);
+            mainStackPane.getChildren().addAll(
+            //        myTeamPane,
+                    joinTeamPane,
+                    createTeamPane);
 
             // 初始化时隐藏所有 AnchorPane
             hideAllPanes();
@@ -92,11 +95,11 @@ public class GroupController {
     }
 
     // 点击“我的团队”按钮时显示对应的画面
-    @FXML
-    private void Myteam(ActionEvent event) {
-        hideAllPanes();
-        myTeamPane.setVisible(true);
-    }
+//    @FXML
+//    private void Myteam(ActionEvent event) {
+//        hideAllPanes();
+//        myTeamPane.setVisible(true);
+//    }
 
     // 点击“加入团队”按钮时显示对应的画面
     @FXML
@@ -112,7 +115,7 @@ public class GroupController {
         createTeamPane.setVisible(true);
     }
     private void hideAllPanes() {
-        myTeamPane.setVisible(false);
+        //myTeamPane.setVisible(false);
         joinTeamPane.setVisible(false);
         createTeamPane.setVisible(false);
 
