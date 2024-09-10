@@ -259,7 +259,6 @@ public class VideoStreamClient {
         }
     }
 
-
     // 设置摄像头状态
     public void setCameraStatus(boolean status) {
         this.isCameraOn = status;
@@ -286,6 +285,8 @@ public class VideoStreamClient {
             DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, serverPort);
             udpSocket.send(packet);
             System.out.println("加入会议请求已发送: " + meetingId);
+
+            openSpeaker();
 
             // 启动接收视频和音频的线程
             new Thread(() -> {
@@ -416,20 +417,29 @@ public class VideoStreamClient {
             return;
         }
         speakers = (SourceDataLine) AudioSystem.getLine(info);
-        speakers.open(audioFormat);  // 打开音频线
-        speakers.start();
+        if (speakers != null) {
+            speakers.open(audioFormat);  // 打开音频线
+            speakers.start();
+            System.out.println("扬声器启动成功: " + speakers.getLineInfo());
+        } else {
+            System.out.println("无法获取扬声器设备");
+        }
     }
+
     // 播放音频帧
     private void playAudioFrame(byte[] audioData) {
         try {
+            if (speakers == null) {
+                System.err.println("扬声器未初始化，无法播放音频");
+                return;
+            }
             if (audioFormat == null) {
                 audioFormat = new AudioFormat(44100, 16, 2, true, true);  // 初始化为立体声、16位、44100Hz
             }
-
             int frameSize = audioFormat.getFrameSize();  // 获取每帧的大小
-
             int lengthToWrite = (audioData.length / frameSize) * frameSize;  // 计算符合帧大小的字节数
-
+            // 播放音频数据，确保写入的字节数是 frameSize 的整数倍
+//            speakers.write(audioData, 0, lengthToWrite);
             speakers.write(audioData, 0, audioData.length);
         } catch (Exception e) {
             e.printStackTrace();
