@@ -19,13 +19,16 @@ public class VideoAudioClient {
     private InetAddress serverAddress;
     private int videoPort;
     private int audioPort;
+    private String meetingId;
     private boolean isRunning = true;
     private SourceDataLine speakers;
     private VideoMeetingController videoMeetingController;
-
-
     private TargetDataLine microphone;
     private OpenCVFrameGrabber videoGrabber;
+
+    // 现有成员变量
+    private boolean isCameraOn = true;
+    private boolean isMicOn = true;
 
     public void setVideoMeetingController(VideoMeetingController controller) {
         this.videoMeetingController = controller;
@@ -41,6 +44,7 @@ public class VideoAudioClient {
     }
 
     public void start(String meetingId) throws IOException {
+        this.meetingId=meetingId;
         joinMeeting(videoSocket, meetingId, videoPort);
         joinMeeting(audioSocket, meetingId, audioPort);
         new Thread(() -> sendVideo(meetingId)).start();
@@ -55,20 +59,28 @@ public class VideoAudioClient {
             videoGrabber.start();
 
             while (isRunning) {
-                Frame frame = videoGrabber.grab();
-                if (frame != null) {
-                    BufferedImage bufferedImage = new Java2DFrameConverter().convert(frame);
+                if (isCameraOn) {
+                    Frame frame = videoGrabber.grab();
+                    if (frame != null) {
+                        BufferedImage bufferedImage = new Java2DFrameConverter().convert(frame);
 
-                    //本地显示
-                    videoMeetingController.updateLocalVideoFrame(bufferedImage);
+                        // 本地显示
+                        videoMeetingController.updateLocalVideoFrame(bufferedImage);
 
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    ImageIO.write(bufferedImage, "jpg", baos);
-                    byte[] videoData = baos.toByteArray();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        ImageIO.write(bufferedImage, "jpg", baos);
+                        byte[] videoData = baos.toByteArray();
 
-                    sendPacket(videoSocket, videoData, meetingId, videoPort, 1);
+                        sendPacket(videoSocket, videoData, meetingId, videoPort, 1);
+                    }
                 }
-                Thread.sleep(50);  // 控制帧率
+                try {
+                    Thread.sleep(50);  // 控制帧率
+                } catch (InterruptedException e) {
+                    // 线程中断退出
+                    Thread.currentThread().interrupt();
+                    break;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,15 +95,23 @@ public class VideoAudioClient {
             microphone.open(format);
             microphone.start();
 
-            byte[] buffer = new byte[4096];
+            byte[] buffer = new byte[40960];
             while (isRunning) {
-                int bytesRead = microphone.read(buffer, 0, buffer.length);
-                if (bytesRead > 0) {
-                    byte[] audioData = new byte[bytesRead];
-                    System.arraycopy(buffer, 0, audioData, 0, bytesRead);
-                    sendPacket(audioSocket, audioData, meetingId, audioPort, 2);
+                if (isMicOn) {
+                    int bytesRead = microphone.read(buffer, 0, buffer.length);
+                    if (bytesRead > 0) {
+                        byte[] audioData = new byte[bytesRead];
+                        System.arraycopy(buffer, 0, audioData, 0, bytesRead);
+                        sendPacket(audioSocket, audioData, meetingId, audioPort, 2);
+                    }
                 }
-                Thread.sleep(50);
+                try {
+                    Thread.sleep(50);  // 控制音频帧率
+                } catch (InterruptedException e) {
+                    // 线程中断退出
+                    Thread.currentThread().interrupt();
+                    break;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -177,7 +197,7 @@ public class VideoAudioClient {
 
     private void joinMeeting(DatagramSocket socket,String meetingId,int port ) throws IOException {
         ByteBuffer buffer = ByteBuffer.allocate(32);  // 32字节包含会议ID、数据类型和时间戳
-        //        buffer.put(meetingId.getBytes());
+        //buffer.put(meetingId.getBytes());
         byte[] idBytes = new byte[20]; // 创建一个固定长度为20字节的数组
         byte[] meetingIdBytes = meetingId.getBytes(); // 获取会议ID的字节表示
         // 如果字节数组长度小于20，则填充到20字节
@@ -189,6 +209,36 @@ public class VideoAudioClient {
         DatagramPacket packet = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, port);
         socket.send(packet);
     }
+
+    public void leaveMeeting() throws IOException {
+        ByteBuffer buffer = ByteBuffer.allocate(32);  // 32字节包含会议ID、数据类型和时间戳
+        //buffer.put(meetingId.getBytes());
+        byte[] idBytes = new byte[20]; // 创建一个固定长度为20字节的数组
+        byte[] meetingIdBytes = meetingId.getBytes(); // 获取会议ID的字节表示
+        // 如果字节数组长度小于20，则填充到20字节
+        System.arraycopy(meetingIdBytes, 0, idBytes, 0, Math.min(meetingIdBytes.length, idBytes.length));
+        // 将20字节的数组放入buffer
+        buffer.put(idBytes);
+        buffer.putInt(-1);
+
+        DatagramPacket packet1 = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, audioPort);
+        DatagramPacket packet2 = new DatagramPacket(buffer.array(), buffer.capacity(), serverAddress, videoPort);
+        audioSocket.send(packet1);
+        videoSocket.send(packet2);
+        isRunning=false;
+        closeCamera();
+        closeMic();
+        closeSpeaker();
+
+        // 关闭sockets来结束阻塞
+        if (videoSocket != null && !videoSocket.isClosed()) {
+            videoSocket.close();
+        }
+        if (audioSocket != null && !audioSocket.isClosed()) {
+            audioSocket.close();
+        }
+    }
+
     public void openSpeaker() throws LineUnavailableException {
         System.out.println("打开扬声器");
 
@@ -209,6 +259,16 @@ public class VideoAudioClient {
             System.out.println("无法获取扬声器设备");
         }
     }
+    // 关闭扬声器
+    public void closeSpeaker() {
+        if (speakers != null && speakers.isOpen()) {
+            speakers.drain();
+            speakers.stop();
+            speakers.close();
+            System.out.println("扬声器已关闭");
+        }
+    }
+
     private void playAudioFrame(byte[] audioData) {
         try {
              AudioFormat audioFormat = new AudioFormat(44100, 16, 2, true, true);  // 初始化为立体声、16位、44100Hz
@@ -222,4 +282,57 @@ public class VideoAudioClient {
             e.printStackTrace();
         }
     }
+
+    // 打开摄像头
+    public void openCamera() {
+        if (!isCameraOn) {
+            isCameraOn = true;
+            System.out.println("摄像头已打开");
+        }
+    }
+
+    // 关闭摄像头
+    public void closeCamera() throws FrameGrabber.Exception {
+        if (isCameraOn) {
+            isCameraOn = false;
+            videoGrabber.stop();
+            System.out.println("摄像头已关闭");
+        }
+    }
+
+    // 打开麦克风
+    public void openMic() {
+        if (!isMicOn) {
+            isMicOn = true;
+            try {
+                microphone.open();
+                microphone.start();
+                System.out.println("麦克风已打开");
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // 关闭麦克风
+    public void closeMic() {
+        if (isMicOn) {
+            isMicOn = false;
+            microphone.stop();
+            microphone.close();
+            System.out.println("麦克风已关闭");
+        }
+    }
+
+    public void setMicrophoneStatus(boolean isMicOn) {
+        this.isMicOn=isMicOn;
+    }
+    public void setCameraStatus(boolean isCameraOn) {
+        this.isCameraOn=isCameraOn;
+    }
+
+    public String getMeetingId(){
+        return meetingId;
+    }
+
 }

@@ -61,9 +61,6 @@ public class Client {
         void onCreateGroup(String teamName,boolean success);  // 新增的方法
         void onTeamListReceived(Map<String,String> groupList);
 
-
-
-
     }
 
     // 注册监听器，用于在外部处理消息接收
@@ -245,7 +242,6 @@ public class Client {
         sendMessage("CREATE_MEETING:" + meetingName + ":" + password);
     }
 
-
     // 加入会议
     public void joinMeeting(String meetingId, String password) {
         sendMessage("JOIN_MEETING:" + meetingId + ":" + password);
@@ -269,16 +265,13 @@ public class Client {
                     } else if (message.equals("END_OF_FRIEND_LIST")) {
                         if (messageListener != null) {
                             messageListener.onFriendListReceived(friendList);
-                            System.out.println("好友列表接收完毕");
                         }
                         friendList.clear();
                     } else if (message.startsWith("团队消息:")) {
-                        System.out.println("283"+message);
                         messageListener.onMessageReceived(message);
                     } else if (message.equals("END_OF_TEAM_LIST")) {
                         if(messageListener!=null){
                             messageListener.onTeamListReceived(teamList);
-                            System.out.println("群聊列表接收完毕");
                         }
                         teamList.clear();
                     } else if (message.startsWith("时间:")) {
@@ -333,9 +326,7 @@ public class Client {
                       // this.sendJoinTeamRequest(this.getUserId(), teamName);
                         sendMessage("GET_FRIENDS:"+userId);
                             sendMessage("GET_TEAM_MESSAGE_HISTORY:" + teamName);
-                    }
-
-                     else if (message.startsWith("FRIEND_LIST:")) {
+                    }else if (message.startsWith("FRIEND_LIST:")) {
                         // 处理服务器返回的好友列表
                         String friendsData = message.substring("FRIEND_LIST:".length()).trim();
                         String[] friends = friendsData.split(";");
@@ -356,13 +347,11 @@ public class Client {
                     }else if (message.startsWith("SUCCESS: 会议 ")) {
                         String meetingId = message.split(":")[2].trim();
                         System.out.println("会议创建成功，会议号为: " + meetingId);
-//                        videoStreamClient.startVideoStream(meetingId, serverIp, 5555);
                         videoAudioClient.start(meetingId);
                      }else if (message.startsWith("SUCCESS: 已加入会议: ")) {
                         String meetingId = message.split(":")[2].trim();
                         System.out.println("会议加入成功，会议号为: " + meetingId);
                         // 连接视频流服务器并开始传输视频
-//                        videoStreamClient.joinMeeting(meetingId, serverIp, 5555);  // 视频流端口是 5555
                         videoAudioClient.start(meetingId);
                      }else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {
                         settingController.fail();
@@ -380,7 +369,6 @@ public class Client {
             }
         }).start();
     }
-
 
     //关闭客户端连接
     public void close() {

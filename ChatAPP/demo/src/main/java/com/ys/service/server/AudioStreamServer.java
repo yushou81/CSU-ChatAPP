@@ -79,6 +79,11 @@ public class AudioStreamServer {
             clients.removeIf(client -> client.getAddress().equals(clientAddress) && client.getPort() == clientPort);
             System.out.println("客户端退出会议: " + meetingId);
         }
+        // 如果该会议没有客户端了，删除该会议条目
+        if (clients.isEmpty()) {
+            meetingsMap.remove(meetingId);
+            System.out.println("会议 " + meetingId + " 已删除，因为没有客户端了");
+        }
     }
 
 

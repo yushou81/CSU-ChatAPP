@@ -2,20 +2,22 @@ package com.ys.controller;
 
 import com.ys.service.client.VideoAudioClient;
 import com.ys.service.client.VideoAudioClientManager;
-//import com.ys.service.client.VideoStreamClient;
-//import com.ys.service.client.VideoStreamClientManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import org.bytedeco.javacv.*;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -26,6 +28,7 @@ public class VideoMeetingController {
     public Button micOpenBtn;
     public Button cameraOpenBtn;
     public Button cameraCloseBtn;
+    public Label meetingIdLabel;
     @FXML
     private ImageView image;
     @FXML
@@ -33,20 +36,21 @@ public class VideoMeetingController {
     @FXML
     private ImageView localVideoImageView;
 
-//    private VideoStreamClient videoStreamClient;
-
     private VideoAudioClient videoAudioClient;
-    private boolean isStreaming = false;
+    private String meetingId;
+    private boolean isStreaming = true;
     private boolean isCameraOn = true;
     private boolean isMicrophoneOn = true;
 
-
     public VideoMeetingController() throws Exception {
         this.videoAudioClient = VideoAudioClientManager.getClient();
+
     }
     // 初始化控制器
     public void initialize() {
         videoAudioClient.setVideoMeetingController(this);  // 创建 VideoClient 实例
+        meetingId= videoAudioClient.getMeetingId();
+        meetingIdLabel.setLabelFor();
     }
     public void updateLocalVideoFrame(BufferedImage bufferedImage) {
         // 在 JavaFX 应用线程上更新 UI
@@ -67,38 +71,36 @@ public class VideoMeetingController {
         });
     }
 
-    public void closeMeeting(ActionEvent actionEvent) {
+    public void closeMeeting(ActionEvent actionEvent) throws IOException {
         closeMeetingBtn.getScene().getWindow().hide(); // 关闭窗口
-//        videoStreamClient.leaveMeeting();
-
+        videoAudioClient.leaveMeeting();
     }
 
     public void micOpenBtn(ActionEvent actionEvent) {
-        micOpenBtn.setVisible(false);
-        micCloseBtn.setVisible(true);
-//        videoStreamClient.setMicrophoneStatus(true);
+        System.out.println("micopen");
+        micOpenBtn.setVisible(true);
+        micCloseBtn.setVisible(false);
+        videoAudioClient.setMicrophoneStatus(true);
     }
 
     public void micCloseBtn(ActionEvent actionEvent) {
-        micCloseBtn.setVisible(false);
-        micOpenBtn.setVisible(true);
-//        videoStreamClient.setMicrophoneStatus(false);
+        micCloseBtn.setVisible(true);
+        micOpenBtn.setVisible(false);
+        videoAudioClient.setMicrophoneStatus(false);
     }
 
     public void cameraOpenBtn(ActionEvent actionEvent) {
         System.out.println("这是关闭");
-        cameraOpenBtn.setVisible(false);
-        cameraCloseBtn.setVisible(true);
-        image.setVisible(false);
-//        videoStreamClient.setCameraStatus(true);
+        cameraOpenBtn.setVisible(true);
+        cameraCloseBtn.setVisible(false);
+        videoAudioClient.setCameraStatus(true);
     }
 
     public void cameraCloseBtn(ActionEvent actionEvent) {
         System.out.println("这是关闭");
-        cameraCloseBtn.setVisible(false);
-        cameraOpenBtn.setVisible(true);image.setVisible(true);
-//        videoStreamClient.setCameraStatus(false);
+        cameraCloseBtn.setVisible(true);
+        cameraOpenBtn.setVisible(false);
+        videoAudioClient.setCameraStatus(false);
     }
-
 
 }

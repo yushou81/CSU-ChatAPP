@@ -130,8 +130,6 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-
-
         // 为rootPane添加鼠标事件来实现窗口拖动功能
         rootPane.setOnMousePressed(event -> {
             xOffset = event.getSceneX();

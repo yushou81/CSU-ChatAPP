@@ -21,13 +21,7 @@
    
        <Rectangle fill="darkgray" height="1.7" width="1144" x="20" y="55" />
    
-       <ImageView fx:id="image" fitHeight="200.0" fitWidth="200.0" layoutX="505.0" layoutY="203.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-              <Image url="@../images/profile_picture.png" />
-      </image>
-       </ImageView>
-   
-       <Button fx:id="micCloseBtn" layoutX="40.0" layoutY="700.0" mnemonicParsing="false" onAction="#micCloseBtn" prefHeight="81.0" prefWidth="81.0" styleClass="button">
+       <Button fx:id="micOpenBtn" layoutX="40.0" layoutY="700.0" mnemonicParsing="false" onAction="#micCloseBtn" prefHeight="81.0" prefWidth="81.0" styleClass="button">
            <graphic>
                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -37,7 +31,7 @@
            </graphic>
        </Button>
    
-       <Button fx:id="micOpenBtn" layoutX="40.0" layoutY="700.0" mnemonicParsing="false" onAction="#micOpenBtn" prefHeight="81.0" prefWidth="81.0" styleClass="button">
+       <Button fx:id="micCloseBtn" layoutX="40.0" layoutY="700.0" mnemonicParsing="false" onAction="#micOpenBtn" prefHeight="81.0" prefWidth="81.0" styleClass="button">
            <graphic>
                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -53,7 +47,7 @@
            </font>
        </Label>
    
-       <Button fx:id="cameraCloseBtn" layoutX="180.0" layoutY="700.0" mnemonicParsing="false" onAction="#cameraCloseBtn" prefHeight="81.0" prefWidth="81.0" styleClass="button">
+       <Button fx:id="cameraOpenBtn" layoutX="180.0" layoutY="700.0" mnemonicParsing="false" onAction="#cameraCloseBtn" prefHeight="81.0" prefWidth="81.0" styleClass="button">
            <graphic>
                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -64,7 +58,7 @@
        </Button>
    
    
-       <Button fx:id="cameraOpenBtn" layoutX="180.0" layoutY="700.0" mnemonicParsing="false" onAction="#cameraOpenBtn" prefHeight="81.0" prefWidth="81.0" styleClass="button">
+       <Button fx:id="cameraCloseBtn" layoutX="180.0" layoutY="700.0" mnemonicParsing="false" onAction="#cameraOpenBtn" prefHeight="81.0" prefWidth="81.0" styleClass="button">
    
            <graphic>
                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
@@ -82,7 +76,7 @@
        </Label>
    
    
-       <Button fx:id="closeMeetingBtn" layoutX="1020.0" layoutY="710" mnemonicParsing="false" onAction="#closeMeeting" prefHeight="80.0" prefWidth="160.0" styleClass="button">
+       <Button fx:id="closeMeetingBtn" layoutX="1032.0" layoutY="729.0" mnemonicParsing="false" onAction="#closeMeeting" prefHeight="80.0" prefWidth="160.0" styleClass="button">
            <graphic>
                <ImageView fitHeight="80.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -91,8 +85,9 @@
                </ImageView>
            </graphic>
        </Button>
-      <ImageView id="aaa" fx:id="videoImageView" fitHeight="369.0" fitWidth="495.0" layoutX="25.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="localVideoImageView" fitHeight="344.0" fitWidth="432.0" layoutX="742.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="aaa" fx:id="videoImageView" fitHeight="369.0" fitWidth="495.0" layoutX="29.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="localVideoImageView" fitHeight="369.0" fitWidth="495.0" layoutX="652.0" layoutY="193.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="meetingIdLabel" layoutX="111.0" layoutY="69.0" text="Label" />
    </children>
 
 </AnchorPane>
