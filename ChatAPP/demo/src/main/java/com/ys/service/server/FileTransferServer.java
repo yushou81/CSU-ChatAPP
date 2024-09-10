@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -151,6 +152,25 @@ public class FileTransferServer implements Runnable {
             }
         }
     }
+    private void handleFileRequest(Socket socket) {
+        try (DataInputStream dataIn = new DataInputStream(socket.getInputStream());
+             ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream())) {
+
+            int action = dataIn.readInt();  // 读取操作类型，3代表获取文件列表
+            if (action == 3) {
+                int userId = dataIn.readInt();  // 读取用户ID
+                List<FileEntity> fileList = fileDao.getFilesByUserId(userId);  // 从数据库获取文件列表
+
+                // 将文件列表发送给客户端
+                objOut.writeObject(fileList);
+                objOut.flush();
+            }
+
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

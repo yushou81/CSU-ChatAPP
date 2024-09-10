@@ -1,7 +1,6 @@
 package com.ys.controller;
 
 import com.ys.service.client.Client;
-import com.ys.service.client.ClientManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -21,19 +20,21 @@ public class JointeamController {
     private Button joinTeamButton;
     private Client client;
     @FXML
+
     private void initialize() throws Exception {
 
         this.client= ClientManager.getClient();
+
         joinTeamButton.setOnAction(event -> joinTeam());
     }
 
 
     //点击加入团队按钮，函数
     private void joinTeam() {
-        String teamId = teamName.getText();
+        String teamId = teamName.getText().trim();
         if (teamId == null || teamId.trim().isEmpty()) {
             // 处理无效的团队 ID
-            System.out.println("debug:"+"无效的团队");
+            out.println("debug:"+"无效的团队");
             showAlert("无效的ID", "请输入有效的团队id");
 
             return;
@@ -42,8 +43,11 @@ public class JointeamController {
         //
 
         // 发送加入团队的请求到服务器
-        client.sendJoinTeamRequest(client.getUserId(), teamName.getText());
-
+        if (client.sendJoinTeamRequest(client.getUserId(), teamName.getText())) {
+            showAlert("成功", "成功加入团队");
+        } else {
+            showAlert("失败", "加入团队失败");
+        }
 
     }
 

@@ -2,6 +2,12 @@ package com.ys.service.client;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import com.ys.model.FileEntity;
+import javafx.scene.control.ListView;
 
 public class FileClient {
     private static final String SERVER_ADDRESS = "localhost";
@@ -99,6 +105,29 @@ public class FileClient {
                 e.printStackTrace();
             }
         }).start();  // 启动线程
+    }
+    public static void fetchFileList(int userId, ListView<FileEntity> fileListView) {
+        new Thread(() -> {
+            try (Socket socket = new Socket(SERVER_ADDRESS, FILE_PORT);
+                 DataOutputStream dataOut = new DataOutputStream(socket.getOutputStream());
+                 ObjectInputStream objIn = new ObjectInputStream(socket.getInputStream())) {
+
+                // 发送请求获取文件列表
+                dataOut.writeInt(3);  // 操作3：获取文件列表
+                dataOut.writeInt(userId);  // 传递用户ID
+                dataOut.flush();
+
+                // 接收文件列表
+                List<FileEntity> fileList = (List<FileEntity>) objIn.readObject();
+
+                // 更新JavaFX界面
+                ObservableList<FileEntity> observableFileList = FXCollections.observableArrayList(fileList);
+                fileListView.setItems(observableFileList);
+
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
 

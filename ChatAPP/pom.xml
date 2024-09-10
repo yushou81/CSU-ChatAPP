@@ -17,12 +17,6 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <!-- MySQL JDBC driver dependency -->
@@ -41,5 +35,11 @@
             <artifactId>opencv-platform</artifactId>
             <version>4.6.0-1.5.8</version> <!-- 与JavaCV版本保持一致 -->
         </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>1.5.8</version>
+        </dependency>
+
     </dependencies>
 </project>

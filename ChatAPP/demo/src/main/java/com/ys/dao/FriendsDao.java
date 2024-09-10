@@ -80,28 +80,7 @@ public class FriendsDao {
     }
 
     // 获取好友请求的消息
-    public String getFriendRequestMessage(String userId) {
-        String query = "SELECT message FROM addfriends WHERE user_id = ?";
-        String message = null;
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setString(1, userId);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                message = rs.getString("message");
-            }else{
-                System.out.println("No friend request found for friend_id: " + userId);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return message;
-    }
 
     // 获取某用户的所有好友的 friend_id
     public static List<String> getAllFriendsIds(String userId) {
@@ -188,7 +167,7 @@ public class FriendsDao {
             return false;
         }
     }
-    public List<String> getAllFriendRequestIds(String userId) {
+    public static List<String> getAllFriendRequestIds(String userId) {
         List<String> friendRequestIds = new ArrayList<>();
         String query = "SELECT user_id FROM addfriends WHERE friend_id = ?";
 
@@ -208,5 +187,28 @@ public class FriendsDao {
         }
 
         return friendRequestIds;
+    }
+    public static List<String> getFriendRequestMessage(String userId) {
+        String query = "SELECT message FROM addfriends WHERE friend_id = ?";
+        List<String> message = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+
+                message.add(rs.getString("message"));
+            }else{
+                System.out.println("No friend request found for friend_id: " + userId);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return message;
     }
 }

@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileDao {
     // 添加新文件
@@ -54,7 +56,7 @@ public class FileDao {
 
     // 根据 user_id 获取文件
     public FileEntity getFileByUserId(int userId) throws SQLException {
-        String query = "SELECT * FROM file_table WHERE user_id = ?";
+        String query = "SELECT * FROM file_table WHERE receiver_id = ?";
         FileEntity file = null;
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -77,6 +79,32 @@ public class FileDao {
 
 
         return file;
+    }
+    public List<FileEntity> getFilesByUserId(int userId) throws SQLException {
+        String query = "SELECT * FROM file_table WHERE receiver_id = ?";
+        List<FileEntity> fileList = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    FileEntity file = new FileEntity();
+                    file.setFileId(rs.getInt("file_id"));
+                    file.setUserId(rs.getInt("user_id"));
+                    file.setFileName(rs.getString("file_name"));
+                    file.setFileSize(rs.getLong("file_size"));
+                    file.setFileType(rs.getString("file_type"));
+                    file.setFilePath(rs.getString("file_path"));
+                    file.setUploadTime(rs.getTimestamp("upload_time").toLocalDateTime());
+                    fileList.add(file);  // 将文件添加到列表中
+                }
+            }
+        }
+
+        return fileList;  // 返回文件列表
     }
 
     // 更新文件信息

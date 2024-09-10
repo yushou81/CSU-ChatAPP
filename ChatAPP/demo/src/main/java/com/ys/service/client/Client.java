@@ -1,7 +1,6 @@
 package com.ys.service.client;
 
 import com.mysql.cj.protocol.MessageListener;
-import com.ys.controller.CreateTeamController;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -12,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ys.controller.MyfriendsController;
+import com.ys.controller.NewfriendsController;
 import com.ys.dao.UserDao;
 import javafx.application.Platform;
 
@@ -38,8 +39,10 @@ public class Client {
     private MessageListener messageListener;
 //    private VideoStreamClient videoStreamClient;
     private SettingController settingController;
+
     private AddfriendsController addfriendsController;
-    private FileClient fileClient;
+    private NewfriendsController newfriendsController;
+    private MyfriendsController myfriendsController;
 
     private VideoAudioClient videoAudioClient;
 
@@ -58,8 +61,10 @@ public class Client {
         //收到好友列表时调用
         void onFriendListReceived(Map<String, String> friendList);  // 添加好友列表的回调
 
+
         void onCreateGroup(String teamName,boolean success);  // 新增的方法
         void onTeamListReceived(Map<String,String> groupList);
+
 
     }
 
@@ -99,7 +104,7 @@ public class Client {
         return handleLoginOrRegisterResponse();
     }
 
-    public void sendCreateTeamRequest(String userId,String teamName) {
+    public boolean sendCreateTeamRequest(String userId,String teamName) {
         // 发送创建团队请求到服务器
         if (sendMessage("CREATE_TEAM:"+userId +":"+ teamName)) {
             System.out.println("客户端发送"+"CREATE_TEAM:"+userId +":"+ teamName);
@@ -108,10 +113,10 @@ public class Client {
         }
 
         // 处理服务器的响应
-        return ;
+        return handleCreateTeamResponse();
     }
     // 发送加入团队请求
-    public void sendJoinTeamRequest(String userId, String teamName) {
+    public boolean sendJoinTeamRequest(String userId, String teamName) {
         // 发送加入团队请求到服务器
         if (sendMessage("JOIN_TEAM:"+userId +":"+ teamName)) {
             System.out.println("客户端发送"+"JOIN_TEAM:"+userId +":"+ teamName);
@@ -120,8 +125,31 @@ public class Client {
         }
 
         // 处理服务器的响应
-        return ;
+        return handleJoinTeamResponse();
     }
+
+
+
+    private boolean handleCreateTeamResponse() {
+        try {
+            String response = in.readLine();  // 读取服务器的响应
+            //debug信息
+            System.out.println(response);
+            if (response.startsWith("CREATE_GROUP_SUCCESS:")) {
+                this.userId = response.split(":")[1];
+                System.out.println("创建群聊成功");
+                return true;
+            } else if (response.startsWith("CREATE_GROUP_FAILURE")) {
+                System.out.println("创建群聊失败: " + response);
+                return false;
+            }
+        } catch (IOException e) {
+            System.err.println("Error while handling server response: " + e.getMessage());
+        }
+        return false;
+    }
+
+
 
     // 处理服务器返回的加入团队响应
     private boolean handleJoinTeamResponse() {
@@ -169,28 +197,33 @@ public class Client {
     public void setAddFriendController(AddfriendsController addfriendsController){
         this.addfriendsController=addfriendsController;
     }
+    public void setNewfriendsController(NewfriendsController newfriendsController){
+        this.newfriendsController=newfriendsController;
+    }
+    public void setMyfriendsController(MyfriendsController myfriendsController){
+        this.myfriendsController=myfriendsController;
+    }
+
+
     //获取好友列表
     public void getFriendList() {
         sendMessage("GET_FRIENDS:" + this.userId);  // 发送获取好友列表的请求
     }
+    public void getmyFriendList() {
+        sendMessage("MY_FRIENDS_LIST:" + this.userId);  // 发送获取好友列表的请求
+    }
 
     // 发送消息给服务器，并返回布尔值指示发送是否成功
     public boolean sendMessage(String message) {
-        if (socket == null || socket.isClosed()) {
-            System.out.println("Socket连接已关闭，无法发送信息");
-        }
-
         if (out != null) {
             try {
                 out.println(message);
                 System.out.println("发送给服务器"+message);
-                out.flush(); //强制刷新
+                out.flush(); // 强制刷新
                 if (out.checkError()) {
                     System.err.println("client信息发送失败");
-
                     return false;
                 }
-                System.out.println("成功发送"+message);
                 return true;
             } catch (Exception e) {
                 System.err.println("Error while sending message: " + e.getMessage());
@@ -236,8 +269,8 @@ public class Client {
     public void requestMessageHistory(int targetUserId) {
         sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);
     }
-    public void requestTeamMessageHistory(String targetTeamName){sendMessage("GET_TEAM_MESSAGE_HISTORY:" + targetTeamName);}
-    // 创建会议，服务器返回meeting_id
+
+    // 创建会议，服务器返回 meeting_id
     public void createMeeting(String meetingName, String password) {
         sendMessage("CREATE_MEETING:" + meetingName + ":" + password);
     }
@@ -254,9 +287,8 @@ public class Client {
                 String message;
                 List<String> history = new ArrayList<>();
                 Map<String, String> friendList = new HashMap<>();
-                Map<String,String>teamList=new HashMap<>();
+
                 while ((message = in.readLine()) != null) {
-                    System.out.println(message);
                     if (message.equals("END_OF_MESSAGE_HISTORY")) {
                         if (messageListener != null) {
                             messageListener.onHistoryReceived(history);
@@ -264,6 +296,7 @@ public class Client {
                         history.clear();
                     } else if (message.equals("END_OF_FRIEND_LIST")) {
                         if (messageListener != null) {
+
                             messageListener.onFriendListReceived(friendList);
                         }
                         friendList.clear();
@@ -283,6 +316,7 @@ public class Client {
                             String friendName = parts[1].trim();
                             friendList.put(friendName, friendId);
                         }
+
                     }else if (message.startsWith("团队ID:")) {
                         String[] parts = message.split(", 群聊名: ");
                         if (parts.length == 2) {
@@ -344,7 +378,16 @@ public class Client {
                         if (messageListener != null) {
                             messageListener.onFriendListReceived(friendList);
                         }
-                    }else if (message.startsWith("SUCCESS: 会议 ")) {
+                    } else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
+                        String[] parts = message.split("CREATE_GROUP_SUCCESS:");
+                        String teamName = parts[1].trim();
+                        // 这里写加入群聊的函数
+                        this.sendJoinTeamRequest(this.getUserId(), teamName);
+                    } else if (message.startsWith("JOIN_GROUP_SUCCESS:")) {
+                        String[] parts = message.split("JOIN_GROUP_SUCCESS:");
+                        String teamName = parts[1].trim();
+                    } else if (message.startsWith("SUCCESS: 会议 ")) {
+
                         String meetingId = message.split(":")[2].trim();
                         System.out.println("会议创建成功，会议号为: " + meetingId);
                         videoAudioClient.start(meetingId);
@@ -355,12 +398,39 @@ public class Client {
                         videoAudioClient.start(meetingId);
                      }else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {
                         settingController.fail();
-                    }else if (message.startsWith("Failure: 用户信息修改失败: ")) {
+                    } else if (message.startsWith("Failure: 用户信息修改失败: ")) {
                         settingController.success();
                         System.out.println("用户信息修改成功");
-                    }else if (message.startsWith("SUCCESS搜索到：")) {
+                    } else if (message.startsWith("SUCCESS搜索到：")) {
                         handleSearchFriendResponse(message);
                         System.out.println("搜索用户成功");
+                    } else if (message.startsWith("FRIEND_REQUEST_LIST:")) {
+                        System.out.println("clien也接收到了FRIEND_REQUEST_LIST:" +
+                                "");
+                        newfriendsController.receiveNewFriend(message);
+
+                    } else if (message.startsWith("SHOW_FRIEND_LIST:")) {
+                        System.out.println("clien也接收到了SHOW_FRIEND_LIST:" +
+                                "");
+                        String friendsData = message.substring("SHOW_FRIEND_LIST:".length()).trim();
+                        String[] friends = friendsData.split(";");
+                        for (String friend : friends) {
+                            if (!friend.trim().isEmpty()) {
+                                String[] friendInfo = friend.split(",");
+                                if (friendInfo.length == 3) {
+                                    String friendId = friendInfo[1].trim();
+                                    String friendName = friendInfo[0].trim();
+                                    String friendEmail = friendInfo[2].trim();
+                                    friendList.put(friendName, friendId + "," + friendEmail);
+                                }
+                            }
+                        }
+                        // 调用回调函数通知UI更新
+                        if (messageListener != null) {
+                            messageListener.onFriendListReceived(friendList);
+                        }
+
+
                     }
 
                 }
@@ -400,6 +470,7 @@ public class Client {
             return false;  // 搜索请求发送失败
         }
     }
+
     private boolean handleSearchFriendResponse(String response) {
         System.out.println(response);
         String [] parts = response.split(":");
@@ -445,9 +516,9 @@ public class Client {
         return sendMessage("REJECT_FRIEND:" + requesterId + currentUserId);
     }
     // 发送请求从服务器获取好友列表
-    public boolean requestFriendList() {
-        return sendMessage("GET_FRIENDS:" + this.userId);
-    }
+// 读取服务器发送的消息
+
+
 
 
 

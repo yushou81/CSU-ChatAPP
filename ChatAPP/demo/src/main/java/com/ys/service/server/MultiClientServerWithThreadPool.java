@@ -5,19 +5,16 @@ import com.ys.dao.*;
 import com.ys.model.MeetingRoom;
 
 import com.ys.model.Message;
-import com.ys.model.Team;
 import com.ys.model.User;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 import com.ys.service.MeetingService;
-
 import com.ys.service.server.VideoStreamServer;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import sun.audio.AudioStream;
-
 
 public class MultiClientServerWithThreadPool {
     // 使用一个线程安全的集合来存储客户端的Socket
@@ -37,10 +34,12 @@ public class MultiClientServerWithThreadPool {
         fileTransferServer.setMultiClientServerWithThreadPool(this);
     }
 
+
     public static void main(String[] args) {
         try {
             ServerSocket serverSocket = new ServerSocket(8080);  // 监听8080端口
             System.out.println("Server is listening on port 8080");
+
 
             // 创建当前类的实例
             MultiClientServerWithThreadPool server = new MultiClientServerWithThreadPool();
@@ -63,7 +62,7 @@ public class MultiClientServerWithThreadPool {
                 System.out.println("New client connected");
 
                 // 使用线程池处理客户端，并传递UserDao
-                threadPool.submit(new ClientHandler(clientSocket, new UserDao(),meetingService,new TeamDao()));
+                threadPool.submit(new ClientHandler(clientSocket, new UserDao(),meetingService));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,25 +101,6 @@ public class MultiClientServerWithThreadPool {
             System.out.println("用户 " + targetUserId + " 不在线。");
         }
     }
-    public static void sendTeamMessage(String targetUserId, String message) {
-        Socket targetSocket = userSockets.get(targetUserId);
-        if (targetSocket != null) {
-            try {
-                PrintWriter out = new PrintWriter(targetSocket.getOutputStream(), true);
-                out.println("团队消息:" + message);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("用户 " + targetUserId + " 不在线。");
-        }
-    }
-    //群聊信息
-    //直接刷新就能实现,requestTeamMessageHistory(int targetTeamId){sendMessage("GET_TEAM_MESSAGE_HISTORY:" + targetTeamId)
-//    private static void sendTeamMessage(String targetTeamId,String message){
-//
-//
-//    }
 
     // 处理客户端的线程
     static class ClientHandler implements Runnable {
@@ -131,17 +111,15 @@ public class MultiClientServerWithThreadPool {
         private MeetingService meetingService;
         FriendsDao friendsDao = new FriendsDao();
 
-        public ClientHandler(Socket clientSocket, UserDao userDao,MeetingService meetingService,TeamDao teamDao) {
+        public ClientHandler(Socket clientSocket, UserDao userDao,MeetingService meetingService) {
             this.clientSocket = clientSocket;
             this.userDao = userDao;
-            this.teamDao=teamDao;
             this.meetingService = meetingService;
         }
 
 
         @Override
         public void run() {
-
             try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                  PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 
@@ -164,6 +142,7 @@ public class MultiClientServerWithThreadPool {
 
                 String message;
                 // 登录成功后，处理私聊、消息广播和新功能
+
                 while ((message = in.readLine()) != null) {
                     System.out.println("消息服务端收到信息:"+message);
 
@@ -179,10 +158,7 @@ public class MultiClientServerWithThreadPool {
                         handleAddFriend(message, out);
                     } else if (message.startsWith("GET_MESSAGE_HISTORY")) {
                         handleGetMessageHistory(message, out);
-                    } else if (message.startsWith("GET_TEAM_MESSAGE_HISTORY")) {
-                        handleGetTeamMessageHistory(message,out);
                     } else if (message.startsWith("CREATE_TEAM")){
-                        System.out.println("进入创建群聊");
                       handleCreateTeam(message,out);
                     }else if(message.startsWith("JOIN_TEAM")){
                         System.out.println("进入加入群聊");
@@ -198,21 +174,24 @@ public class MultiClientServerWithThreadPool {
                         handleModifyUserInfo(message, out);
                     }else if (message.startsWith("客户端发送搜索好友请求:")) {
                         handleSearchUser(message, out);
-                    }else if (message.startsWith("SEND_FILE")) {
-                        handleFileTransferRequest(message, out);
                     }
                     else if (message.startsWith("SEARCH_FRIEND")) {
                         handleSearchUser(message, out);
                     }
                     else if (message.startsWith("同意好友请求:")) {
                         handleFriendRequestResponse(message,out);
-                    }else if (message.startsWith("拉取好友列表请求:")) {
-                        handleGetFriends(message,out);
+                    }else if (message.startsWith("MY_FRIENDS_LIST:")) {
+                        handleGetmyFriend(  message,out);
                     }else if (message.startsWith("ACCEPT_FRIEND:")) {
                         handleacceptFriendRequest(message, out);
                     }else if (message.startsWith("REJECT_FRIEND:")) {
                         handlerejectFriendRequest(message, out);
-                    }else {
+                    } else if (message.startsWith("GET_NEW_FRIEND:")) {
+                        System.out.println("读取信息了" + "啊啊啊");
+                       handlerequestFriendList(message, out);
+                    }
+
+                    else {
                         if (userId != null) {
                             broadcastMessage("用户 " + userId + " 说: " + message, clientSocket);
                         } else {
@@ -222,9 +201,7 @@ public class MultiClientServerWithThreadPool {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-
-            finally {
+            } finally {
                 if (userId != null) {
                     userSockets.remove(userId);
                     System.out.println("用户 " + userId + " 已断开连接");
@@ -350,8 +327,7 @@ public class MultiClientServerWithThreadPool {
                 String privateMessage = parts[2];
 
                 // 发送私聊消息
-                sendPrivateMessage(targetUserId, "来自用户 " + userId + " 的私聊消息: " + privateMessage +"消息类型: text "+"文件地址：");
-
+                sendPrivateMessage(targetUserId, "来自用户 " + userId + " 的私聊消息: " + privateMessage);
                 // 存储消息到数据库
                 MessageDao messageDao = new MessageDao();
                 Message msg = new Message();
@@ -364,6 +340,7 @@ public class MultiClientServerWithThreadPool {
                 System.out.println("私聊消息格式错误！");
             }
         }
+
         //团队消息
         private void handleTeamMessage(String message,PrintWriter out){
             String[] parts = message.split(":");
@@ -425,6 +402,7 @@ public class MultiClientServerWithThreadPool {
             String[] parts = message.split(":");
             if (parts.length == 2) {
                 String targetUserId = parts[1];
+
                 // 获取两人聊天记录
                 MessageDao messageDao = new MessageDao();
                 List<Message> messages = messageDao.getMessagesBetweenUsers(Integer.parseInt(userId), Integer.parseInt(targetUserId));
@@ -433,8 +411,8 @@ public class MultiClientServerWithThreadPool {
                     out.println("没有找到聊天记录");
                 } else {
                     for (Message msg : messages) {
-                        out.println("时间: " + msg.getSentAt() + " 发送者ID: " + msg.getSenderId() + " 内容: " + msg.getMessageContent()+"消息类型: "+msg.getMessageType()+"文件地址："+msg.getFileUrl());
-//                        System.out.println("发送消息: " + msg.getMessageContent());  // 日志，确保每条消息被发送
+                        out.println("时间: " + msg.getSentAt() + " 发送者ID: " + msg.getSenderId() + " 内容: " + msg.getMessageContent());
+                        System.out.println("发送消息: " + msg.getMessageContent());  // 日志，确保每条消息被发送
                     }
                 }
                 out.println("END_OF_MESSAGE_HISTORY");  // 结束符，标识聊天记录发送完毕
@@ -446,42 +424,12 @@ public class MultiClientServerWithThreadPool {
                 out.println("聊天记录请求格式错误！");
             }
         }
-//        团队消息
-        private void handleGetTeamMessageHistory(String message,PrintWriter out){
-            System.out.println("刷新成功吗"+message);
-            String[] parts = message.split(":");
-            if (parts.length == 2) {
-
-                //这里要改
-                String targetTeamName = parts[1];
-                System.out.println("刷新信息teamName"+targetTeamName);
-                // 获取团队聊天记录
-                MessageDao messageDao = new MessageDao();
-                List<Message> messages = messageDao.getTeamMessages(Integer.parseInt(userId),targetTeamName);
-                System.out.println("414"+userId+"+"+targetTeamName);
-                if (messages.isEmpty()) {
-                    out.println("没有找到聊天记录");
-                    System.out.println("messageDao.getTeamMessages未找到聊天记录");
-                } else {
-                    for (Message msg : messages) {
-                        out.println("时间: " + msg.getSentAt() + " 群聊ID: " + msg.getTeamId() + " 内容: " + msg.getMessageContent());
-                        System.out.println("发送团队消息: " + msg.getMessageContent());  // 日志，确保每条消息被发送
-                    }
-                }
-                out.println("END_OF_MESSAGE_HISTORY");  // 结束符，标识聊天记录发送完毕
 
 
-                // 强制刷新输出流，确保所有消息被发送
-                out.flush();
-                System.out.println("输出完成");
-            } else {
-                out.println("聊天记录请求格式错误！");
-            }
-        }
         // 处理获取好友列表
         private void handleGetFriends(PrintWriter out) {
             List<User> friends = userDao.getFriends(Integer.parseInt(userId));
-            List<Team> teams =teamDao.getTeams(Integer.parseInt(userId));
+
             if (friends.isEmpty()) {
                 System.out.println("好友列表为空");
                 out.println("好友列表为空");
@@ -491,44 +439,28 @@ public class MultiClientServerWithThreadPool {
                     out.println("好友ID: " + friend.getUser_id() + ", 好友名: " + friend.getUsername());
                 }
             }
-
             System.out.println("END_OF_FRIEND_LIST");
             out.println("END_OF_FRIEND_LIST"); // 结束符，标识好友列表发送完毕
-            if (teams.isEmpty()) {
-                System.out.println("团队列表为空");
-                out.println("团队列表为空");
-            } else {
-                for (Team team : teams) {
-                    System.out.println("发送团队ID: " + team.getTeamId() + ", 群聊名: " + team.getTeamName());
-                    out.println("团队ID: " + team.getTeamId() + ", 群聊名: " + team.getTeamName());
-                }
-            }
-            System.out.println("END_OF_TEAM_LIST");
-            out.println("END_OF_TEAM_LIST"); // 结束符，标识好友列表发送完毕
-
         }
+
         // 处理添加好友
+
+
+      
         private void handleCreateTeam(String message,PrintWriter out){
-
             String[] parts = message.split(":");
-
             if (parts.length == 3) {
-                System.out.println(parts[0]+","+parts[1] +","+parts[2]);
                 String teamName=parts[2];
                 String userID=parts[1];
-                boolean success = teamDao.createTeam(Integer.parseInt(userID),teamName);
-                System.out.println(userID+"创建群聊"+teamName);
+                boolean success = teamDao.createTeam(userID,teamName);
 
                 if (success) {
                     out.println("CREATE_GROUP_SUCCESS:"+teamName);
-                    System.out.println("发送给客户端"+"CREATE_GROUP_SUCCESS:"+teamName);
                 } else {
                     out.println("FAILURE: 创建群聊失败");
-                    System.out.println("发送给客户端"+"FAILURE: 创建群聊失败");
                 }
             } else {
                 out.println("FAILURE: 创建群聊信息格式错误");
-                System.out.println("发送给客户端"+"FAILURE: 创建群聊格式错误");
             }
         }
         //加入群聊
@@ -537,12 +469,10 @@ public class MultiClientServerWithThreadPool {
             if (parts.length == 3) {
                 String teamName=parts[2];
                 String userID=parts[1];
-                boolean success = teamDao.joinTeam(Integer.parseInt(userID),teamName);
-                System.out.println("执行了数据库操作"+userID+"加入群聊"+teamName);
+                boolean success = teamDao.joinTeam(userID,teamName);
 
                 if (success) {
                     out.println("JOIN_GROUP_SUCCESS:"+teamName);
-                    System.out.println(userID+"加入群聊"+teamName+"数据库操作成功");
                 } else {
                     out.println("FAILURE: 加入群聊失败");
                 }
@@ -649,23 +579,35 @@ public class MultiClientServerWithThreadPool {
 
         }
         // 处理获取好友列表的请求
-        private void handleGetFriends(String userId,PrintWriter out) {
-            List<String> friendIds = FriendsDao.getAllFriendsIds(userId);
-            List<User> friendsDetails = FriendsDao.getFriendDetails(friendIds);
+        // 处理获取好友列表的请求
+        private void handleGetmyFriend(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                String userId = parts[1]; // 获取请求中的用户ID
 
-            StringBuilder friendListBuilder = new StringBuilder("FRIEND_LIST:");
-            for (User friend : friendsDetails) {
-                friendListBuilder.append(friend.getUsername())
-                        .append(",")
-                        .append(friend.getUser_id())
-                        .append(",")
-                        .append(friend.getEmail())
-                        .append(";");
+                // 使用 FriendsDao 从数据库中获取好友信息
+                List<String> friendIds = FriendsDao.getAllFriendsIds(userId);
+                List<User> friendsDetails = FriendsDao.getFriendDetails(friendIds);
+
+                // 构建返回好友列表的字符串
+                StringBuilder friendListBuilder = new StringBuilder("SHOW_FRIEND_LIST:");
+                for (User friend : friendsDetails) {
+                    friendListBuilder.append(friend.getUsername())
+                            .append(",")
+                            .append(friend.getUser_id())
+                            .append(",")
+                            .append(friend.getEmail())
+                            .append(";");
+                }
+
+                // 发送好友列表给客户端
+                out.println(friendListBuilder.toString());
+                System.out.println("好友列表已发送: " + friendListBuilder.toString());
+            } else {
+                out.println("FAILURE: 获取好友列表请求格式错误");
             }
-
-            // 向客户端发送好友列表
-            out.println(friendListBuilder.toString());
         }
+
         private void handleModifyUserInfo(String message, PrintWriter out){
             String[] parts = message.split(":");
             if(parts.length==4){
@@ -691,21 +633,51 @@ public class MultiClientServerWithThreadPool {
                 out.flush();
             }
         }
-
-
-
-        // 处理文件传输请求
-        private void handleFileTransferRequest(String message, PrintWriter out) {
+        // 处理获取好友请求列表的请求
+        private void handlerequestFriendList(String message, PrintWriter out) {
+            System.out.println("我被执行了");
             String[] parts = message.split(":");
             if (parts.length == 2) {
-                String fileName = parts[1];
-                out.println("准备接收文件: " + fileName);
-                // 提示客户端在指定端口上传文件
-                out.println("请通过端口 6666 上传文件");
+                String userId = parts[1];  // 当前用户的ID
+
+                // 从 FriendsDao 中获取好友请求者的ID列表和请求消息
+                List<String> friendRequestIds = FriendsDao.getAllFriendRequestIds(userId);
+                List<String> friendRequestMessages = FriendsDao.getFriendRequestMessage(userId);
+                System.out.println("有没有拿到信息"+friendRequestMessages);
+
+                if (!friendRequestIds.isEmpty()) {
+                    // 构建返回给客户端的好友请求ID和消息列表
+                    StringBuilder friendRequestListBuilder = new StringBuilder("FRIEND_REQUEST_LIST:");
+
+                    for (int i = 0; i < friendRequestIds.size(); i++) {
+                        String requestId = friendRequestIds.get(i);
+                        String requestMessage = friendRequestMessages.size() > i ? friendRequestMessages.get(i) : ""; // 确保请求消息列表不越界
+                        friendRequestListBuilder.append(requestId)
+                                .append(",")
+                                .append(requestMessage)
+                                .append(",");
+                    }
+
+                    // 去掉最后一个逗号
+                    if (friendRequestListBuilder.length() > 0 && friendRequestListBuilder.charAt(friendRequestListBuilder.length() - 1) == ',') {
+                        friendRequestListBuilder.setLength(friendRequestListBuilder.length() - 1);
+                    }
+
+                    // 发送好友请求ID和消息列表给客户端
+                    out.println(friendRequestListBuilder.toString());
+                    System.out.println("发送的好友请求列表: " + friendRequestListBuilder.toString());  // 打印调试信息
+                } else {
+                    // 如果没有好友请求
+                    System.out.println("这里错了");
+                    out.println("NO_FRIEND_REQUESTS");
+                }
             } else {
-                out.println("FAILURE: 文件传输请求格式错误");
+                out.println("FAILURE: 请求格式错误");
             }
         }
+
+
+
 
     }
 

@@ -18,7 +18,6 @@
          </graphic>
       </Button>
 
-
       <Button fx:id="liveBtn" contentDisplay="GRAPHIC_ONLY" layoutX="785.0" layoutY="140.0" maxHeight="-Infinity" mnemonicParsing="false" onAction="#LiveBrocast" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
          <graphic>
               <ImageView fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true">
@@ -29,6 +28,7 @@
               </ImageView>
          </graphic>
       </Button>
+
 
 
        <Button fx:id="joinMeetingBtn" layoutX="400.0" layoutY="140.0" mnemonicParsing="false" onAction="#joinMeeting" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;">
@@ -51,9 +51,7 @@
          </graphic>
       </Button>
 
-
       <Rectangle arcHeight="5.0" arcWidth="980" fill="#c6cfd7" height="5.0" layoutX="30.0" layoutY="60.0" opacity="0.59" stroke="BLACK" strokeType="INSIDE" width="1124.0" />
-
 
        <Label layoutX="224.0" layoutY="279.0" prefHeight="40.0" prefWidth="81.0" text="发起会议">
          <font>
