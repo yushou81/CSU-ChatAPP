@@ -184,7 +184,7 @@ public class Client {
             try {
                 out.println(message);
                 System.out.println("发送给服务器"+message);
-                out.flush(); // 强制刷新
+                out.flush(); //强制刷新
                 if (out.checkError()) {
                     System.err.println("client信息发送失败");
 
@@ -237,7 +237,7 @@ public class Client {
         sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);
     }
     public void requestTeamMessageHistory(String targetTeamName){sendMessage("GET_TEAM_MESSAGE_HISTORY:" + targetTeamName);}
-    // 创建会议，服务器返回 meeting_id
+    // 创建会议，服务器返回meeting_id
     public void createMeeting(String meetingName, String password) {
         sendMessage("CREATE_MEETING:" + meetingName + ":" + password);
     }
