@@ -110,7 +110,7 @@ public class Client {
         return ;
     }
     // 发送加入团队请求
-    public boolean sendJoinTeamRequest(String userId, String teamName) {
+    public void sendJoinTeamRequest(String userId, String teamName) {
         // 发送加入团队请求到服务器
         if (sendMessage("JOIN_TEAM:"+userId +":"+ teamName)) {
             System.out.println("客户端发送"+"JOIN_TEAM:"+userId +":"+ teamName);
@@ -119,7 +119,7 @@ public class Client {
         }
 
         // 处理服务器的响应
-        return handleJoinTeamResponse();
+        return ;
     }
 
 
@@ -180,15 +180,21 @@ public class Client {
 
     // 发送消息给服务器，并返回布尔值指示发送是否成功
     public boolean sendMessage(String message) {
+        if (socket == null || socket.isClosed()) {
+            System.out.println("Socket连接已关闭，无法发送信息");
+        }
+
         if (out != null) {
             try {
                 out.println(message);
                 System.out.println("发送给服务器"+message);
-                out.flush(); // 强制刷新
+                out.flush(); //强制刷新
                 if (out.checkError()) {
                     System.err.println("client信息发送失败");
+
                     return false;
                 }
+                System.out.println("成功发送"+message);
                 return true;
             } catch (Exception e) {
                 System.err.println("Error while sending message: " + e.getMessage());
@@ -234,8 +240,8 @@ public class Client {
     public void requestMessageHistory(int targetUserId) {
         sendMessage("GET_MESSAGE_HISTORY:" + targetUserId);
     }
-    public void requestTeamMessageHistory(int targetTeamId){sendMessage("GET_TEAM_MESSAGE_HISTORY:" + targetTeamId);}
-    // 创建会议，服务器返回 meeting_id
+    public void requestTeamMessageHistory(String targetTeamName){sendMessage("GET_TEAM_MESSAGE_HISTORY:" + targetTeamName);}
+    // 创建会议，服务器返回meeting_id
     public void createMeeting(String meetingName, String password) {
         sendMessage("CREATE_MEETING:" + meetingName + ":" + password);
     }
@@ -322,9 +328,9 @@ public class Client {
                             System.err.println("CREATE_GROUP_SUCCESS 消息格式不正确: " + message);
 
                         }
+
                     } else if (message.startsWith("FAILURE:")) {
                         String[] parts = message.split(":",2);
-
 
                         if(parts.length==2){
                             String wrongMessage=parts[1].trim();
@@ -334,11 +340,15 @@ public class Client {
                     }
                     } else if(message.startsWith("JOIN_GROUP_SUCCESS:")){
                       //  这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
-                        String[] parts = message.split("CREATE_GROUP_SUCCESS:");
+                        String[] parts = message.split("JOIN_GROUP_SUCCESS:");
                         String teamName = parts[1].trim();
-                        // 这里写加入群聊的函数
-                      //这行不知道要不要 
+//                        // 这里写加入群聊的函数
+
                       // this.sendJoinTeamRequest(this.getUserId(), teamName);
+                        sendMessage("GET_FRIENDS:"+userId);
+                            sendMessage("GET_TEAM_MESSAGE_HISTORY:" + teamName);
+
+
                     }
 
                      else if (message.startsWith("FRIEND_LIST:")) {

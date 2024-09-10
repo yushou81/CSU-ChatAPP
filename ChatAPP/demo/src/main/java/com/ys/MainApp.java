@@ -40,9 +40,11 @@ public class MainApp extends Application {
 
 
 
-        client.connect("100.64.83.48", 8080);  // 替换为你的服务器IP和端口号
 
 
+        client.connect("100.67.106.225", 8080);  // 替换为你的服务器IP和端口号
+
+//100.67.106.225
     //        100.64.83.48
     //        192.168.221.164
         //100.69.24.231
@@ -53,7 +55,7 @@ public class MainApp extends Application {
         try {
             // 加载 FXML 文件
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainapp.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
 
 
             Parent root = loader.load();
