@@ -12,7 +12,12 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 import com.ys.service.MeetingService;
-//import com.ys.service.server.VideoStreamServer;
+
+import com.ys.service.server.VideoStreamServer;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+
+
 public class MultiClientServerWithThreadPool {
     // 使用一个线程安全的集合来存储客户端的Socket
     private static Map<String, Socket> userSockets = new ConcurrentHashMap<>();
@@ -20,10 +25,28 @@ public class MultiClientServerWithThreadPool {
     // 创建一个固定大小的线程池
     private static ExecutorService threadPool = Executors.newFixedThreadPool(10); // 线程池大小设为10
 
+
+        public void startServer() {
+            // 创建文件传输服务器的实例
+            FileTransferServer fileTransferServer = new FileTransferServer();
+
+            // 启动文件传输服务器线程
+            Thread fileTransferThread = new Thread(fileTransferServer);
+            fileTransferThread.start();
+
+            // 将当前类的引用传递给文件传输服务器
+            fileTransferServer.setMultiClientServerWithThreadPool(this);
+        }
+
+
     public static void main(String[] args) {
         try {
             ServerSocket serverSocket = new ServerSocket(8080);  // 监听8080端口
             System.out.println("Server is listening on port 8080");
+
+            // 创建当前类的实例
+            MultiClientServerWithThreadPool server = new MultiClientServerWithThreadPool();
+            server.startServer();  // 调用实例方法启动服务器
 
             // 启动处理视频流的服务器
 //            VideoStreamServer videoServer = new VideoStreamServer(5555); // 处理视频流的端口
@@ -101,8 +124,10 @@ public class MultiClientServerWithThreadPool {
             this.meetingService = meetingService;
         }
 
+
         @Override
         public void run() {
+
             try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                  PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 
@@ -162,6 +187,8 @@ public class MultiClientServerWithThreadPool {
                         handleModifyUserInfo(message, out);
                     }else if (message.startsWith("客户端发送搜索好友请求:")) {
                         handleSearchUser(message, out);
+                    }else if (message.startsWith("SEND_FILE")) {
+                        handleFileTransferRequest(message, out);
                     }
                     else if (message.startsWith("SEARCH_FRIEND")) {
                         handleSearchUser(message, out);
@@ -174,9 +201,7 @@ public class MultiClientServerWithThreadPool {
                         handleacceptFriendRequest(message, out);
                     }else if (message.startsWith("REJECT_FRIEND:")) {
                         handlerejectFriendRequest(message, out);
-                    }
-
-                    else {
+                    }else {
                         if (userId != null) {
                             broadcastMessage("用户 " + userId + " 说: " + message, clientSocket);
                         } else {
@@ -320,7 +345,8 @@ public class MultiClientServerWithThreadPool {
                 String privateMessage = parts[2];
 
                 // 发送私聊消息
-                sendPrivateMessage(targetUserId, "来自用户 " + userId + " 的私聊消息: " + privateMessage);
+                sendPrivateMessage(targetUserId, "来自用户 " + userId + " 的私聊消息: " + privateMessage +"消息类型: text "+"文件地址：");
+
                 // 存储消息到数据库
                 MessageDao messageDao = new MessageDao();
                 Message msg = new Message();
@@ -392,7 +418,7 @@ public class MultiClientServerWithThreadPool {
                     out.println("没有找到聊天记录");
                 } else {
                     for (Message msg : messages) {
-                        out.println("时间: " + msg.getSentAt() + " 发送者ID: " + msg.getSenderId() + " 内容: " + msg.getMessageContent());
+                        out.println("时间: " + msg.getSentAt() + " 发送者ID: " + msg.getSenderId() + " 内容: " + msg.getMessageContent()+"消息类型: "+msg.getMessageType()+"文件地址："+msg.getFileUrl());
                         System.out.println("发送消息: " + msg.getMessageContent());  // 日志，确保每条消息被发送
                     }
                 }
@@ -428,6 +454,7 @@ public class MultiClientServerWithThreadPool {
                 }
                 out.println("END_OF_MESSAGE_HISTORY");  // 结束符，标识聊天记录发送完毕
 
+
                 // 强制刷新输出流，确保所有消息被发送
                 out.flush();
                 System.out.println("输出完成");
@@ -435,6 +462,7 @@ public class MultiClientServerWithThreadPool {
                 out.println("聊天记录请求格式错误！");
             }
         }
+
 
         // 处理获取好友列表
         private void handleGetFriends(PrintWriter out) {
@@ -641,15 +669,39 @@ public class MultiClientServerWithThreadPool {
                 userDao.updateUsernameAndPassword(userid,newusername,newPassword);
             }
         }
-        private void handleSearchUser(String message, PrintWriter out){
+        private void handleSearchUser(String message, PrintWriter out) {
             String[] parts = message.split(":");
             String userId = parts[1];
+
             // 搜索好友
             User friend = friendsDao.searchUser(userId);
             if (friend != null) {
-                out.println("SUCCESS搜索到："+friend.getUsername());
+                // 向客户端返回搜索成功的消息
+                out.println("SUCCESS搜索到：" + friend.getUsername());
+                out.flush();  // 确保消息发送出去
+            } else {
+                // 返回搜索失败消息
+                out.println("FAILURE未找到用户");
+                out.flush();
             }
         }
+
+
+
+        // 处理文件传输请求
+        private void handleFileTransferRequest(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                String fileName = parts[1];
+                out.println("准备接收文件: " + fileName);
+                // 提示客户端在指定端口上传文件
+                out.println("请通过端口 6666 上传文件");
+            } else {
+                out.println("FAILURE: 文件传输请求格式错误");
+            }
+        }
+
     }
+
 }
 
