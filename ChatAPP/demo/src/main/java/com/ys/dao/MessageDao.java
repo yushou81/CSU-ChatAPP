@@ -72,34 +72,52 @@ public class MessageDao {
         return messageList;
     }
     //查找群聊聊天记录
-public List<Message>getTeamMessages(int userId,int teamId){
-    String query = "SELECT * FROM messages WHERE team_id = ? ORDER BY sent_at ASC";
-    List<Message> messageList = new ArrayList<>();
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(query)) {
-        // 设置查询参数
-        stmt.setInt(1, teamId);
-        // 执行查询
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            Message message = new Message();
-            message.setMessageId(rs.getInt("message_id"));
-            message.setSenderId(rs.getInt("sender_id"));
-            message.setReceiverId(rs.getInt("receiver_id")); // 在团队消息中可能是 null
-            message.setTeamId(rs.getInt("team_id"));
-            message.setMessageContent(rs.getString("message_content"));
-            message.setMessageType(rs.getString("message_type"));
-            message.setFileUrl(rs.getString("file_url"));
-            message.setSentAt(rs.getTimestamp("sent_at"));
-            // 将消息添加到列表中
-            messageList.add(message);
+    public List<Message> getTeamMessages(int userId, String teamName) {
+        List<Message> messageList = new ArrayList<>();
+        String teamQuery = "SELECT team_id FROM teams WHERE team_name = ?";
+        String messageQuery = "SELECT * FROM messages WHERE team_id = ? ORDER BY sent_at ASC";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement teamStmt = conn.prepareStatement(teamQuery)) {
+
+            // 设置查询参数
+            teamStmt.setString(1, teamName);
+
+            // 执行查询，获取团队 ID
+            ResultSet teamRs = teamStmt.executeQuery();
+
+            if (teamRs.next()) {
+                int teamId = teamRs.getInt("team_id");
+
+                // 使用团队 ID 查询消息
+                try (PreparedStatement messageStmt = conn.prepareStatement(messageQuery)) {
+                    messageStmt.setInt(1, teamId);
+                    ResultSet messageRs = messageStmt.executeQuery();
+
+                    while (messageRs.next()) {
+                        Message message = new Message();
+                        message.setMessageId(messageRs.getInt("message_id"));
+                        message.setSenderId(messageRs.getInt("sender_id"));
+                        message.setReceiverId(messageRs.getInt("receiver_id")); // 在团队消息中可能是 null
+                        message.setTeamId(messageRs.getInt("team_id"));
+                        message.setMessageContent(messageRs.getString("message_content"));
+                        message.setMessageType(messageRs.getString("message_type"));
+                        message.setFileUrl(messageRs.getString("file_url"));
+                        message.setSentAt(messageRs.getTimestamp("sent_at"));
+                        // 将消息添加到列表中
+                        messageList.add(message);
+                    }
+                }
+            } else {
+                System.out.println("Team not found for teamName: " + teamName);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return messageList;
     }
 
-    return messageList;
 
-}
 }

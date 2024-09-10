@@ -246,9 +246,10 @@ public class ChatController {
 
                 if (currentFriend.startsWith("团队: ")) {
                     inputArea.clear();
+                    String bufferCurrentFriend=(currentFriend.substring(4));
                     System.out.println("发送群聊" +message);
                     client.sendMessage("TEAM:"+currentFriendID+":"+message);
-                    client.sendMessage("GET_TEAM_MESSAGE_HISTORY:" + currentFriendID);
+                    client.sendMessage("GET_TEAM_MESSAGE_HISTORY:" + bufferCurrentFriend);
                 }
                 else {
                     chatMessages.get(currentFriend).add("我: " + message);

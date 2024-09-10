@@ -176,6 +176,10 @@ public class Client {
 
     // 发送消息给服务器，并返回布尔值指示发送是否成功
     public boolean sendMessage(String message) {
+        if (socket == null || socket.isClosed()) {
+            System.out.println("Socket连接已关闭，无法发送信息");
+        }
+
         if (out != null) {
             try {
                 out.println(message);
@@ -183,8 +187,10 @@ public class Client {
                 out.flush(); // 强制刷新
                 if (out.checkError()) {
                     System.err.println("client信息发送失败");
+
                     return false;
                 }
+                System.out.println("成功发送"+message);
                 return true;
             } catch (Exception e) {
                 System.err.println("Error while sending message: " + e.getMessage());
@@ -335,6 +341,7 @@ public class Client {
 //                        // 这里写加入群聊的函数
 
                       // this.sendJoinTeamRequest(this.getUserId(), teamName);
+                        sendMessage("GET_FRIENDS:"+userId);
                             sendMessage("GET_TEAM_MESSAGE_HISTORY:" + teamName);
 
 
