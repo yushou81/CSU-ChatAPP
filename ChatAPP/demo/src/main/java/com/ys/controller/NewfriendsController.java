@@ -36,7 +36,7 @@ public class NewfriendsController {
     private ObservableList<HBox> friendsRequestItems = FXCollections.observableArrayList();
 
     // 无参构造函数（JavaFX 需要它来初始化控制器）
-    public NewfriendsController() {
+    public NewfriendsController() throws Exception {
         this.client = ClientManager.getClient();
     }
 

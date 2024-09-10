@@ -20,6 +20,11 @@ public class CreateTeamController {
 
     private Client client;
 
+    @FXML
+    public void initialize() throws Exception {
+
+        this.client=ClientManager.getClient();
+    }
 
 
     // 点击创建团队按钮，处理创建团队的逻辑

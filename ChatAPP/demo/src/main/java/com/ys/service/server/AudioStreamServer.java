@@ -5,14 +5,14 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import java.util.*;
 
-public class VideoStreamServer {
+public class AudioStreamServer {
     private DatagramSocket udpSocket;
     private Map<String, List<ClientInfo>> meetingsMap = new HashMap<>();
     private int bufferSize = 65535;
 
-    public VideoStreamServer(int videoPort) throws IOException {
-        udpSocket = new DatagramSocket(videoPort);
-        System.out.println("视频服务端启动，端口：" + videoPort);
+    public AudioStreamServer(int audioPort) throws IOException {
+        udpSocket = new DatagramSocket(audioPort);
+        System.out.println("音频服务端启动，端口：" + audioPort);
     }
 
     public void start() {
@@ -32,25 +32,26 @@ public class VideoStreamServer {
 
     private void handlePacket(DatagramPacket packet) throws IOException {
         ByteBuffer buffer = ByteBuffer.wrap(packet.getData());
-
         InetAddress clientAddress = packet.getAddress();
         int clientPort = packet.getPort();
 
         // 读取会议ID
         String meetingId = readMeetingId(buffer);
-        // 读取包类型 (0=加入会议, 1=视频数据)
+        // 读取包类型 (0=加入会议, 2=音频数据)
         int packetType = buffer.getInt();
+
         if (packetType == 0) {
+            System.out.println("有人加入一个会议");
             handleJoinMeeting(meetingId, clientAddress, clientPort);
-        } else if (packetType == 1) {
-            byte[] frameData = new byte[packet.getLength() - 24];
-            buffer.get(frameData);
-            broadcastToMeeting(meetingId, frameData, clientAddress, clientPort);
+        } else if (packetType == 2) {
+            byte[] audioData = new byte[packet.getLength() - 24];
+            buffer.get(audioData);
+            broadcastToMeeting(meetingId, audioData, clientAddress, clientPort);
         } else if (packetType == -1) {
             handleLeaveMeeting(meetingId, clientAddress, clientPort);
         }
     }
-    // 创建会议
+
     private String readMeetingId(ByteBuffer buffer) {
         byte[] idBytes = new byte[20];
         buffer.get(idBytes);
@@ -61,12 +62,12 @@ public class VideoStreamServer {
         if (meetingsMap.containsKey(meetingId)) {
             System.out.println("会议存在");
             // 会议存在，处理逻辑
-            meetingsMap.get(meetingId).add(new ClientInfo(clientAddress, clientPort));
+            meetingsMap.get(meetingId).add(new AudioStreamServer.ClientInfo(clientAddress, clientPort));
         } else {
             System.out.println("会议不存在");
             // 会议不存在，创建新的会议
             meetingsMap.put(meetingId, new ArrayList<>());
-            meetingsMap.get(meetingId).add(new ClientInfo(clientAddress, clientPort));
+            meetingsMap.get(meetingId).add(new AudioStreamServer.ClientInfo(clientAddress, clientPort));
             System.out.println("创建新会议: " + meetingId);
         }
         System.out.println("客户端加入会议: " + meetingId);
@@ -76,7 +77,6 @@ public class VideoStreamServer {
         List<ClientInfo> clients = meetingsMap.get(meetingId);
         if (clients != null) {
             clients.removeIf(client -> client.getAddress().equals(clientAddress) && client.getPort() == clientPort);
-
             System.out.println("客户端退出会议: " + meetingId);
         }
         // 如果该会议没有客户端了，删除该会议条目
@@ -86,13 +86,16 @@ public class VideoStreamServer {
         }
     }
 
-    private void broadcastToMeeting(String meetingId, byte[] frameData, InetAddress senderAddress, int senderPort) throws IOException {
+
+
+    private void broadcastToMeeting(String meetingId, byte[] audioData, InetAddress senderAddress, int senderPort) throws IOException {
         List<ClientInfo> clients = meetingsMap.get(meetingId);
         if (clients == null) return;
 
         for (ClientInfo client : clients) {
             if (!client.getAddress().equals(senderAddress) || client.getPort() != senderPort) {
-                DatagramPacket packet = new DatagramPacket(frameData, frameData.length, client.getAddress(), client.getPort());
+                System.out.println("发送给客户端");
+                DatagramPacket packet = new DatagramPacket(audioData, audioData.length, client.getAddress(), client.getPort());
                 udpSocket.send(packet);
             }
         }

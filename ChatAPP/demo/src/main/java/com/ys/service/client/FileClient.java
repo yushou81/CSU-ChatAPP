@@ -64,9 +64,6 @@ public class FileClient {
             if (!dir.exists()) {
                 dir.mkdir();
             }
-
-
-
             try (Socket socket = new Socket(SERVER_ADDRESS, FILE_PORT);
                  DataOutputStream dataOut = new DataOutputStream(socket.getOutputStream());
                  DataInputStream dataIn = new DataInputStream(socket.getInputStream())) {

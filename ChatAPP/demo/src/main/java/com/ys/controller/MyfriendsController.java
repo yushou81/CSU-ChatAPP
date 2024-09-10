@@ -28,7 +28,7 @@ public class MyfriendsController {
     // ObservableLists 用于 ListView 的展示
     private ObservableList<HBox> friendsItems = FXCollections.observableArrayList();
 
-    public MyfriendsController() {
+    public MyfriendsController() throws Exception {
         this.client = ClientManager.getClient();
     }
 

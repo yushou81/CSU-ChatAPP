@@ -22,20 +22,9 @@ import java.io.IOException;
 public class LoginController {
 
     private Client client;  // 注入的客户端实例
-    public LoginController(){
+    public LoginController() throws Exception {
         // 使用ClientManager来获取共享的Client实例
         this.client = ClientManager.getClient();
-        // 启动一个线程接收服务器的消息并更新UI
-//        new Thread(() -> {
-//            try {
-//                String message;
-//                while ((message = client.receiveMessage()) != null) {
-//                    updateChatDisplay(message);  // 更新聊天记录
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }).start();
     }
 
     public Button registerBtn;
@@ -141,8 +130,6 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-
-
         // 为rootPane添加鼠标事件来实现窗口拖动功能
         rootPane.setOnMousePressed(event -> {
             xOffset = event.getSceneX();

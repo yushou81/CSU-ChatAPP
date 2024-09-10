@@ -20,8 +20,11 @@ public class JointeamController {
     private Button joinTeamButton;
     private Client client;
     @FXML
-    private void initialize() {
-        // 初始化代码（如需要）
+
+    private void initialize() throws Exception {
+
+        this.client= ClientManager.getClient();
+
         joinTeamButton.setOnAction(event -> joinTeam());
     }
 

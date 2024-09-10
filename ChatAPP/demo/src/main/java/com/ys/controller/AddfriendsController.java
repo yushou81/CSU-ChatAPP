@@ -25,7 +25,7 @@ public class AddfriendsController {
     @FXML
     private TextField messageField;  // 输入邀请信息的文本框
 
-    public AddfriendsController() {
+    public AddfriendsController() throws Exception {
         this.client = ClientManager.getClient();
         client.setAddFriendController(this);
     }

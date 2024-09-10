@@ -36,7 +36,7 @@ public class RegisterController {
     // 获取共享的Client实例
     private Client client;
 
-    public RegisterController() {
+    public RegisterController() throws Exception {
         // 使用ClientManager来获取共享的Client实例
         this.client = ClientManager.getClient();
     }
