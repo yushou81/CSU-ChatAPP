@@ -181,6 +181,31 @@ public class UserDao {
             e.printStackTrace();
             return false;
         }
+
+    }
+    public boolean isUserExists(String userId) {
+        // SQL 查询语句
+        String query = "SELECT COUNT(*) FROM users WHERE user_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            // 设置查询参数
+            stmt.setString(1, userId);
+
+            // 执行查询
+            ResultSet rs = stmt.executeQuery();
+
+            // 检查结果集
+            if (rs.next()) {
+                // 如果查询的记录数大于 0，则用户存在
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // 如果查询过程中出错或没有找到用户，返回 false
+        return false;
     }
 
 }
