@@ -54,6 +54,7 @@ public class MainAppController {
     @FXML
     public   void initialize(){
 
+
         //实现窗口拖动功能
         rootPane.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
@@ -165,8 +166,41 @@ public class MainAppController {
 
 
 
+    //补!
+
+    @FXML
+    private Button minimizeButton;
+    @FXML
+    private Button maximizeButton;
+    @FXML
+    private Button closeButton;
+
+    private Stage primaryStage;
 
 
+    // 处理最小化按钮点击事件
+    @FXML
+    public void handleMinimizeButtonClick(ActionEvent event) {
+        primaryStage= (Stage) rootPane.getScene().getWindow();
+        primaryStage.setIconified(true); // 最小化窗口
+    }
 
+    // 处理最大化按钮点击事件
+    @FXML
+    public void handleMaximizeButtonClick(ActionEvent event) {
+        primaryStage= (Stage) rootPane.getScene().getWindow();
+        if (primaryStage.isMaximized()) {
+            primaryStage.setMaximized(false); // 如果已经最大化，则恢复
+        } else {
+            primaryStage.setMaximized(true); // 最大化窗口
+        }
+    }
+
+    // 处理关闭按钮点击事件
+    @FXML
+    public void handleCloseButtonClick(ActionEvent event) {
+        primaryStage= (Stage) rootPane.getScene().getWindow();
+        primaryStage.close(); // 关闭窗口
+    }
 
 }
