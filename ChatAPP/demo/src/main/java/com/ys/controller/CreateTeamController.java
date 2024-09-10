@@ -27,6 +27,13 @@ public class CreateTeamController implements Client.MessageListener{
 
 
 
+    @FXML
+    public void initialize(){
+
+        this.client=ClientManager.getClient();
+    }
+
+
     // 点击创建团队按钮，处理创建团队的逻辑
     @FXML
     private void createTeam() {
@@ -35,6 +42,8 @@ public class CreateTeamController implements Client.MessageListener{
             showAlert("无效的团队名称", "请输入有效的团队名称");
             return;
         }
+        if (client==null)
+        System.out.println("就是这个吧");
         client.sendCreateTeamRequest(client.getUserId(),teamName);
 
 
