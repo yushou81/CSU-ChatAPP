@@ -43,7 +43,8 @@ public class AddfriendsController {
 
         if (client.searchFriend(friendId)) {
             showAlert("搜索成功", "对方的id为"+friendId);
-        } else {
+        }
+        else {
             showAlert("搜索失败", "没有这个人！");
         }
     }

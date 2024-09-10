@@ -55,13 +55,13 @@ public class MyfriendsController {
             HBox hBox = new HBox(10); // 10 是元素之间的间距
 
             // 创建显示 username、userid 和 useremail 的 Text，并放入 StackPane 以固定宽度
-            StackPane usernamePane = new StackPane(new Text(friend.getUsername()));
+            StackPane usernamePane = new StackPane(new Text("用户名:"+friend.getUsername()));
             usernamePane.setPrefWidth(200); // 设置固定宽度，确保列宽一致
 
-            StackPane userIdPane = new StackPane(new Text(String.valueOf(friend.getUser_id())));
+            StackPane userIdPane = new StackPane(new Text("id:"+String.valueOf(friend.getUser_id())));
             userIdPane.setPrefWidth(200); // 设置固定宽度
 
-            StackPane userEmailPane = new StackPane(new Text(friend.getEmail()));
+            StackPane userEmailPane = new StackPane(new Text("邮箱:"+friend.getEmail()));
             userEmailPane.setPrefWidth(300); // 设置固定宽度
 
             // 垂直分隔线1
@@ -92,5 +92,9 @@ public class MyfriendsController {
 
     public void refresh(ActionEvent actionEvent) {
         initialize();
+    }
+
+    public void receivemyFriend(String response) {
+
     }
 }

@@ -20,6 +20,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.util.List;
 
 public class NewfriendsController {
@@ -45,67 +46,101 @@ public class NewfriendsController {
     }
 
     @FXML
+
     public void initialize() {
-        // 从数据库获取所有好友请求
-        String currentUserId = client.getUserId(); // 当前用户ID
-        List<String> friendRequestIds = friendsDao.getAllFriendRequestIds(currentUserId); // 获取所有好友请求
+        String currentUserId = client.getUserId(); // 获取当前用户ID
+        client.setNewfriendsController(this);
 
-        if (!friendRequestIds.isEmpty()) {
-            for (String friendRequestId : friendRequestIds) {
-                String message = friendsDao.getFriendRequestMessage(friendRequestId);
+        // 向服务器发送请求获取好友请求列表
+        client.sendMessage("GET_NEW_FRIEND:" + currentUserId);
+        System.out.println("发送信息了");
 
-                // 创建一个 HBox 来水平排列 userId、message 和按钮
-                HBox hBox = new HBox(10);  // 10 是元素之间的间距
 
-                // 使用 StackPane 设置固定宽度来保证分割线对齐
-                StackPane userIdPane = new StackPane(new Text(friendRequestId));
-                userIdPane.setPrefWidth(150); // 设置固定宽度
-
-                // 垂直分隔线1
-                Separator separator1 = new Separator();
-                separator1.setOrientation(javafx.geometry.Orientation.VERTICAL);
-
-                StackPane messagePane = new StackPane(new Text(message));
-                messagePane.setPrefWidth(300); // 设置固定宽度
-
-                // 垂直分隔线2
-                Separator separator2 = new Separator();
-                separator2.setOrientation(javafx.geometry.Orientation.VERTICAL);
-
-                // 创建同意和拒绝按钮
-                Button acceptButton = new Button("同意");
-                acceptButton.setOnAction(event -> {
-                    handleAcceptFriend(currentUserId, friendRequestId);
-                });
-
-                Button rejectButton = new Button("拒绝");
-                rejectButton.setOnAction(event -> {
-                    handleRejectFriend(currentUserId, friendRequestId);
-                });
-
-                // 添加左右扩展，让组件之间均匀分布
-                Region spacer1 = new Region();
-                Region spacer2 = new Region();
-                HBox.setHgrow(spacer1, Priority.ALWAYS);
-                HBox.setHgrow(spacer2, Priority.ALWAYS);
-
-                // 将 StackPane、分隔线、按钮添加到 HBox 中
-                hBox.getChildren().addAll(userIdPane, separator1, spacer1, messagePane, separator2, spacer2, acceptButton, rejectButton);
-
-                // 将 HBox 添加到 ObservableList 中
-                friendsRequestItems.add(hBox);
-            }
-        } else {
-            // 如果没有好友请求，可以展示一个提示
-            HBox hBox = new HBox();
-            hBox.setAlignment(Pos.CENTER);
-            hBox.getChildren().add(new Text("没有新的好友请求"));
-            friendsRequestItems.add(hBox);
-        }
-
-        // 设置 ListView 的数据
-        friendsRequestListView.setItems(friendsRequestItems);
     }
+
+    public void receiveNewFriend(String response) {
+        // 异步接收服务器返回的数据
+        if (response.startsWith("FRIEND_REQUEST_LIST:")) {
+            System.out.println("newcontroller这里接收到信息");
+            // 使用逗号分隔请求ID和请求消息
+            String[] requestEntries = response.substring("FRIEND_REQUEST_LIST:".length()).split(",");
+            System.out.println("解析后的好友请求条目数量: " + requestEntries.length);  // 检查解析的条目数
+
+            for (int i = 0; i < requestEntries.length; i += 2) {
+                if (i + 1 < requestEntries.length) {
+                    String friendRequestId = requestEntries[i];
+                    String friendRequestMessage = requestEntries[i + 1];
+                    System.out.println("好友请求ID: " + friendRequestId + "，消息: " + friendRequestMessage);
+                }
+            }
+
+            Platform.runLater(() -> {
+                // 先清空列表
+                friendsRequestItems.clear();
+
+                // 解析并创建每个请求的UI
+                for (int i = 0; i < requestEntries.length; i += 2) {  // 每次读取两个元素：requestId 和 requestMessage
+                    if (i + 1 < requestEntries.length) {  // 确保有成对的ID和消息
+                        String friendRequestId = requestEntries[i];
+                        String friendRequestMessage = requestEntries[i + 1];
+                        System.out.println("Request ID: " + friendRequestId);
+                        System.out.println("Request Message: " + friendRequestMessage);
+                        HBox hBox = createFriendRequestItem(friendRequestId, friendRequestMessage);
+                        friendsRequestItems.add(hBox);
+                    }
+                }
+
+                // 设置 ListView 的数据
+                friendsRequestListView.setItems(friendsRequestItems);
+            });
+        } else if (response.equals("NO_FRIEND_REQUESTS")) {
+            Platform.runLater(() -> {
+                // 如果没有好友请求，显示提示
+                friendsRequestItems.clear();
+                HBox hBox = new HBox();
+                hBox.setAlignment(Pos.CENTER);
+                hBox.getChildren().add(new Text("没有新的好友请求"));
+                friendsRequestItems.add(hBox);
+
+                friendsRequestListView.setItems(friendsRequestItems);
+            });
+        }
+    }
+
+
+
+    // Helper method to create a friend request item
+    private HBox createFriendRequestItem(String friendRequestId, String friendRequestMessage) {
+        HBox hBox = new HBox(10);  // 设置每行的间隔
+
+        // 显示请求ID
+        StackPane userIdPane = new StackPane(new Text("请求 ID: " + friendRequestId));
+        userIdPane.setPrefWidth(150); // 设置固定宽度
+
+        // 显示请求消息
+        StackPane messagePane = new StackPane(new Text("消息: " + friendRequestMessage));
+        messagePane.setPrefWidth(250); // 设置固定宽度
+
+        Button acceptButton = new Button("同意");
+        acceptButton.setOnAction(event -> {
+            handleAcceptFriend(client.getUserId(), friendRequestId);
+        });
+
+        Button rejectButton = new Button("拒绝");
+        rejectButton.setOnAction(event -> {
+            handleRejectFriend(client.getUserId(), friendRequestId);
+        });
+
+        Region spacer1 = new Region();
+        Region spacer2 = new Region();
+        HBox.setHgrow(spacer1, Priority.ALWAYS);
+        HBox.setHgrow(spacer2, Priority.ALWAYS);
+
+        hBox.getChildren().addAll(userIdPane, messagePane, spacer1, acceptButton, rejectButton);
+        return hBox;
+    }
+
+
 
     // 处理同意按钮逻辑
     private void handleAcceptFriend(String currentUserId, String friendRequestId) {

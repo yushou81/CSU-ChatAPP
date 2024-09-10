@@ -121,7 +121,12 @@ public class MultiClientServerWithThreadPool {
 
                 String message;
                 // 登录成功后，处理私聊、消息广播和新功能
-                while ((message = in.readLine()) != null) {
+
+                while ((message = in.readLine()) != null)
+                    {
+
+                    System.out.println("服务器接受"+message);
+
                     if (message.startsWith("PRIVATE")) {
                         handlePrivateMessage(message);
                     } else if (message.startsWith("FIND_USER")) {
@@ -151,12 +156,15 @@ public class MultiClientServerWithThreadPool {
                     }
                     else if (message.startsWith("同意好友请求:")) {
                         handleFriendRequestResponse(message,out);
-                    }else if (message.startsWith("拉取好友列表请求:")) {
+                    }else if (message.startsWith("MY_FRIENDS_LIST:")) {
                         handleGetFriends(message,out);
                     }else if (message.startsWith("ACCEPT_FRIEND:")) {
                         handleacceptFriendRequest(message, out);
                     }else if (message.startsWith("REJECT_FRIEND:")) {
                         handlerejectFriendRequest(message, out);
+                    } else if (message.startsWith("GET_NEW_FRIEND:")) {
+                        System.out.println("读取信息了" + "啊啊啊");
+                       handlerequestFriendList(message, out);
                     }
 
                     else {
@@ -522,7 +530,7 @@ public class MultiClientServerWithThreadPool {
             List<String> friendIds = FriendsDao.getAllFriendsIds(userId);
             List<User> friendsDetails = FriendsDao.getFriendDetails(friendIds);
 
-            StringBuilder friendListBuilder = new StringBuilder("FRIEND_LIST:");
+            StringBuilder friendListBuilder = new StringBuilder("SHOW_FRIEND_LIST:");
             for (User friend : friendsDetails) {
                 friendListBuilder.append(friend.getUsername())
                         .append(",")
@@ -560,6 +568,51 @@ public class MultiClientServerWithThreadPool {
                 out.flush();
             }
         }
+        // 处理获取好友请求列表的请求
+        private void handlerequestFriendList(String message, PrintWriter out) {
+            System.out.println("我被执行了");
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                String userId = parts[1];  // 当前用户的ID
+
+                // 从 FriendsDao 中获取好友请求者的ID列表和请求消息
+                List<String> friendRequestIds = FriendsDao.getAllFriendRequestIds(userId);
+                List<String> friendRequestMessages = FriendsDao.getFriendRequestMessage(userId);
+                System.out.println("有没有拿到信息"+friendRequestMessages);
+
+                if (!friendRequestIds.isEmpty()) {
+                    // 构建返回给客户端的好友请求ID和消息列表
+                    StringBuilder friendRequestListBuilder = new StringBuilder("FRIEND_REQUEST_LIST:");
+
+                    for (int i = 0; i < friendRequestIds.size(); i++) {
+                        String requestId = friendRequestIds.get(i);
+                        String requestMessage = friendRequestMessages.size() > i ? friendRequestMessages.get(i) : ""; // 确保请求消息列表不越界
+                        friendRequestListBuilder.append(requestId)
+                                .append(",")
+                                .append(requestMessage)
+                                .append(",");
+                    }
+
+                    // 去掉最后一个逗号
+                    if (friendRequestListBuilder.length() > 0 && friendRequestListBuilder.charAt(friendRequestListBuilder.length() - 1) == ',') {
+                        friendRequestListBuilder.setLength(friendRequestListBuilder.length() - 1);
+                    }
+
+                    // 发送好友请求ID和消息列表给客户端
+                    out.println(friendRequestListBuilder.toString());
+                    System.out.println("发送的好友请求列表: " + friendRequestListBuilder.toString());  // 打印调试信息
+                } else {
+                    // 如果没有好友请求
+                    System.out.println("这里错了");
+                    out.println("NO_FRIEND_REQUESTS");
+                }
+            } else {
+                out.println("FAILURE: 请求格式错误");
+            }
+        }
+
+
+
 
     }
 

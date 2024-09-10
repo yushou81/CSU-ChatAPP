@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ys.controller.MyfriendsController;
+import com.ys.controller.NewfriendsController;
 import com.ys.dao.UserDao;
 import javafx.application.Platform;
 
@@ -39,6 +41,8 @@ public class Client {
     private SettingController settingController;
 
     private AddfriendsController addfriendsController;
+    private NewfriendsController newfriendsController;
+    private MyfriendsController myfriendsController;
 
     public Client() {
         this.videoStreamClient = VideoStreamClientManager.getClient();  // 创建视频流客户端实例
@@ -183,6 +187,14 @@ public class Client {
     public void setAddFriendController(AddfriendsController addfriendsController){
         this.addfriendsController=addfriendsController;
     }
+    public void setNewfriendsController(NewfriendsController newfriendsController){
+        this.newfriendsController=newfriendsController;
+    }
+    public void setMyfriendsController(MyfriendsController myfriendsController){
+        this.myfriendsController=myfriendsController;
+    }
+
+
     //获取好友列表
     public void getFriendList() {
         sendMessage("GET_FRIENDS:" + this.userId);  // 发送获取好友列表的请求
@@ -337,6 +349,17 @@ public class Client {
                     }else if (message.startsWith("SUCCESS搜索到：")) {
                         handleSearchFriendResponse(message);
                         System.out.println("搜索用户成功");
+                    } else if (message.startsWith("FRIEND_REQUEST_LIST:")) {
+                        System.out.println("clien也接收到了FRIEND_REQUEST_LIST:" +
+                                "");
+                        newfriendsController.receiveNewFriend(message);
+
+                    }
+                    else if (message.startsWith("SHOW_FRIEND_LIST:")) {
+                        System.out.println("clien也接收到了SHOW_FRIEND_LIST:" +
+                                "");
+                        myfriendsController.receivemyFriend(message);
+
                     }
                 }
             } catch (IOException e) {
@@ -344,8 +367,6 @@ public class Client {
             }
         }).start();
     }
-
-
     //关闭客户端连接
     public void close() {
         try {
@@ -376,6 +397,7 @@ public class Client {
             return false;  // 搜索请求发送失败
         }
     }
+
     private boolean handleSearchFriendResponse(String response) {
         System.out.println(response);
         String [] parts = response.split(":");
@@ -421,9 +443,9 @@ public class Client {
         return sendMessage("REJECT_FRIEND:" + requesterId + currentUserId);
     }
     // 发送请求从服务器获取好友列表
-    public boolean requestFriendList() {
-        return sendMessage("GET_FRIENDS:" + this.userId);
-    }
+// 读取服务器发送的消息
+
+
 
 
 
