@@ -157,7 +157,7 @@ public class MultiClientServerWithThreadPool {
                     else if (message.startsWith("同意好友请求:")) {
                         handleFriendRequestResponse(message,out);
                     }else if (message.startsWith("MY_FRIENDS_LIST:")) {
-                        handleGetFriends(message,out);
+                        handleGetmyFriend(  message,out);
                     }else if (message.startsWith("ACCEPT_FRIEND:")) {
                         handleacceptFriendRequest(message, out);
                     }else if (message.startsWith("REJECT_FRIEND:")) {
@@ -526,23 +526,35 @@ public class MultiClientServerWithThreadPool {
 
         }
         // 处理获取好友列表的请求
-        private void handleGetFriends(String userId,PrintWriter out) {
-            List<String> friendIds = FriendsDao.getAllFriendsIds(userId);
-            List<User> friendsDetails = FriendsDao.getFriendDetails(friendIds);
+        // 处理获取好友列表的请求
+        private void handleGetmyFriend(String message, PrintWriter out) {
+            String[] parts = message.split(":");
+            if (parts.length == 2) {
+                String userId = parts[1]; // 获取请求中的用户ID
 
-            StringBuilder friendListBuilder = new StringBuilder("SHOW_FRIEND_LIST:");
-            for (User friend : friendsDetails) {
-                friendListBuilder.append(friend.getUsername())
-                        .append(",")
-                        .append(friend.getUser_id())
-                        .append(",")
-                        .append(friend.getEmail())
-                        .append(";");
+                // 使用 FriendsDao 从数据库中获取好友信息
+                List<String> friendIds = FriendsDao.getAllFriendsIds(userId);
+                List<User> friendsDetails = FriendsDao.getFriendDetails(friendIds);
+
+                // 构建返回好友列表的字符串
+                StringBuilder friendListBuilder = new StringBuilder("SHOW_FRIEND_LIST:");
+                for (User friend : friendsDetails) {
+                    friendListBuilder.append(friend.getUsername())
+                            .append(",")
+                            .append(friend.getUser_id())
+                            .append(",")
+                            .append(friend.getEmail())
+                            .append(";");
+                }
+
+                // 发送好友列表给客户端
+                out.println(friendListBuilder.toString());
+                System.out.println("好友列表已发送: " + friendListBuilder.toString());
+            } else {
+                out.println("FAILURE: 获取好友列表请求格式错误");
             }
-
-            // 向客户端发送好友列表
-            out.println(friendListBuilder.toString());
         }
+
         private void handleModifyUserInfo(String message, PrintWriter out){
             String[] parts = message.split(":");
             if(parts.length==4){

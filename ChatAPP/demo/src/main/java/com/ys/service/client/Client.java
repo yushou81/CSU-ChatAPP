@@ -199,6 +199,9 @@ public class Client {
     public void getFriendList() {
         sendMessage("GET_FRIENDS:" + this.userId);  // 发送获取好友列表的请求
     }
+    public void getmyFriendList() {
+        sendMessage("MY_FRIENDS_LIST:" + this.userId);  // 发送获取好友列表的请求
+    }
 
     // 发送消息给服务器，并返回布尔值指示发送是否成功
     public boolean sendMessage(String message) {
@@ -343,10 +346,10 @@ public class Client {
                         videoStreamClient.joinMeeting(meetingId, serverIp, 5555);  // 视频流端口是 5555
                     } else if (message.startsWith("SUCCESS: 用户信息修改成功: ")) {
                         settingController.fail();
-                    }else if (message.startsWith("Failure: 用户信息修改失败: ")) {
+                    } else if (message.startsWith("Failure: 用户信息修改失败: ")) {
                         settingController.success();
                         System.out.println("用户信息修改成功");
-                    }else if (message.startsWith("SUCCESS搜索到：")) {
+                    } else if (message.startsWith("SUCCESS搜索到：")) {
                         handleSearchFriendResponse(message);
                         System.out.println("搜索用户成功");
                     } else if (message.startsWith("FRIEND_REQUEST_LIST:")) {
@@ -354,13 +357,30 @@ public class Client {
                                 "");
                         newfriendsController.receiveNewFriend(message);
 
-                    }
-                    else if (message.startsWith("SHOW_FRIEND_LIST:")) {
+                    } else if (message.startsWith("SHOW_FRIEND_LIST:")) {
                         System.out.println("clien也接收到了SHOW_FRIEND_LIST:" +
                                 "");
-                        myfriendsController.receivemyFriend(message);
+                        String friendsData = message.substring("SHOW_FRIEND_LIST:".length()).trim();
+                        String[] friends = friendsData.split(";");
+                        for (String friend : friends) {
+                            if (!friend.trim().isEmpty()) {
+                                String[] friendInfo = friend.split(",");
+                                if (friendInfo.length == 3) {
+                                    String friendId = friendInfo[1].trim();
+                                    String friendName = friendInfo[0].trim();
+                                    String friendEmail = friendInfo[2].trim();
+                                    friendList.put(friendName, friendId + "," + friendEmail);
+                                }
+                            }
+                        }
+                        // 调用回调函数通知UI更新
+                        if (messageListener != null) {
+                            messageListener.onFriendListReceived(friendList);
+                        }
+
 
                     }
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
