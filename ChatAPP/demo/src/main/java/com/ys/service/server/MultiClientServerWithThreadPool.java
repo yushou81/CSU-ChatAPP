@@ -361,15 +361,20 @@ public class MultiClientServerWithThreadPool {
         }
         private void handleTeamMessage(String message,PrintWriter out){
             String[] parts = message.split(":");
-            if (parts.length == 3) {
-                String targetTeamId = parts[1];
-                String teamMessage = parts[2];
+            if (parts.length == 4) {
+                String targetTeamId = parts[2];
+                String teamMessage = parts[3];
 
                 // 发送团队消息
 //
 //                sendTeamMessage(targetTeamId, );
-                System.out.println("即将进入刷新调试281行");
-                handleGetTeamMessageHistory("GET_TEAM_MESSAGE_HISTORY:" + targetTeamId,out);
+                System.out.println("即将进入刷新调试345行");
+                //写一个id转name的查询
+                TeamDao teamDao1=new TeamDao();
+
+                String targetTeamName=teamDao1.getTeamNameById(Integer.parseInt(targetTeamId));
+                handleGetTeamMessageHistory("GET_TEAM_MESSAGE_HISTORY:" + targetTeamName,out);
+                System.out.println("团队聊天服务器351行"+targetTeamName+"id"+targetTeamId+"在即将进入刷新后" );
                 // 存储消息到数据库
                 MessageDao messageDao = new MessageDao();
                 Message msg = new Message();
@@ -430,12 +435,14 @@ public class MultiClientServerWithThreadPool {
             System.out.println("刷新成功吗"+message);
             String[] parts = message.split(":");
             if (parts.length == 2) {
-                String targetTeamId = parts[1];
-                System.out.println("刷新信息teamId"+targetTeamId);
+
+                //这里要改
+                String targetTeamName = parts[1];
+                System.out.println("刷新信息teamName"+targetTeamName);
                 // 获取团队聊天记录
                 MessageDao messageDao = new MessageDao();
-                List<Message> messages = messageDao.getTeamMessages(Integer.parseInt(userId), Integer.parseInt(targetTeamId));
-
+                List<Message> messages = messageDao.getTeamMessages(Integer.parseInt(userId),targetTeamName);
+                System.out.println("414"+userId+"+"+targetTeamName);
                 if (messages.isEmpty()) {
                     out.println("没有找到聊天记录");
                     System.out.println("messageDao.getTeamMessages未找到聊天记录");
@@ -482,7 +489,7 @@ public class MultiClientServerWithThreadPool {
                     out.println("团队ID: " + team.getTeamId() + ", 群聊名: " + team.getTeamName());
                 }
             }
-            System.out.println("END_OF_FRIEND_LIST");
+            System.out.println("END_OF_TEAM_LIST");
             out.println("END_OF_TEAM_LIST"); // 结束符，标识好友列表发送完毕
 
         }
