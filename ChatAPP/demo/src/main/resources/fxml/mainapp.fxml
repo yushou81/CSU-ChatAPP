@@ -110,37 +110,37 @@
          </graphic>
       </Button>
 
-      <Button id="fileManagementButton" fx:id="fileManagementButton" layoutX="-1.0" layoutY="276.0" mnemonicParsing="false" onAction="#handleFileManagementButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
-         <graphic>
-            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/file_management_icon.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
+<!--      <Button id="fileManagementButton" fx:id="fileManagementButton" layoutX="-1.0" layoutY="276.0" mnemonicParsing="false" onAction="#handleFileManagementButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">-->
+<!--         <graphic>-->
+<!--            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../images/file_management_icon.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--         </graphic>-->
+<!--      </Button>-->
 
-      <Button id="workbenchButton" fx:id="workbenchButton" layoutX="-1.0" layoutY="331.0" mnemonicParsing="false" onAction="#handleWorkbenchButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
-         <graphic>
-            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/workbench_icon.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
+<!--      <Button id="workbenchButton" fx:id="workbenchButton" layoutX="-1.0" layoutY="331.0" mnemonicParsing="false" onAction="#handleWorkbenchButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">-->
+<!--         <graphic>-->
+<!--            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../images/workbench_icon.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--         </graphic>-->
+<!--      </Button>-->
 
-      <Button id="collectionButton" fx:id="collectionButton" layoutX="-1.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleCollectionButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
-         <graphic>
-            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/collection_icon.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
+<!--      <Button id="collectionButton" fx:id="collectionButton" layoutX="-1.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleCollectionButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">-->
+<!--         <graphic>-->
+<!--            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">-->
+<!--               <image>-->
+<!--                  <Image url="@../images/collection_icon.png" />-->
+<!--               </image>-->
+<!--            </ImageView>-->
+<!--         </graphic>-->
+<!--      </Button>-->
 
-      <Button id="settingButton" fx:id="settingButton" layoutX="-1.0" layoutY="439.0" mnemonicParsing="false" onAction="#handleSettingButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
+      <Button id="settingButton" fx:id="settingButton" layoutX="-1.0" layoutY="276.0" mnemonicParsing="false" onAction="#handleSettingButtonClick" prefHeight="55.0" prefWidth="80.0" styleClass="button">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                <image>

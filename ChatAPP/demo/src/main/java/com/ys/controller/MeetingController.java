@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -29,6 +30,8 @@ public class MeetingController {
 
             // 设置新Stage的标题（可选）
             newStage1.setTitle("新窗口");
+            newScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+            newStage1.initStyle(StageStyle.TRANSPARENT);
 
             // 显示新Stage
             newStage1.show();
@@ -70,6 +73,8 @@ public class MeetingController {
             Scene newScene = new Scene(view,1264,840);
             newStage1.setScene(newScene);
 
+            newScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+            newStage1.initStyle(StageStyle.TRANSPARENT);
             // 设置新Stage的标题（可选）
             newStage1.setTitle("新窗口");
 
