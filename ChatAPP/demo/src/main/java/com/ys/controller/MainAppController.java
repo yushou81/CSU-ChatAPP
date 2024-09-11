@@ -159,8 +159,6 @@ public class MainAppController {
         collectionPane.setVisible(false);
         workbenchPane.setVisible(false);
         settingPane.setVisible(false);
-
-
         // 隐藏其他 AnchorPane
     }
 
