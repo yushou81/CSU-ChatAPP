@@ -102,4 +102,40 @@ public class FileClient {
     }
 
 
+    public static void sendTeamFile(String userId, String teamId, File file) {
+        try (Socket socket = new Socket(SERVER_ADDRESS, FILE_PORT)) {
+            System.out.println("Connected to file server for file upload");
+
+            // 获取文件名、文件大小、文件类型和文件路径
+            String fileName = file.getName();
+            long fileSize = file.length();
+            String fileType = getFileType(file);
+            String filePath = file.getParent();
+
+            // 发送文件的元数据
+            DataOutputStream dataOut = new DataOutputStream(socket.getOutputStream());
+            dataOut.writeInt(3);
+            dataOut.writeUTF(userId);  // 发送用户ID
+            dataOut.writeUTF(teamId);
+            dataOut.writeUTF(fileName);  // 发送文件名
+            dataOut.writeLong(fileSize);  // 发送文件大小
+            dataOut.writeUTF(fileType);  // 发送文件类型
+            dataOut.writeUTF(filePath);  // 发送文件目录
+
+            // 发送文件内容
+            try (FileInputStream fileInputStream = new FileInputStream(file);
+                 BufferedOutputStream bufferedOut = new BufferedOutputStream(socket.getOutputStream())) {
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                    bufferedOut.write(buffer, 0, bytesRead);
+                }
+                bufferedOut.flush();
+            }
+
+            System.out.println("File uploaded: " + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

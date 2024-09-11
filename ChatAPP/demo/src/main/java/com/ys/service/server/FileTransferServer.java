@@ -2,6 +2,7 @@ package com.ys.service.server;
 
 import com.ys.dao.FileDao;
 import com.ys.dao.MessageDao;
+import com.ys.dao.TeamDao;
 import com.ys.model.FileEntity;
 import com.ys.model.Message;
 
@@ -9,6 +10,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -86,6 +88,41 @@ public class FileTransferServer implements Runnable {
                 // 处理文件下载
                 String fileName = dataIn.readUTF();  // 文件名
                 sendFile(socket, fileName);  // 发送文件内容
+            } else if(action == 3){
+                // 处理文件上传
+                String fileName = dataIn.readUTF();  // 文件名
+                long fileSize = dataIn.readLong();  // 文件大小
+                String fileType = dataIn.readUTF();  // 文件类型
+                String filePath = UPLOAD_DIR + fileName;  // 文件路径
+
+                receiveFile(socket, fileName);  // 接收文件内容
+
+                MessageDao messageDao = new MessageDao();
+                //保存消息
+                Message msg = new Message();
+                msg.setFileUrl(filePath);
+                msg.setMessageContent(fileName);
+                msg.setSenderId(Integer.parseInt(userId));
+                msg.setTeamId(Integer.valueOf(receiverId.split(":")[1]));
+                msg.setMessageType("file");  // 假设这里为文本类型
+                messageDao.saveMessage(msg);
+                TeamDao teamDao = new TeamDao();
+
+                List<Integer> teamMembers = teamDao.getTeamMembers(receiverId.split(":")[1]);
+                String teamName = teamDao.getTeamNameById(Integer.parseInt(receiverId.split(":")[1]));
+                for (int receiverInt:teamMembers) {
+                    String receiver = String.valueOf(receiverInt);
+                    // 发送团队消息
+                    multiClientServerWithThreadPool.sendTeamMessage(receiver, receiverId.split(":")[1] +":"+  teamName  + ":" + msg.getMessageContent() + "消息类型" + msg.getMessageType() + "文件地址：" + msg.getFileUrl());
+                }
+                // 保存文件信息到数据库
+                FileEntity fileEntity = new FileEntity();
+                fileEntity.setUserId(Integer.parseInt(userId));
+                fileEntity.setFileName(fileName);
+                fileEntity.setFileSize(fileSize);
+                fileEntity.setFileType(fileType);
+                fileEntity.setFilePath(filePath);
+                fileDao.addFile(fileEntity);  // 保存文件信息到数据库
             }
 
             // 将用户的Socket加入到userSockets

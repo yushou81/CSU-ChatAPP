@@ -73,6 +73,7 @@ public class ChatController {
                             String teamId = parts[1];
                             String teamName = "团队: "+parts[2];
                             String teamMessage = parts[3];
+                        System.out.println("客户端你团队"+teamMessage);
                                 receiveMessage(teamName, teamMessage);
                     }else{
                         String[] parts = messageCopy.split(" 的私聊消息: ");
@@ -264,8 +265,6 @@ public class ChatController {
     private void sendMessage() {
         String message = inputArea.getText();
         if (!message.isEmpty() && currentFriend != null) {
-
-
                 if (currentFriend.startsWith("团队: ")) {
                     inputArea.clear();
                     String bufferCurrentFriend=(currentFriend.substring(4));
@@ -273,6 +272,8 @@ public class ChatController {
                     client.sendMessage("TEAM:"+currentFriendID+":"+currentFriend+":"+message+":消息类型"+"Text");
                 }
                 else {
+//                    if(){}
+                    System.out.println(message);
                     chatMessages.get(currentFriend).add("我: " + message);
                     inputArea.clear();
                     System.out.println("发送私聊" + message);
@@ -331,8 +332,13 @@ public class ChatController {
         if (selectedFile != null) {
             // 假设有 ClientManager 管理客户端信息
             String userId = client.getUserId();  // 获取用户ID
-            // 调用 FileClient 的 sendFile 函数发送文件
-            FileClient.sendFile(userId,currentFriendID, selectedFile);
+
+            if(currentFriend.startsWith("团队")){
+                FileClient.sendTeamFile(userId,currentFriendID, selectedFile);
+            }else{
+                // 调用 FileClient 的 sendFile 函数发送文件
+                FileClient.sendFile(userId,currentFriendID, selectedFile);
+            }
         }
     }
 

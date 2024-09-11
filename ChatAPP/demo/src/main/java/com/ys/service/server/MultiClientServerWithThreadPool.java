@@ -448,13 +448,9 @@ public class MultiClientServerWithThreadPool {
         }
 //        团队消息
         private void handleGetTeamMessageHistory(String message,PrintWriter out){
-            System.out.println("刷新成功吗"+message);
             String[] parts = message.split(":");
             if (parts.length == 2) {
-
-                //这里要改
                 String targetTeamName = parts[1];
-                System.out.println("刷新信息teamName"+targetTeamName);
                 // 获取团队聊天记录
                 MessageDao messageDao = new MessageDao();
                 List<Message> messages = messageDao.getTeamMessages(Integer.parseInt(userId),targetTeamName);
@@ -464,7 +460,7 @@ public class MultiClientServerWithThreadPool {
                     System.out.println("messageDao.getTeamMessages未找到聊天记录");
                 } else {
                     for (Message msg : messages) {
-                        out.println("时间: " + msg.getSentAt() + " 群聊ID: " + msg.getTeamId() + " 内容: " + msg.getMessageContent());
+                        out.println("时间: " + msg.getSentAt() + " 群聊ID: " + msg.getTeamId() + " 内容: " + msg.getMessageContent()+"消息类型: "+msg.getMessageType()+msg.getFileUrl());
                         System.out.println("发送团队消息: " + msg.getMessageContent());  // 日志，确保每条消息被发送
                     }
                 }
@@ -691,9 +687,6 @@ public class MultiClientServerWithThreadPool {
                 out.flush();
             }
         }
-
-
-
         // 处理文件传输请求
         private void handleFileTransferRequest(String message, PrintWriter out) {
             String[] parts = message.split(":");

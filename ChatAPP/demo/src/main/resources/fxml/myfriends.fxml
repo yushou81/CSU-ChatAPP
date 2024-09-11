@@ -21,10 +21,13 @@
       <Pane layoutX="42.0" layoutY="236.0" prefHeight="510.0" prefWidth="888.0" style="-fx-background-color: #ffffff; -fx-border-color: #c0c0c0; -fx-border-width: 2; -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);">
          <children>
             <ListView fx:id="friendsListView" layoutY="1.0" prefHeight="510.0" prefWidth="888.0" />
+            <Label layoutX="89.0" layoutY="-41.0" text="用户名" />
+            <Label layoutX="333.0" layoutY="-38.0" text="id" />
+            <Label layoutX="605.0" layoutY="-38.0" text="邮箱" />
          </children>
       </Pane>
 
-      <Button fx:id="refreshbtn" layoutX="42.0" layoutY="144.0" mnemonicParsing="false" onAction="#refresh" prefHeight="60.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="刷新">
+      <Button fx:id="refreshbtn" layoutX="42.0" layoutY="117.0" mnemonicParsing="false" onAction="#refresh" prefHeight="60.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="刷新">
          <font>
             <Font size="30.0" />
          </font>
