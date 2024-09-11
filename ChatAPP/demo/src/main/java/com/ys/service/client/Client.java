@@ -31,7 +31,7 @@ public class Client {
     private String userId;
 
     private String serverIp;
-    private MessageListener messageListener;
+    private List<MessageListener> messageListeners=new ArrayList<>();
     private SettingController settingController;
     private AddfriendsController addfriendsController;
     private NewfriendsController newfriendsController;
@@ -59,11 +59,6 @@ public class Client {
 
     }
 
-    // 注册监听器，用于在外部处理消息接收
-    public void setMessageListener(MessageListener listener) {
-        this.messageListener = listener;
-    }
-
     // 初始化客户端，连接到服务器，并返回布尔值指示连接是否成功
     public boolean connect(String serverIp, int serverPort) {
         try {
@@ -79,6 +74,9 @@ public class Client {
         }
     }
 
+    public void addMessageListener(MessageListener listener) {
+        messageListeners.add(listener);
+    }
     //注册操作
     public boolean register(String username, String password, String email) {
         sendMessage("REGISTER:" + username + ":" + password + ":" + email);  // 发送注册信息
@@ -240,21 +238,33 @@ public class Client {
                 while ((message = in.readLine()) != null) {
                     System.out.println(message);
                     if (message.equals("END_OF_MESSAGE_HISTORY")) {
-                        if (messageListener != null) {
-                            messageListener.onHistoryReceived(history);
-                        }
+                        if (!messageListeners.isEmpty()) {
+                            for (MessageListener messageListener : messageListeners) {
+                                messageListener.onHistoryReceived(history);
+
+                            }
+                                                    }
                         history.clear();
                     } else if (message.equals("END_OF_FRIEND_LIST")) {
-                        if (messageListener != null) {
-                            messageListener.onFriendListReceived(friendList);
-                        }
+                        if (!messageListeners.isEmpty()) {
+                            for (MessageListener messageListener : messageListeners) {
+                                messageListener.onFriendListReceived(friendList);
+
+                            }
+                                         }
                         friendList.clear();
                     } else if (message.startsWith("团队消息:")) {
-                        messageListener.onMessageReceived(message);
-                    } else if (message.equals("END_OF_TEAM_LIST")) {
-                        if(messageListener!=null){
-                            messageListener.onTeamListReceived(teamList);
+                        for (MessageListener messageListener : messageListeners) {
+                            messageListener.onMessageReceived(message);
+
                         }
+                           } else if (message.equals("END_OF_TEAM_LIST")) {
+                        if(!messageListeners.isEmpty()){
+                            for (MessageListener messageListener : messageListeners) {
+                                messageListener.onTeamListReceived(teamList);
+
+                            }
+                            }
                         teamList.clear();
                     } else if (message.startsWith("时间:")) {
                         history.add(message);
@@ -274,18 +284,24 @@ public class Client {
                             teamList.put(teamName, teamId);
                         }
                     }else if (message.startsWith("私聊消息: 来自用户")) {
-                        if (messageListener != null) {
-                            messageListener.onMessageReceived(message);
-                        }
+                        if (!messageListeners.isEmpty()) {
+                            for (MessageListener messageListener : messageListeners) {
+                                messageListener.onMessageReceived(message);
+
+                            }
+                             }
                     }else if (message.startsWith("CREATE_GROUP_SUCCESS:")) {
                         String[] parts = message.split(":",2);
                         if(parts.length==2){
                         String teamName=parts[1].trim();
                         //这里写加入群聊的函数
                         this.sendJoinTeamRequest(this.getUserId(),teamName);
-                            if (messageListener != null) {
-                                messageListener.onCreateGroup(teamName,true);  // 调用监听器回调方法
-                            }
+                            if (messageListeners.isEmpty()) {
+                                for (MessageListener messageListener : messageListeners) {
+                                    messageListener.onCreateGroup(teamName,true);  // 调用监听器回调方法
+
+                                }
+                                }
                         }
                         else{
                             System.err.println("CREATE_GROUP_SUCCESS 消息格式不正确: " + message);
@@ -295,9 +311,12 @@ public class Client {
 
                         if(parts.length==2){
                             String wrongMessage=parts[1].trim();
-                            if(messageListener!=null){
-                                messageListener.onCreateGroup(wrongMessage,false);
-                            }
+                            if(!messageListeners.isEmpty()){
+                                for (MessageListener messageListener : messageListeners) {
+                                    messageListener.onCreateGroup(wrongMessage,false);
+
+                                }
+                              }
                         }
                     } else if(message.startsWith("JOIN_GROUP_SUCCESS:")){
                       //  这里在界面更新消息和群聊，服务器返回的信息是加入群聊成功服务器out.println("JOIN_GROUP_SUCCESS:"+teamName);
@@ -323,9 +342,12 @@ public class Client {
                             }
                         }
                         // 好友列表接收完毕，调用回调函数通知前端UI更新
-                        if (messageListener != null) {
-                            messageListener.onFriendListReceived(friendList);
-                        }
+                        if (!messageListeners.isEmpty()) {
+                            for (MessageListener messageListener : messageListeners) {
+                                messageListener.onFriendListReceived(friendList);
+
+                            }
+                             }
                     }else if (message.startsWith("SUCCESS: 会议 ")) {
                         String meetingId = message.split(":")[2].trim();
                         System.out.println("会议创建成功，会议号为: " + meetingId);
@@ -366,9 +388,12 @@ public class Client {
                             }
                         }
                         // 调用回调函数通知UI更新
-                        if (messageListener != null) {
-                            messageListener.onFriendListReceived(friendList);
-                        }
+                        if (!messageListeners.isEmpty()) {
+                            for (MessageListener messageListener : messageListeners) {
+                                messageListener.onFriendListReceived(friendList);
+
+                            }
+                          }
 
                 }}
             } catch (IOException e) {

@@ -39,7 +39,7 @@ public class MyfriendsController {
     @FXML
     public void initialize() {
         // 注册好友列表的监听器
-        client.setMessageListener(new Client.MessageListener() {
+        client.addMessageListener(new Client.MessageListener() {
             @Override
             public void onMessageReceived(String message) {
                 // 不处理普通消息

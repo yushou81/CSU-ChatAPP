@@ -60,7 +60,7 @@ public class ChatController {
 
     public void initialize() {
         // 注册消息监听器
-        client.setMessageListener(new Client.MessageListener() {
+        client.addMessageListener(new Client.MessageListener() {
             @Override
             public void onMessageReceived(String message) {
                 String messageCopy = new String(message);
