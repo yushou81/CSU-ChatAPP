@@ -26,8 +26,6 @@ public class Client {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
-    private BufferedReader userInput;
-
     public String getUserId() {
         return userId;
     }
@@ -36,16 +34,14 @@ public class Client {
 
     private String serverIp;
     private MessageListener messageListener;
-//    private VideoStreamClient videoStreamClient;
     private SettingController settingController;
     private AddfriendsController addfriendsController;
     private FileClient fileClient;
-
     private VideoAudioClient videoAudioClient;
 
     public Client() throws Exception {
 //        this.videoStreamClient = VideoStreamClientManager.getClient();  // 创建视频流客户端实例
-        this.videoAudioClient = new VideoAudioClient(serverIp,5555,1234);
+        this.videoAudioClient = new VideoAudioClient("192.168.51.164",5555,1234);
         VideoAudioClientManager.setClient(videoAudioClient);
     }
 
@@ -123,24 +119,6 @@ public class Client {
         return ;
     }
 
-    // 处理服务器返回的加入团队响应
-    private boolean handleJoinTeamResponse() {
-        try {
-            String response = in.readLine();  // 读取服务器的响应
-            //debug信息
-            System.out.println(response);
-            if (response.startsWith("JOIN_GROUP_SUCCESS:")) {
-                System.out.println("加入团队成功: " + response.split(":")[1]);
-                return true;
-            } else if (response.startsWith("JOIN_GROUP_FAILURE")) {
-                System.out.println("加入团队失败: " + response);
-                return false;
-            }
-        } catch (IOException e) {
-            System.err.println("Error while handling server response: " + e.getMessage());
-        }
-        return false;
-    }
 
     // 处理服务器返回的登录或注册响应
     private boolean handleLoginOrRegisterResponse() {

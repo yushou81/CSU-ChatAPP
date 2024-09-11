@@ -98,6 +98,7 @@ public class ChatController {
                 List<String> historyCopy = new ArrayList<>();
                 // 遍历每一个消息，检查消息类型
                 for (String message : history) {
+                    System.out.println("收到了吗"+message);
                     // 检查消息类型是否为 "text"
                     if (message.contains("消息类型: text")) {
                         // 找到 "消息类型: text" 在字符串中的位置
@@ -198,22 +199,6 @@ public class ChatController {
         for (String friend : friends) {
             chatMessages.put(friend, FXCollections.observableArrayList());
         }
-        // 设置好友列表点击事件,这个要和下面的合并
-//        friendListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//            if(newValue!=null){
-//            currentFriend = (String) newValue;
-//            currentFriendID = friendMap.get(currentFriend);
-//
-//            // 如果聊天记录为空，则从服务器加载历史记录
-//            if (chatMessages.get(currentFriend).isEmpty()||chatMessages.get(currentFriend) == null) {
-////                if(currentFriendID.startsWith("团队:"))
-////                    currentFriendID = currentFriendID.replace("团队:", "");
-//                client.requestMessageHistory(Integer.parseInt(currentFriendID));
-//            } else {
-//                showMessagesForFriend(currentFriend);
-//            }
-//            }
-//        });
     }
     private void loadTeamList(Map<String, String> teamMap) {
         updatedFriendMap = new HashMap<>(friendMap);

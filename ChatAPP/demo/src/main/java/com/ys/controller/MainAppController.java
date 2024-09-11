@@ -21,9 +21,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class MainAppController {
 
+    public Button closeButton;
+    public Button maximizeButton;
+    public Button minimizeButton;
     @FXML
     private Button messageButton;
 
@@ -53,6 +57,7 @@ public class MainAppController {
 
     @FXML
     public   void initialize(){
+
 
         //实现窗口拖动功能
         rootPane.setOnMousePressed(event -> {
@@ -96,6 +101,7 @@ public class MainAppController {
 
             // 初始化时隐藏所有 AnchorPane
             hideAllPanes();
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -164,9 +170,17 @@ public class MainAppController {
     }
 
 
+    public void Close(ActionEvent actionEvent) {
+        closeButton.getScene().getWindow().hide();
+    }
 
+    public void Max(ActionEvent actionEvent) {
+        Stage stage=(Stage)maximizeButton.getScene().getWindow();
+        stage.setFullScreen(true);
+    }
 
-
-
-
+    public void Min(ActionEvent actionEvent) {
+        Stage stage=(Stage)minimizeButton.getScene().getWindow();
+        stage.setIconified(true);
+    }
 }

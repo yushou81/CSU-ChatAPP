@@ -105,8 +105,8 @@ public class LoginController {
             Stage mainStage = new Stage();
             Scene mainScene = new Scene(root);
 
-//            mainScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
-//            mainStage.initStyle(StageStyle.TRANSPARENT);
+            mainScene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+            mainStage.initStyle(StageStyle.TRANSPARENT);
 
 
 
