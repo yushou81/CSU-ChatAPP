@@ -392,4 +392,10 @@ public class ChatController {
             }
         }
     }
+
+    public void refresh(ActionEvent actionEvent) {
+        System.out.println("111111111111111111111");
+        client.getFriendList();
+
+    }
 }
