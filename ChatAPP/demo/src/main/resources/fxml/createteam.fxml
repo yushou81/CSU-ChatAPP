@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="776.0" prefWidth="984.0" style="-fx-background-color: #a9d4e1;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ys.controller.CreateTeamController">
+
+   <children>
+      <Label layoutX="392.0" layoutY="100.0" prefHeight="70.0" prefWidth="200.0" text="创建团队">
+         <font>
+            <Font size="50.0" />
+         </font>
+         <style>
+            -fx-text-fill: #35889a;
+            -fx-font-weight: bold;
+         </style>
+      </Label>
+
+      <Label layoutX="261.0" layoutY="268.0" prefHeight="30.0" prefWidth="150.0" text="团队名称:">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+
+      <TextField fx:id="teamNameField" layoutX="467.0" layoutY="256.0" prefHeight="64.0" prefWidth="298.0" promptText="请输入团队名称" style="-fx-background-radius: 10; -fx-padding: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-shadow-radius: 5; -fx-shadow-color: #c0c0c0; -fx-background-color: #f0f0f0;">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </TextField>
+
+      <Button fx:id="createTeamButton" layoutX="598.0" layoutY="600.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="50.0" prefWidth="120.0" style="-fx-background-radius: 15; -fx-background-color: linear-gradient(to bottom, #35889a, #2c7a7b); -fx-text-fill: white; -fx-cursor: hand;" text="确定">
+
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+
+
+   </children>
+
+</AnchorPane>
